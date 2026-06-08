@@ -1,0 +1,732 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: katakana.json
+window.DECKS=window.DECKS||{};
+window.DECKS["katakana"]=[
+  {
+    "h": "あ",
+    "k": "ア",
+    "r": "a",
+    "g": "basic",
+    "note": "Vowel · 'a' as in <b>f<u>a</u>ther</b>"
+  },
+  {
+    "h": "い",
+    "k": "イ",
+    "r": "i",
+    "g": "basic",
+    "note": "Vowel · 'i' as in <b>mach<u>i</u>ne</b>"
+  },
+  {
+    "h": "う",
+    "k": "ウ",
+    "r": "u",
+    "g": "basic",
+    "note": "Vowel · 'u' as in <b>fl<u>u</u>te</b> (lips relaxed)"
+  },
+  {
+    "h": "え",
+    "k": "エ",
+    "r": "e",
+    "g": "basic",
+    "note": "Vowel · 'e' as in <b>b<u>e</u>d</b>"
+  },
+  {
+    "h": "お",
+    "k": "オ",
+    "r": "o",
+    "g": "basic",
+    "note": "Vowel · 'o' as in <b>c<u>o</u>re</b>"
+  },
+  {
+    "h": "か",
+    "k": "カ",
+    "r": "ka",
+    "g": "basic",
+    "note": "K-row"
+  },
+  {
+    "h": "き",
+    "k": "キ",
+    "r": "ki",
+    "g": "basic",
+    "note": "K-row"
+  },
+  {
+    "h": "く",
+    "k": "ク",
+    "r": "ku",
+    "g": "basic",
+    "note": "K-row"
+  },
+  {
+    "h": "け",
+    "k": "ケ",
+    "r": "ke",
+    "g": "basic",
+    "note": "K-row"
+  },
+  {
+    "h": "こ",
+    "k": "コ",
+    "r": "ko",
+    "g": "basic",
+    "note": "K-row"
+  },
+  {
+    "h": "さ",
+    "k": "サ",
+    "r": "sa",
+    "g": "basic",
+    "note": "S-row"
+  },
+  {
+    "h": "し",
+    "k": "シ",
+    "r": "shi",
+    "g": "basic",
+    "note": "S-row · irregular: <b>shi</b>, not 'si'. ツ vs シ: シ strokes go bottom-up"
+  },
+  {
+    "h": "す",
+    "k": "ス",
+    "r": "su",
+    "g": "basic",
+    "note": "S-row"
+  },
+  {
+    "h": "せ",
+    "k": "セ",
+    "r": "se",
+    "g": "basic",
+    "note": "S-row"
+  },
+  {
+    "h": "そ",
+    "k": "ソ",
+    "r": "so",
+    "g": "basic",
+    "note": "S-row · ソ vs ン: ソ stroke is more vertical"
+  },
+  {
+    "h": "た",
+    "k": "タ",
+    "r": "ta",
+    "g": "basic",
+    "note": "T-row"
+  },
+  {
+    "h": "ち",
+    "k": "チ",
+    "r": "chi",
+    "g": "basic",
+    "note": "T-row · irregular: <b>chi</b>, not 'ti'"
+  },
+  {
+    "h": "つ",
+    "k": "ツ",
+    "r": "tsu",
+    "g": "basic",
+    "note": "T-row · irregular: <b>tsu</b>, not 'tu'. ツ vs シ: ツ strokes go top-down"
+  },
+  {
+    "h": "て",
+    "k": "テ",
+    "r": "te",
+    "g": "basic",
+    "note": "T-row"
+  },
+  {
+    "h": "と",
+    "k": "ト",
+    "r": "to",
+    "g": "basic",
+    "note": "T-row"
+  },
+  {
+    "h": "な",
+    "k": "ナ",
+    "r": "na",
+    "g": "basic",
+    "note": "N-row"
+  },
+  {
+    "h": "に",
+    "k": "ニ",
+    "r": "ni",
+    "g": "basic",
+    "note": "N-row"
+  },
+  {
+    "h": "ぬ",
+    "k": "ヌ",
+    "r": "nu",
+    "g": "basic",
+    "note": "N-row · ぬ vs め: ぬ has a loop tail"
+  },
+  {
+    "h": "ね",
+    "k": "ネ",
+    "r": "ne",
+    "g": "basic",
+    "note": "N-row"
+  },
+  {
+    "h": "の",
+    "k": "ノ",
+    "r": "no",
+    "g": "basic",
+    "note": "N-row"
+  },
+  {
+    "h": "は",
+    "k": "ハ",
+    "r": "ha",
+    "g": "basic",
+    "note": "H-row · as topic particle, pronounced <b>wa</b>"
+  },
+  {
+    "h": "ひ",
+    "k": "ヒ",
+    "r": "hi",
+    "g": "basic",
+    "note": "H-row"
+  },
+  {
+    "h": "ふ",
+    "k": "フ",
+    "r": "fu",
+    "g": "basic",
+    "note": "H-row · softer 'fu', between f and h"
+  },
+  {
+    "h": "へ",
+    "k": "ヘ",
+    "r": "he",
+    "g": "basic",
+    "note": "H-row · as direction particle, pronounced <b>e</b>"
+  },
+  {
+    "h": "ほ",
+    "k": "ホ",
+    "r": "ho",
+    "g": "basic",
+    "note": "H-row"
+  },
+  {
+    "h": "ま",
+    "k": "マ",
+    "r": "ma",
+    "g": "basic",
+    "note": "M-row"
+  },
+  {
+    "h": "み",
+    "k": "ミ",
+    "r": "mi",
+    "g": "basic",
+    "note": "M-row"
+  },
+  {
+    "h": "む",
+    "k": "ム",
+    "r": "mu",
+    "g": "basic",
+    "note": "M-row"
+  },
+  {
+    "h": "め",
+    "k": "メ",
+    "r": "me",
+    "g": "basic",
+    "note": "M-row"
+  },
+  {
+    "h": "も",
+    "k": "モ",
+    "r": "mo",
+    "g": "basic",
+    "note": "M-row"
+  },
+  {
+    "h": "や",
+    "k": "ヤ",
+    "r": "ya",
+    "g": "basic",
+    "note": "Y-row (semivowel)"
+  },
+  {
+    "h": "ゆ",
+    "k": "ユ",
+    "r": "yu",
+    "g": "basic",
+    "note": "Y-row (semivowel)"
+  },
+  {
+    "h": "よ",
+    "k": "ヨ",
+    "r": "yo",
+    "g": "basic",
+    "note": "Y-row (semivowel)"
+  },
+  {
+    "h": "ら",
+    "k": "ラ",
+    "r": "ra",
+    "g": "basic",
+    "note": "R-row · 'r' is a light tap, between r and l"
+  },
+  {
+    "h": "り",
+    "k": "リ",
+    "r": "ri",
+    "g": "basic",
+    "note": "R-row"
+  },
+  {
+    "h": "る",
+    "k": "ル",
+    "r": "ru",
+    "g": "basic",
+    "note": "R-row · る vs ろ: る has a loop"
+  },
+  {
+    "h": "れ",
+    "k": "レ",
+    "r": "re",
+    "g": "basic",
+    "note": "R-row"
+  },
+  {
+    "h": "ろ",
+    "k": "ロ",
+    "r": "ro",
+    "g": "basic",
+    "note": "R-row"
+  },
+  {
+    "h": "わ",
+    "k": "ワ",
+    "r": "wa",
+    "g": "basic",
+    "note": "W-row"
+  },
+  {
+    "h": "を",
+    "k": "ヲ",
+    "r": "wo",
+    "g": "basic",
+    "note": "W-row · only used as object particle, pronounced <b>o</b>"
+  },
+  {
+    "h": "ん",
+    "k": "ン",
+    "r": "n",
+    "g": "basic",
+    "note": "Syllabic N · the only consonant that stands alone. ン vs ソ: ン stroke is more horizontal"
+  },
+  {
+    "h": "が",
+    "k": "ガ",
+    "r": "ga",
+    "g": "dakuten",
+    "note": "G-row · か + dakuten (゛)"
+  },
+  {
+    "h": "ぎ",
+    "k": "ギ",
+    "r": "gi",
+    "g": "dakuten",
+    "note": "G-row"
+  },
+  {
+    "h": "ぐ",
+    "k": "グ",
+    "r": "gu",
+    "g": "dakuten",
+    "note": "G-row"
+  },
+  {
+    "h": "げ",
+    "k": "ゲ",
+    "r": "ge",
+    "g": "dakuten",
+    "note": "G-row"
+  },
+  {
+    "h": "ご",
+    "k": "ゴ",
+    "r": "go",
+    "g": "dakuten",
+    "note": "G-row"
+  },
+  {
+    "h": "ざ",
+    "k": "ザ",
+    "r": "za",
+    "g": "dakuten",
+    "note": "Z-row · さ + dakuten"
+  },
+  {
+    "h": "じ",
+    "k": "ジ",
+    "r": "ji",
+    "g": "dakuten",
+    "note": "Z-row · irregular: <b>ji</b> (し + dakuten)"
+  },
+  {
+    "h": "ず",
+    "k": "ズ",
+    "r": "zu",
+    "g": "dakuten",
+    "note": "Z-row"
+  },
+  {
+    "h": "ぜ",
+    "k": "ゼ",
+    "r": "ze",
+    "g": "dakuten",
+    "note": "Z-row"
+  },
+  {
+    "h": "ぞ",
+    "k": "ゾ",
+    "r": "zo",
+    "g": "dakuten",
+    "note": "Z-row"
+  },
+  {
+    "h": "だ",
+    "k": "ダ",
+    "r": "da",
+    "g": "dakuten",
+    "note": "D-row · た + dakuten"
+  },
+  {
+    "h": "ぢ",
+    "k": "ヂ",
+    "r": "ji",
+    "g": "dakuten",
+    "note": "D-row · rare 'ji' (ち + dakuten)"
+  },
+  {
+    "h": "づ",
+    "k": "ヅ",
+    "r": "zu",
+    "g": "dakuten",
+    "note": "D-row · rare 'zu' (つ + dakuten)"
+  },
+  {
+    "h": "で",
+    "k": "デ",
+    "r": "de",
+    "g": "dakuten",
+    "note": "D-row"
+  },
+  {
+    "h": "ど",
+    "k": "ド",
+    "r": "do",
+    "g": "dakuten",
+    "note": "D-row"
+  },
+  {
+    "h": "ば",
+    "k": "バ",
+    "r": "ba",
+    "g": "dakuten",
+    "note": "B-row · は + dakuten"
+  },
+  {
+    "h": "び",
+    "k": "ビ",
+    "r": "bi",
+    "g": "dakuten",
+    "note": "B-row"
+  },
+  {
+    "h": "ぶ",
+    "k": "ブ",
+    "r": "bu",
+    "g": "dakuten",
+    "note": "B-row"
+  },
+  {
+    "h": "べ",
+    "k": "ベ",
+    "r": "be",
+    "g": "dakuten",
+    "note": "B-row"
+  },
+  {
+    "h": "ぼ",
+    "k": "ボ",
+    "r": "bo",
+    "g": "dakuten",
+    "note": "B-row"
+  },
+  {
+    "h": "ぱ",
+    "k": "パ",
+    "r": "pa",
+    "g": "dakuten",
+    "note": "P-row · は + handakuten (゜)"
+  },
+  {
+    "h": "ぴ",
+    "k": "ピ",
+    "r": "pi",
+    "g": "dakuten",
+    "note": "P-row"
+  },
+  {
+    "h": "ぷ",
+    "k": "プ",
+    "r": "pu",
+    "g": "dakuten",
+    "note": "P-row"
+  },
+  {
+    "h": "ぺ",
+    "k": "ペ",
+    "r": "pe",
+    "g": "dakuten",
+    "note": "P-row"
+  },
+  {
+    "h": "ぽ",
+    "k": "ポ",
+    "r": "po",
+    "g": "dakuten",
+    "note": "P-row"
+  },
+  {
+    "h": "きゃ",
+    "k": "キャ",
+    "r": "kya",
+    "g": "yoon",
+    "note": "Yōon · き + small ゃ"
+  },
+  {
+    "h": "きゅ",
+    "k": "キュ",
+    "r": "kyu",
+    "g": "yoon",
+    "note": "Yōon · き + small ゅ"
+  },
+  {
+    "h": "きょ",
+    "k": "キョ",
+    "r": "kyo",
+    "g": "yoon",
+    "note": "Yōon · き + small ょ"
+  },
+  {
+    "h": "しゃ",
+    "k": "シャ",
+    "r": "sha",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "しゅ",
+    "k": "シュ",
+    "r": "shu",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "しょ",
+    "k": "ショ",
+    "r": "sho",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ちゃ",
+    "k": "チャ",
+    "r": "cha",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ちゅ",
+    "k": "チュ",
+    "r": "chu",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ちょ",
+    "k": "チョ",
+    "r": "cho",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "にゃ",
+    "k": "ニャ",
+    "r": "nya",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "にゅ",
+    "k": "ニュ",
+    "r": "nyu",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "にょ",
+    "k": "ニョ",
+    "r": "nyo",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ひゃ",
+    "k": "ヒャ",
+    "r": "hya",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ひゅ",
+    "k": "ヒュ",
+    "r": "hyu",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ひょ",
+    "k": "ヒョ",
+    "r": "hyo",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "みゃ",
+    "k": "ミャ",
+    "r": "mya",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "みゅ",
+    "k": "ミュ",
+    "r": "myu",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "みょ",
+    "k": "ミョ",
+    "r": "myo",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "りゃ",
+    "k": "リャ",
+    "r": "rya",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "りゅ",
+    "k": "リュ",
+    "r": "ryu",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "りょ",
+    "k": "リョ",
+    "r": "ryo",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ぎゃ",
+    "k": "ギャ",
+    "r": "gya",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "ぎゅ",
+    "k": "ギュ",
+    "r": "gyu",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "ぎょ",
+    "k": "ギョ",
+    "r": "gyo",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "じゃ",
+    "k": "ジャ",
+    "r": "ja",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "じゅ",
+    "k": "ジュ",
+    "r": "ju",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "じょ",
+    "k": "ジョ",
+    "r": "jo",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "びゃ",
+    "k": "ビャ",
+    "r": "bya",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "びゅ",
+    "k": "ビュ",
+    "r": "byu",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "びょ",
+    "k": "ビョ",
+    "r": "byo",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "ぴゃ",
+    "k": "ピャ",
+    "r": "pya",
+    "g": "yoon",
+    "note": "Yōon (plosive)"
+  },
+  {
+    "h": "ぴゅ",
+    "k": "ピュ",
+    "r": "pyu",
+    "g": "yoon",
+    "note": "Yōon (plosive)"
+  },
+  {
+    "h": "ぴょ",
+    "k": "ピョ",
+    "r": "pyo",
+    "g": "yoon",
+    "note": "Yōon (plosive)"
+  }
+];

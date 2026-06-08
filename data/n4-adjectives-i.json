@@ -1,0 +1,211 @@
+[
+  {
+    "word": "美しい",
+    "reading": "うつくしい",
+    "romaji": "utsukushii",
+    "meaning": "beautiful; pretty; lovely; sweet; pure (heart, friendship, etc.)",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "正しい",
+    "reading": "ただしい",
+    "romaji": "tadashii",
+    "meaning": "right; correct",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "深い",
+    "reading": "ふかい",
+    "romaji": "fukai",
+    "meaning": "deep",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "優しい",
+    "reading": "やさしい",
+    "romaji": "yasashii",
+    "meaning": "tender; kind; gentle; graceful; affectionate; amiable",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "厳しい",
+    "reading": "きびしい",
+    "romaji": "kibishii",
+    "meaning": "severe; strict; rigid; unsparing; relentless",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "怖い",
+    "reading": "こわい",
+    "romaji": "kowai",
+    "meaning": "scary; frightening; eerie; dreadful",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "可笑しい",
+    "reading": "おかしい",
+    "romaji": "okashii",
+    "meaning": "funny; amusing; comical; laughable; ridiculous",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "柔らかい",
+    "reading": "やわらかい",
+    "romaji": "yawarakai",
+    "meaning": "soft; tender; supple; flexible; limber; limp",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "細かい",
+    "reading": "こまかい",
+    "romaji": "komakai",
+    "meaning": "small",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "苦い",
+    "reading": "にがい",
+    "romaji": "nigai",
+    "meaning": "bitter",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "酷い",
+    "reading": "ひどい",
+    "romaji": "hidoi",
+    "meaning": "cruel; heartless; hard; harsh; severe",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "悲しい",
+    "reading": "かなしい",
+    "romaji": "kanashii",
+    "meaning": "sad; miserable; unhappy; sorrowful",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "恥ずかしい",
+    "reading": "はずかしい",
+    "romaji": "hazukashii",
+    "meaning": "embarrassing; embarrassed; ashamed; humiliated; shy",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "硬い",
+    "reading": "かたい",
+    "romaji": "katai",
+    "meaning": "hard; solid; tough",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "凄い",
+    "reading": "すごい",
+    "romaji": "sugoi",
+    "meaning": "terrible; dreadful",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "寂しい",
+    "reading": "さびしい",
+    "romaji": "sabishii",
+    "meaning": "lonely; lonesome; solitary; desolate",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "珍しい",
+    "reading": "めずらしい",
+    "romaji": "mezurashii",
+    "meaning": "rare; uncommon; unusual; curious",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "眠い",
+    "reading": "ねむい",
+    "romaji": "nemui",
+    "meaning": "sleepy; drowsy; somnolent",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  },
+  {
+    "word": "浅い",
+    "reading": "あさい",
+    "romaji": "asai",
+    "meaning": "shallow; superficial",
+    "partOfSpeech": "I-adjective (keiyoushi)",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N4"
+  }
+]

@@ -1,0 +1,410 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: advanced.json
+window.DECKS=window.DECKS||{};
+window.DECKS["advanced"]=[
+  {
+    "h": "が",
+    "k": "ガ",
+    "r": "ga",
+    "g": "dakuten",
+    "note": "G-row · か + dakuten (゛)"
+  },
+  {
+    "h": "ぎ",
+    "k": "ギ",
+    "r": "gi",
+    "g": "dakuten",
+    "note": "G-row"
+  },
+  {
+    "h": "ぐ",
+    "k": "グ",
+    "r": "gu",
+    "g": "dakuten",
+    "note": "G-row"
+  },
+  {
+    "h": "げ",
+    "k": "ゲ",
+    "r": "ge",
+    "g": "dakuten",
+    "note": "G-row"
+  },
+  {
+    "h": "ご",
+    "k": "ゴ",
+    "r": "go",
+    "g": "dakuten",
+    "note": "G-row"
+  },
+  {
+    "h": "ざ",
+    "k": "ザ",
+    "r": "za",
+    "g": "dakuten",
+    "note": "Z-row · さ + dakuten"
+  },
+  {
+    "h": "じ",
+    "k": "ジ",
+    "r": "ji",
+    "g": "dakuten",
+    "note": "Z-row · irregular: <b>ji</b> (し + dakuten)"
+  },
+  {
+    "h": "ず",
+    "k": "ズ",
+    "r": "zu",
+    "g": "dakuten",
+    "note": "Z-row"
+  },
+  {
+    "h": "ぜ",
+    "k": "ゼ",
+    "r": "ze",
+    "g": "dakuten",
+    "note": "Z-row"
+  },
+  {
+    "h": "ぞ",
+    "k": "ゾ",
+    "r": "zo",
+    "g": "dakuten",
+    "note": "Z-row"
+  },
+  {
+    "h": "だ",
+    "k": "ダ",
+    "r": "da",
+    "g": "dakuten",
+    "note": "D-row · た + dakuten"
+  },
+  {
+    "h": "ぢ",
+    "k": "ヂ",
+    "r": "ji",
+    "g": "dakuten",
+    "note": "D-row · rare 'ji' (ち + dakuten)"
+  },
+  {
+    "h": "づ",
+    "k": "ヅ",
+    "r": "zu",
+    "g": "dakuten",
+    "note": "D-row · rare 'zu' (つ + dakuten)"
+  },
+  {
+    "h": "で",
+    "k": "デ",
+    "r": "de",
+    "g": "dakuten",
+    "note": "D-row"
+  },
+  {
+    "h": "ど",
+    "k": "ド",
+    "r": "do",
+    "g": "dakuten",
+    "note": "D-row"
+  },
+  {
+    "h": "ば",
+    "k": "バ",
+    "r": "ba",
+    "g": "dakuten",
+    "note": "B-row · は + dakuten"
+  },
+  {
+    "h": "び",
+    "k": "ビ",
+    "r": "bi",
+    "g": "dakuten",
+    "note": "B-row"
+  },
+  {
+    "h": "ぶ",
+    "k": "ブ",
+    "r": "bu",
+    "g": "dakuten",
+    "note": "B-row"
+  },
+  {
+    "h": "べ",
+    "k": "ベ",
+    "r": "be",
+    "g": "dakuten",
+    "note": "B-row"
+  },
+  {
+    "h": "ぼ",
+    "k": "ボ",
+    "r": "bo",
+    "g": "dakuten",
+    "note": "B-row"
+  },
+  {
+    "h": "ぱ",
+    "k": "パ",
+    "r": "pa",
+    "g": "dakuten",
+    "note": "P-row · は + handakuten (゜)"
+  },
+  {
+    "h": "ぴ",
+    "k": "ピ",
+    "r": "pi",
+    "g": "dakuten",
+    "note": "P-row"
+  },
+  {
+    "h": "ぷ",
+    "k": "プ",
+    "r": "pu",
+    "g": "dakuten",
+    "note": "P-row"
+  },
+  {
+    "h": "ぺ",
+    "k": "ペ",
+    "r": "pe",
+    "g": "dakuten",
+    "note": "P-row"
+  },
+  {
+    "h": "ぽ",
+    "k": "ポ",
+    "r": "po",
+    "g": "dakuten",
+    "note": "P-row"
+  },
+  {
+    "h": "きゃ",
+    "k": "キャ",
+    "r": "kya",
+    "g": "yoon",
+    "note": "Yōon · き + small ゃ"
+  },
+  {
+    "h": "きゅ",
+    "k": "キュ",
+    "r": "kyu",
+    "g": "yoon",
+    "note": "Yōon · き + small ゅ"
+  },
+  {
+    "h": "きょ",
+    "k": "キョ",
+    "r": "kyo",
+    "g": "yoon",
+    "note": "Yōon · き + small ょ"
+  },
+  {
+    "h": "しゃ",
+    "k": "シャ",
+    "r": "sha",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "しゅ",
+    "k": "シュ",
+    "r": "shu",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "しょ",
+    "k": "ショ",
+    "r": "sho",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ちゃ",
+    "k": "チャ",
+    "r": "cha",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ちゅ",
+    "k": "チュ",
+    "r": "chu",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ちょ",
+    "k": "チョ",
+    "r": "cho",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "にゃ",
+    "k": "ニャ",
+    "r": "nya",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "にゅ",
+    "k": "ニュ",
+    "r": "nyu",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "にょ",
+    "k": "ニョ",
+    "r": "nyo",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ひゃ",
+    "k": "ヒャ",
+    "r": "hya",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ひゅ",
+    "k": "ヒュ",
+    "r": "hyu",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ひょ",
+    "k": "ヒョ",
+    "r": "hyo",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "みゃ",
+    "k": "ミャ",
+    "r": "mya",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "みゅ",
+    "k": "ミュ",
+    "r": "myu",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "みょ",
+    "k": "ミョ",
+    "r": "myo",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "りゃ",
+    "k": "リャ",
+    "r": "rya",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "りゅ",
+    "k": "リュ",
+    "r": "ryu",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "りょ",
+    "k": "リョ",
+    "r": "ryo",
+    "g": "yoon",
+    "note": "Yōon"
+  },
+  {
+    "h": "ぎゃ",
+    "k": "ギャ",
+    "r": "gya",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "ぎゅ",
+    "k": "ギュ",
+    "r": "gyu",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "ぎょ",
+    "k": "ギョ",
+    "r": "gyo",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "じゃ",
+    "k": "ジャ",
+    "r": "ja",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "じゅ",
+    "k": "ジュ",
+    "r": "ju",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "じょ",
+    "k": "ジョ",
+    "r": "jo",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "びゃ",
+    "k": "ビャ",
+    "r": "bya",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "びゅ",
+    "k": "ビュ",
+    "r": "byu",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "びょ",
+    "k": "ビョ",
+    "r": "byo",
+    "g": "yoon",
+    "note": "Yōon (voiced)"
+  },
+  {
+    "h": "ぴゃ",
+    "k": "ピャ",
+    "r": "pya",
+    "g": "yoon",
+    "note": "Yōon (plosive)"
+  },
+  {
+    "h": "ぴゅ",
+    "k": "ピュ",
+    "r": "pyu",
+    "g": "yoon",
+    "note": "Yōon (plosive)"
+  },
+  {
+    "h": "ぴょ",
+    "k": "ピョ",
+    "r": "pyo",
+    "g": "yoon",
+    "note": "Yōon (plosive)"
+  }
+];
