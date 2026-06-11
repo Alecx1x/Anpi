@@ -2192,27 +2192,27 @@ function renderStats() {
   const cards = s.cardsAnswered || 0, correct = s.cardsCorrect || 0;
   const acc = cards ? Math.round(correct / cards * 100) : 0;
   const earnedList = ACHIEVEMENTS.filter(a => { try { return a.earned(s); } catch (e) { return false; } });
+  // Badge agent: the richer badge wall (window.Badges, lib/badges.js) supersedes the
+  // legacy ACHIEVEMENTS grid below — show its count here and render its wall in #badgeWall.
+  const badgeSummary = (window.Badges && window.Badges.summary)
+    ? window.Badges.summary() : (earnedList.length + "/" + ACHIEVEMENTS.length);
   const tiles = [
     ["CARDS", cards.toLocaleString()],
     ["ACCURACY", cards ? acc + "%" : "—"],
     ["GAMES", (s.gamesPlayed || 0).toLocaleString()],
     ["BEST SCORE", s.bestGameScore ? abbrevScore(s.bestGameScore) : "—"],
     ["BEST COMBO", (s.bestGameStreak || 0) ? "🔥" + s.bestGameStreak : "—"],
-    ["BADGES", earnedList.length + "/" + ACHIEVEMENTS.length],
+    ["BADGES", badgeSummary],
   ];
   wrap.innerHTML =
     '<div class="stats-streak"><div class="num">🔥 ' + cur + '</div><div class="lbl">DAY STREAK' +
       (longest > cur ? ' · BEST ' + longest : '') + '</div></div>' +
     '<div class="stat-tiles">' + tiles.map(t =>
       '<div class="stat-tile"><div class="v">' + selEsc(t[1]) + '</div><div class="k">' + t[0] + '</div></div>').join("") + '</div>' +
-    '<div class="ach-title">★ ACHIEVEMENTS ★</div>' +
-    '<div class="ach-grid">' + ACHIEVEMENTS.map(a => {
-      const got = earnedList.indexOf(a) > -1;
-      return '<div class="ach ' + (got ? "earned" : "locked") + '" title="' + selEsc(a.desc) + '">' +
-        '<div class="ico">' + a.icon + '</div><div class="nm">' + selEsc(a.name) + '</div>' +
-        '<div class="ds">' + selEsc(got ? "✓" : a.desc) + '</div></div>';
-    }).join("") + '</div>' +
+    '<div id="badgeWall"></div>' +
     '<div class="ach-title">🏆 LEADERBOARD PODIUMS</div><div id="statsPodiums" class="badges-list"><div class="lb-note">…</div></div>';
+  // Badge wall (lib/badges.js) — replaces the legacy ACHIEVEMENTS grid; falls back to nothing if absent.
+  if (window.Badges && window.Badges.renderInto) window.Badges.renderInto($("badgeWall"));
   renderStatsPodiums();
 }
 function renderStatsPodiums() {
