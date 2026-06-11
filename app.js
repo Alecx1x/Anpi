@@ -2996,7 +2996,7 @@ const TOUR_STEPS = [
     text: "Almost done! Tap the account button to set up a free account. 👆" },
   { sel: ".auth-modal", before: () => { const a = $("authOverlay"); if (a) a.classList.add("show"); },
     title: "Account & leaderboards",
-    text: "Sign up (or sign in) with just an email — or keep using Anpi as a guest. Signing in saves your progress, reports and high scores and syncs them across devices, and global leaderboards are on the way so you can compete for top scores.  And that's the tour! You now know the whole app — the decks, the flashcards and their options, the game, and the guided Learn path. Close this and you'll land back on the home page; open the ☰ menu anytime to dive in. 頑張って — good luck, and have fun learning Japanese!" },
+    text: "Sign up (or sign in) with just an email — or keep using Anpi Learning as a guest. Signing in saves your progress, reports and high scores and syncs them across devices, and global leaderboards are on the way so you can compete for top scores.  And that's the tour! You now know the whole app — the decks, the flashcards and their options, the game, and the guided Learn path. Close this and you'll land back on the home page; open the ☰ menu anytime to dive in. 頑張って — good luck, and have fun learning Japanese!" },
 ];
 const TOUR_KEY = "anpiTourSeen";
 let tourIdx = -1, tourEls = null, tourActive = false, tourDir = 1;

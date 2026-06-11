@@ -20,9 +20,10 @@ Pilot FIRST with lessons to prove the loop, then fan out.
 Status values: `ready` → `dispatched` → `in-review` → `gathered` → `deployed` (or `blocked`/`abandoned`).
 
 ## Current state of `main` (keep this 1-liner fresh)
-- Live at https://anpi.pages.dev. Learn = Leaflet/Esri satellite map (cinematic intro, feathered edges).
-  Badges = scaffold only. 109 lessons. No lane agents dispatched yet. Pending lead decision: "Anpi Learning"
-  rename URL scope.
+- **Renamed to "Anpi Learning"; new URL https://anpi-learning.pages.dev** (old anpi.pages.dev retired).
+  Learn = Leaflet/Esri satellite map (cinematic intro, feathered edges). Badges = scaffold only. 109 lessons.
+  No lane agents dispatched yet. USER TODO on the new Pages project: set `GOOGLE_TTS_KEY` (TTS) + add the new
+  domain to Supabase Auth Site-URL/redirect allow-list (sign-in).
 
 ## Lead deploy checklist (run before every deploy)
 1. On `main`, tree clean after ⇊ Gather (or intended changes only).
@@ -30,5 +31,5 @@ Status values: `ready` → `dispatched` → `in-review` → `gathered` → `depl
 3. Validate: `node --check app.js && node --check lib/badges.js` (+ any edited build/lib JS).
 4. If lessons changed: units count + every unit has journey + JOURNEY_XY; if game/UI changed: **/verify** or
    **/run** a quick smoke test (incl. mobile layout).
-5. `npx.cmd wrangler pages deploy . --project-name anpi --commit-dirty=true`
+5. `npx.cmd wrangler pages deploy . --project-name anpi-learning --commit-dirty=true`
 6. Log the deployment URL + what shipped; refresh the "Current state" line above.

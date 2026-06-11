@@ -11,7 +11,8 @@ Features: flashcards (kana / kanji / vocab + grammar / keigo / phrases / particl
 Space-Invaders-style typing game with global leaderboards, a guided **Learn** curriculum rendered as an
 interactive **satellite map of Japan** (journey path), Supabase auth + cross-device sync, and TTS pronunciation.
 
-- **Production:** https://anpi.pages.dev (Cloudflare Pages project `anpi`)
+- **Production:** https://anpi-learning.pages.dev (Cloudflare Pages project `anpi-learning`). The old
+  `anpi` project / anpi.pages.dev is retired after the "Anpi Learning" rename.
 - **Platform:** Windows. Shell is **PowerShell** — use `npx.cmd` not `npx`.
 - This IS a git repo. Commit only when asked.
 
@@ -22,7 +23,7 @@ interactive **satellite map of Japan** (journey path), Supabase auth + cross-dev
 
 ## Deploy (push live)
 ```
-npx.cmd wrangler pages deploy . --project-name anpi --commit-dirty=true
+npx.cmd wrangler pages deploy . --project-name anpi-learning --commit-dirty=true
 ```
 - Deploys the **whole folder** (`.`) as a **Direct Upload** to Pages project `anpi`. Direct Uploads do
   NOT count against Cloudflare's 500 Git-builds/month cap, so deploying often is fine.
