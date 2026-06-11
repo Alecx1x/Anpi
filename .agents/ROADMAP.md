@@ -5,11 +5,12 @@ prompt (`.agents/PROMPTS.md`), and logs dispatch in `.agents/WAVELOG.md`. Status
 `done`. Keep this current — it's the shared plan.
 
 ## Lead-owned (cross-cutting — do these in the main session, not a lane agent)
-- [ ] **Rename to "Anpi Learning"** — copy/branding pass across index.html (title, headings, home page),
-      manifest/meta, and any in-app name strings. OPEN DECISION before starting: keep the Cloudflare Pages
-      project (`anpi`) + URL `anpi.pages.dev`, or move to a new project/domain? (URL change has external
-      impact — confirm with the user; default = keep `anpi` project, just change displayed name.)
-      Best done BEFORE spawning content agents, to avoid merge churn.
+- [x] **Rename to "Anpi Learning" — DONE** (full rename). Display name changed across index.html + tour;
+      new Pages project `anpi-learning` → https://anpi-learning.pages.dev (committed 1b48dc5, deployed).
+      localStorage keys left unchanged (no progress reset). **USER TODO on the new project:** (1) set
+      `GOOGLE_TTS_KEY` secret (TTS returns 503 until then), (2) add https://anpi-learning.pages.dev to
+      Supabase Auth Site-URL/redirect allow-list, (3) have the Terminal Bridge session update its deploy
+      command/preset to `--project-name anpi-learning`. Old `anpi` project can be left or deleted later.
 - [ ] Keep CLAUDE.md + `.agents/` current after every wave.
 
 ## 🎮 Game
