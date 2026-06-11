@@ -12,7 +12,7 @@ reload state. One row per dispatched agent task; update on dispatch / review / g
 Pilot FIRST with lessons to prove the loop, then fan out.
 | Lane | Branch | Task (see .agents/PROMPTS.md for full brief) | Status |
 |---|---|---|---|
-| 📚 lessons | wt/lessons | +4 lessons (N4 aspect-aux, N4 weather idioms, N2 debate, N1 kotowaza v2) | ready — PILOT |
+| 📚 lessons | wt/lessons | +4 lessons (N4 aspect-aux, N4 weather idioms, N2 debate, N1 kotowaza v2) | dispatched (worktree at C:/Users/socia/worktrees/anpi-lessons, off 60db5d0) |
 | 🎮 game | wt/game | pause-on-blur + per-deck best score on picker | ready (after pilot) |
 | 🏅 badges | wt/badges | build BADGE-SPEC (streak/lessons/stage/region/game/meta) | ready (after pilot) |
 | 🔒 security | wt/security | rate-limit /api/tts + tighten Supabase RLS | ready (after pilot) |
