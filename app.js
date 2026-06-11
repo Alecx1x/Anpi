@@ -2637,6 +2637,8 @@ const JOURNEY_XY = {
   business: [137.73, 34.71], ceremonies: [143.20, 42.92],
   transportation: [137.16, 35.08], "how-to": [136.92, 35.50], quantity: [139.49, 35.92],
   "service-keigo": [141.49, 40.51], rhetoric: [144.38, 42.98],
+  "aspect-aux": [136.85, 35.40], "season-nature": [136.91, 35.28],
+  debate: [141.15, 39.70], "kotowaza-vol2": [142.36, 43.77],
 };
 
 // smooth "bendy" curve through points (Catmull-Rom → cubic Bézier)
