@@ -139,9 +139,11 @@ Work is run as **one lead session + several lane agents** (Terminal Bridge workt
   commit to their branch, and **never deploy**. (⇊ Gather now auto-commits each agent's working tree + the main
   tab's before merging, so a missed commit won't lose work — but make intentional commits anyway for clean history.)
 - **The lead session** is the architect/integrator/reviewer and the **only thing that deploys**. Its loop:
-  *plan wave → write each agent's prompt → agents build in worktrees → lead reviews each diff → **⇊ Gather** →
+  *plan wave → **dispatch each agent's brief into its tab via `tb.mjs send` (launch with
+  `claude --permission-mode acceptEdits`)** → agents build in worktrees → lead reviews each diff → **⇊ Gather** →
   lead reconciles conflicts + validates on `main` → **deploy once from `main`** → update CLAUDE.md + the
-  `.agents/` log → next wave.*
+  `.agents/` log → next wave.* (The lead can drive agent tabs directly — `tb.mjs list`/`send`/`key`, see the
+  auto-loaded Terminal Bridge guide — so it no longer asks the user to copy/paste prompts.)
 - **Deploy gate:** deploy ONLY from `main`, ONLY after review + validation, and never from a `wt/*` tab (a Direct
   Upload pushes that worktree's whole state — deploying a branch would publish work missing everyone else's).
 - **Conflict authority:** the lead reconciles shared files (`app.js`, `style.css`, `index.html`) because it

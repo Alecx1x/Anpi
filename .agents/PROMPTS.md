@@ -1,9 +1,14 @@
 # Agent prompts (paste-ready)
 
-Open a **⑂ Parallel** worktree tab named for the lane (`lessons` / `game` / `badges` / `security` → branch
-`wt/<lane>`), start `claude`, and paste the matching block. Each prompt is self-contained: read `CLAUDE.md`
-first, stay in lane, self-review with skills, commit to your branch — **never deploy** (the lead does that
-once from `main` after ⇊ Gather).
+User opens a **⑂ Parallel** worktree tab named for the lane (`lessons` / `game` / `badges` / `security` →
+branch `wt/<lane>`). **The lead/coordinator then dispatches the brief itself** (no copy/paste) via the
+Terminal Bridge helper:
+1. `node C:\Users\socia\terminal-bridge\tb.mjs send <lane> "claude --permission-mode acceptEdits"`
+2. wait ~5s for Claude to boot, then `tb.mjs send <lane> "<the brief below>"`
+(`tb.mjs list` shows tabs; `tb.mjs key <lane> 1` answers a 1/2 prompt. Never send to your own tab.)
+acceptEdits = file edits auto-apply, but it still pauses for shell commands. Each prompt is self-contained:
+read `CLAUDE.md` first, stay in lane, self-review with skills, commit to your branch — **never deploy**
+(the lead deploys once from `main` after ⇊ Gather).
 
 **Wave 1 plan:** start with the **lessons pilot** alone to prove the loop (spawn → work → Gather → lead
 reviews → deploy). Once that round-trips cleanly, fan out game / badges / security. TASK lines below are
