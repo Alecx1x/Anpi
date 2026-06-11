@@ -2,6 +2,9 @@
 
 Guidance for Claude Code (and agents) working in this repo. Read this first.
 
+**Harness:** this project is driven inside Terminal Bridge; its always-current guide is auto-loaded next.
+@../terminal-bridge/CLAUDE.md
+
 ## What this is
 **Anpi** (folder name `kana-flashcards`) — a **vanilla JS / HTML / CSS single-page app** for learning Japanese.
 No framework, no bundler, no build step for the app itself. `index.html` loads plain `<script>`/`<link>` files.
@@ -133,7 +136,8 @@ validate before finishing and report files-changed + how to verify. `lib/badges.
 ## Lead session & orchestration
 Work is run as **one lead session + several lane agents** (Terminal Bridge worktrees). The split:
 - **Lane agents** work inside `wt/<name>` git worktrees, each confined to its charter lane. They build, validate,
-  commit to their branch, and **never deploy**.
+  commit to their branch, and **never deploy**. (⇊ Gather now auto-commits each agent's working tree + the main
+  tab's before merging, so a missed commit won't lose work — but make intentional commits anyway for clean history.)
 - **The lead session** is the architect/integrator/reviewer and the **only thing that deploys**. Its loop:
   *plan wave → write each agent's prompt → agents build in worktrees → lead reviews each diff → **⇊ Gather** →
   lead reconciles conflicts + validates on `main` → **deploy once from `main`** → update CLAUDE.md + the
