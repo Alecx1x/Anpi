@@ -22,7 +22,7 @@ returns table (user_id uuid, name text, score text, achieved_at timestamptz, ran
 language sql
 security definer
 set search_path = public
-as $$
+as $func$
   select hs.user_id,
          coalesce(nullif(btrim(p.display_name), ''), 'Anonymous') as name,
          hs.score,
@@ -33,7 +33,7 @@ as $$
   where hs.deck_id = p_deck and hs.difficulty = p_diff
   order by hs.score::numeric desc, hs.achieved_at asc
   limit greatest(1, least(coalesce(p_limit, 10), 100));
-$$;
+$func$;
 
 -- ---------- The signed-in caller's own rank (even if outside the top N) ------
 create or replace function public.get_my_rank(p_deck text, p_diff text)
@@ -41,7 +41,7 @@ returns table (rank bigint, total bigint, score text)
 language sql
 security definer
 set search_path = public
-as $$
+as $func$
   with ranked as (
     select user_id, score,
            row_number() over (order by score::numeric desc, achieved_at asc) as rank
@@ -54,10 +54,15 @@ as $$
          r.score
   from ranked r
   where r.user_id = auth.uid();
-$$;
+$func$;
 
-grant execute on function public.get_leaderboard(text, text, int) to anon, authenticated;
-grant execute on function public.get_my_rank(text, text)          to authenticated;
+-- Least privilege: Postgres grants EXECUTE to PUBLIC by default, so revoke that
+-- first and re-grant ONLY to the intended roles. get_my_rank is per-caller
+-- (uses auth.uid()) so it stays authenticated-only — never anon.
+revoke execute on function public.get_leaderboard(text, text, int) from public;
+revoke execute on function public.get_my_rank(text, text)          from public;
+grant  execute on function public.get_leaderboard(text, text, int) to anon, authenticated;
+grant  execute on function public.get_my_rank(text, text)          to authenticated;
 
 -- ---------- GLOBAL leaderboard: every score across all decks -----------------
 -- Ranks every saved high score together (optionally filtered to one difficulty).
@@ -69,7 +74,7 @@ returns table (user_id uuid, name text, deck_id text, difficulty text, score tex
 language sql
 security definer
 set search_path = public
-as $$
+as $func$
   select hs.user_id,
          coalesce(nullif(btrim(p.display_name), ''), 'Anonymous') as name,
          hs.deck_id, hs.difficulty, hs.score, coalesce(hs.best_streak, 0) as best_streak, hs.achieved_at,
@@ -80,7 +85,7 @@ as $$
     and (p_deck is null or p_deck = '' or hs.deck_id = p_deck)
   order by hs.score::numeric desc, hs.achieved_at asc
   limit greatest(1, least(coalesce(p_limit, 50), 200));
-$$;
+$func$;
 
 -- ---------- Podiums: the caller's top-3 finishes (for profile badges) --------
 -- For every deck + difficulty the user has a score in, their rank within that
@@ -90,7 +95,7 @@ returns table (deck_id text, difficulty text, rank bigint, score text)
 language sql
 security definer
 set search_path = public
-as $$
+as $func$
   with ranked as (
     select user_id, deck_id, difficulty, score,
            row_number() over (partition by deck_id, difficulty
@@ -101,7 +106,11 @@ as $$
   from ranked
   where user_id = auth.uid() and rank <= 3
   order by rank asc, deck_id asc;
-$$;
+$func$;
 
-grant execute on function public.get_global_leaderboard(text, text, int) to anon, authenticated;
-grant execute on function public.get_my_podiums()                  to authenticated;
+-- Same least-privilege treatment: drop the default PUBLIC execute, re-grant to
+-- the intended roles only. get_my_podiums is per-caller → authenticated-only.
+revoke execute on function public.get_global_leaderboard(text, text, int) from public;
+revoke execute on function public.get_my_podiums()                        from public;
+grant  execute on function public.get_global_leaderboard(text, text, int) to anon, authenticated;
+grant  execute on function public.get_my_podiums()                        to authenticated;
