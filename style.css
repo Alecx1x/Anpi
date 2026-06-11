@@ -737,12 +737,29 @@
   button.ghost { background: transparent; border: 1px solid #3a4166; color: var(--muted); }
   button.ghost:hover { border-color: var(--accent); color: var(--text); }
 
+  #playArea { position: relative; }
   #gameCanvas {
     width: 100%; max-width: 460px; height: auto; aspect-ratio: 460 / 540;
     background: radial-gradient(120% 90% at 50% 0%, #1a2142, #0d1024);
     border: 1px solid #ffffff14; border-radius: 16px; display: block;
     box-shadow: 0 14px 40px rgba(0,0,0,.45);
   }
+  /* Subtle personal-best line on the deck/set picker. */
+  .deck-best { color: var(--muted); font-size: .82rem; margin: -8px 0 16px; text-align: center; }
+  .deck-best b { color: var(--accent); font-weight: 700; }
+  .deck-best .db-none { opacity: .8; }
+  /* Auto-pause overlay (non-interactive — auto-resumes on return). Fills the play
+     area so it stays aligned regardless of HUD/input height. */
+  .game-pause {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    background: rgba(10,13,30,.55); border-radius: 16px;
+    -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+    pointer-events: none; z-index: 50; text-align: center;  /* above the kb-open fixed input (z-index 45) */
+  }
+  .game-pause[hidden] { display: none; }   /* class's display:flex would otherwise beat the UA [hidden] rule */
+  .game-pause span { font-size: 1.5rem; font-weight: 800; color: var(--text); }
+  .game-pause small { color: var(--muted); font-size: .8rem; }
   #gameInput {
     margin-top: 12px; width: 100%; max-width: 460px;
     padding: 12px 16px; font-size: 1.1rem; text-align: center;

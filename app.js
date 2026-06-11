@@ -1229,7 +1229,7 @@ const game = {
   active:false, running:false, mode:null, deckKey:null, deckType:"kana", answerMode:"romaji", pool:[],
   asteroids:[], pops:[], beams:[], shipX:0, shipFlash:0, shipFlashBad:0,
   lives:0, score:0n, combo:0, bestCombo:0, milestoneMult:1, lifeMilestones:{}, destroyed:0, hits:0, misses:0,
-  escaped:{}, spawnCooldown:0, lastTs:0, raf:0,
+  escaped:{}, spawnCooldown:0, lastTs:0, raf:0, paused:false,
 };
 
 const canvas = $("gameCanvas");
@@ -1386,6 +1386,26 @@ function highKey(deckKey, mode) { return "kanaGameHigh_" + (deckKey || "?") + "_
 // High scores stored as raw decimal strings (no precision loss) and read as BigInt.
 function getHigh(deckKey, mode) { try { return BigInt(localStorage.getItem(highKey(deckKey, mode)) || "0"); } catch { return 0n; } }
 function setHigh(deckKey, mode, v) { try { localStorage.setItem(highKey(deckKey, mode), (typeof v === "bigint" ? v : BigInt(v)).toString()); } catch {} }
+// A deck's overall personal best = the highest score across all difficulties
+// (highs are stored per deck, not per kana set — same source the end screen reads).
+function deckBest(deckKey) {
+  let best = 0n;
+  for (const m of Object.keys(MODES)) { const h = getHigh(deckKey, m); if (h > best) best = h; }
+  return best;
+}
+// Show the selected deck's personal best on the picker (subtle line under the controls).
+function updateDeckBest() {
+  const el = $("deckBest"); if (!el) return;
+  const deckKey = $("gameDeckSelect").value;
+  const best = deckBest(deckKey);
+  if (best > 0n) {
+    el.hidden = false;
+    el.innerHTML = `Your best: <b>${abbrevScore(best)}</b>`;
+  } else {
+    el.hidden = false;
+    el.innerHTML = `<span class="db-none">No score yet — set the first!</span>`;
+  }
+}
 
 // View switching
 // Switch the main column between the Study, Game and Learn views.
@@ -1408,6 +1428,7 @@ function showHome() { if (game.active) backToStudy(); setMainView("home"); }
 function showGameView() { setMainView("game"); }
 function backToStudy() {
   game.active = false; game.running = false;
+  clearPause();
   cancelAnimationFrame(game.raf);
   stopPreview();
   // Restore the header and clear any keyboard-pinned input styling.
@@ -1423,6 +1444,7 @@ function backToStudy() {
 // (not out to the flashcards) so the player can pick another deck and play again.
 function exitGameToPicker() {
   game.running = false;
+  clearPause();
   cancelAnimationFrame(game.raf);
   // Clear any soft-keyboard-pinned input styling left over from play.
   document.body.classList.remove("kb-open");
@@ -1474,6 +1496,7 @@ function showDeckPicker() {
   $("gameDeckSelect").value = game.deckKey;
   $("gameSetSelect").value = game.set || "all";
   updateGameSetVisibility();
+  updateDeckBest();
   startPreview(); // idle ship preview until the user hits Continue
 }
 
@@ -1548,6 +1571,7 @@ function startGame(modeKey) {
   game.shipX = canvas.width / 2; game.shipFlash = 0; game.shipFlashBad = 0;
   game.spawnCooldown = 0; game.lastTs = 0;
   game.active = true; game.running = true;
+  clearPause();
   $("modeSelect").hidden = true;
   $("endScreen").hidden = true;
   $("playArea").hidden = false;
@@ -1726,6 +1750,30 @@ function updateHud() {
   $("gCombo").textContent = game.combo > 0 ? "🔥" + game.combo + " ×" + mult : "🔥 0";
   $("gLives").textContent = game.lives > 6 ? "❤×" + game.lives : "❤".repeat(Math.max(0, game.lives));
 }
+
+// ---------- Auto-pause when the tab / window loses focus ----------
+// Freezing the loop (asteroids stop, no escapes/misses) means switching away
+// can't cost the player a run; returning auto-resumes from the same spot.
+function pauseGame() {
+  if (!game.running) return;            // only an in-progress round can pause
+  game.running = false;
+  game.paused = true;
+  cancelAnimationFrame(game.raf);
+  const ov = $("gamePause"); if (ov) ov.hidden = false;
+}
+function resumeGame() {
+  if (!game.paused) return;
+  game.paused = false;
+  game.running = true;
+  game.lastTs = 0;                      // reset clock so the gap isn't applied as one huge dt
+  const ov = $("gamePause"); if (ov) ov.hidden = true;
+  layoutGameCanvas();                   // re-fit in case the viewport changed (rotation) while paused
+  cancelAnimationFrame(game.raf);
+  game.raf = requestAnimationFrame(gameLoop);
+  try { gameInput.focus(); } catch (e) {}
+}
+// Clear any paused state + overlay (called when a round starts or the player leaves play).
+function clearPause() { game.paused = false; const ov = $("gamePause"); if (ov) ov.hidden = true; }
 
 function gameLoop(ts) {
   if (!game.running) return;
@@ -1960,6 +2008,7 @@ function stopPreview() { if (previewRaf) cancelAnimationFrame(previewRaf); previ
 function endGame() {
   if (!game.running) return; // guard against multiple escapes in the same frame
   game.running = false;
+  clearPause();
   cancelAnimationFrame(game.raf);
   const attempts = game.hits + game.misses;
   const acc = attempts ? Math.round((game.hits / attempts) * 100) : 0;
@@ -2256,8 +2305,20 @@ $("changeMode").addEventListener("click", showModeSelect);
 $("changeDeck").addEventListener("click", showDeckPicker);
 $("endToStudy").addEventListener("click", showHome);
 // Deck/set picker
-$("gameDeckSelect").addEventListener("change", updateGameSetVisibility);
+$("gameDeckSelect").addEventListener("change", () => { updateGameSetVisibility(); updateDeckBest(); });
 $("deckPickerNext").addEventListener("click", gamePickerContinue);
+// Auto-pause a live round when the user leaves, auto-resume on return.
+// visibilitychange (Page Visibility API) is the cross-platform signal — it fires on
+// tab switch / app switch / screen lock but NOT when the mobile soft keyboard opens,
+// so it never false-pauses mid-typing. The window blur/focus pair only adds desktop
+// alt-tab-to-another-window (tab stays "visible"); we skip it on touch devices, where
+// opening the keyboard would otherwise fire a spurious `blur` and freeze the round.
+document.addEventListener("visibilitychange", () => { if (document.hidden) pauseGame(); else resumeGame(); });
+const _coarsePointer = !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+if (!_coarsePointer) {
+  window.addEventListener("blur", pauseGame);
+  window.addEventListener("focus", resumeGame);
+}
 $("deckPickerBack").addEventListener("click", showHome);
 
 // ---------- Game "How to play" tutorial (first visit + replay button) ----------
