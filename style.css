@@ -1,5 +1,8 @@
 /* Kana Flashcards styles */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
   :root {
+    --pixel-font: "Press Start 2P", "Courier New", ui-monospace, monospace;
+    --mono-font: ui-monospace, "Cascadia Mono", "Consolas", "Courier New", monospace;
     --bg: #0f1220;
     --card-bg: #1c2138;
     --card-back: #232a47;
@@ -43,6 +46,8 @@
   .fp-divider { height: 1px; background: #ffffff16; margin: 12px 0 10px; }
   .fp-opt-label { display: block; font-size: .78rem; color: var(--muted); margin: 2px 0 5px; }
   .fp-select { width: 100%; }
+  .fp-checkline { display: flex; align-items: center; gap: 8px; font-size: .82rem; color: var(--text); cursor: pointer; }
+  .fp-checkline input { cursor: pointer; }
   .fp-legend { display: flex; flex-direction: column; gap: 5px; margin: 8px 0 0 2px; font-size: .74rem; color: var(--muted); }
   .fp-legend > span { display: flex; align-items: center; gap: 7px; }
   .dia-key { width: 13px; height: 13px; border-radius: 50%; display: inline-block; flex: 0 0 auto; }
@@ -85,9 +90,16 @@
   }
   .sidebar-toggle:hover { border-color: var(--accent2); }
 
+  /* Top-right toolbar: account button + (in game) the voiced-mark button. Anchored
+     to the right and laid out right-to-left so the dakuten button always sits to
+     the LEFT of the account button, even as the username widens it. */
+  .topbar-right {
+    position: fixed; top: 12px; right: 12px; z-index: 60;
+    display: flex; flex-direction: row-reverse; align-items: center; gap: 8px;
+  }
   /* Account button (top-right) + auth modal */
   .account-btn {
-    position: fixed; top: 12px; right: 12px; z-index: 60;
+    position: relative; /* containing block for the 🏅 badge */
     height: 38px; min-width: 38px; padding: 0 12px;
     display: inline-flex; align-items: center; gap: 6px;
     font-size: .9rem; line-height: 1; border-radius: 10px;
@@ -100,9 +112,8 @@
 
   /* Game-mode voiced-mark settings (mirrors the study ⚙ panel options). */
   .game-dia-btn {
-    position: fixed; top: 12px; right: 58px; z-index: 60;
     height: 38px; min-width: 38px; padding: 0 11px; display: none;
-    align-items: center; border-radius: 10px; line-height: 1;
+    align-items: center; border-radius: 10px; line-height: 1; flex: 0 0 auto;
     background: var(--card-bg); border: 1px solid #3a4166; color: var(--text);
     cursor: pointer; font-size: .95rem;
   }
@@ -141,6 +152,214 @@
   .auth-msg.ok { color: #3ddc97; }
   .auth-msg.err { color: var(--accent); }
   .auth-close { display: block; margin: 14px auto 0; min-width: 120px; }
+
+  /* Leaderboard display-name field (account modal) */
+  .auth-name-row { display: flex; gap: 8px; }
+  .auth-name-row .auth-input { margin: 0; flex: 1; }
+  .auth-name-row button { padding: 0 16px; border-radius: 10px; border: 1px solid #3a4166;
+    background: var(--card-back); color: var(--text); cursor: pointer; }
+  .auth-name-row button:hover { border-color: var(--accent2); }
+
+  /* Global leaderboard (end screen) */
+  .leaderboard { margin: 18px auto 6px; max-width: 360px; text-align: left; }
+  /* Dedicated Leaderboards page */
+  .lb-page { max-width: 560px; margin: 0 auto; }
+  .lb-page-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .lb-page-head h2 { margin: 0; }
+  .lb-page-sub { color: var(--muted); font-size: .9rem; line-height: 1.5; margin: 0 0 18px; }
+  #leaderboardBody.leaderboard { max-width: none; margin: 0; }
+  .leaderboard h3 { text-align: center; margin: 0 0 10px; font-size: .98rem; }
+  .lb-note { text-align: center; color: var(--muted); font-size: .85rem; padding: 6px 0; }
+  .lb-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+  .lb-row { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 9px;
+    background: #ffffff08; border: 1px solid #ffffff10; font-size: .9rem; }
+  .lb-row.you { background: rgba(255,107,157,.14); border-color: rgba(255,107,157,.5); }
+  .lb-rank { flex: 0 0 1.8em; text-align: center; font-weight: 700; color: var(--accent2); }
+  .lb-row:nth-child(1) .lb-rank { color: #ffd24a; }
+  .lb-name { display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0; }
+  .lb-who { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lb-deck { font-size: .68rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lb-you { font-size: .7rem; color: var(--accent); border: 1px solid var(--accent);
+    border-radius: 6px; padding: 0 5px; margin-left: 4px; }
+  .lb-score-cell { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; flex: 0 0 auto; }
+  .lb-score { font-weight: 700; color: var(--accent); }
+  .lb-streak { font-size: .68rem; color: #ffb454; white-space: nowrap; }
+  .lb-myrank { text-align: center; color: var(--muted); font-size: .82rem; margin-top: 10px; }
+
+  /* Difficulty colour coding (matches the "Choose your difficulty" cards) */
+  .diff-easy   { color: #3ddc97; }
+  .diff-medium { color: #7c9cff; }
+  .diff-hard   { color: #ffb454; }
+  .diff-insane { color: #ff6b6b; }
+  .diff-badge { flex: 0 0 auto; font-size: .66rem; font-weight: 700; padding: 2px 7px;
+    border-radius: 6px; white-space: nowrap; border: 1px solid currentColor; background: #ffffff10; }
+
+  /* Difficulty filter chips */
+  .lb-filters { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 12px; }
+  .lb-chip { padding: 4px 12px; border-radius: 999px; border: 1px solid #3a4166; background: transparent;
+    color: var(--muted); cursor: pointer; font-size: .8rem; }
+  .lb-chip:hover { color: var(--text); }
+  .lb-chip.diff-easy   { color: #3ddc97; }
+  .lb-chip.diff-medium { color: #7c9cff; }
+  .lb-chip.diff-hard   { color: #ffb454; }
+  .lb-chip.diff-insane { color: #ff6b6b; }
+  .lb-chip.on { background: #ffffff16; border-color: currentColor; box-shadow: 0 0 0 1px currentColor inset; }
+  .lb-chip.on:not([class*="diff-"]) { color: #fff; border-color: var(--accent2); box-shadow: none; }
+
+  /* ============ Retro 8-bit arcade leaderboard ============ */
+  .lb-retro {
+    position: relative; overflow: hidden; border-radius: 4px;
+    font-family: var(--pixel-font); image-rendering: pixelated;
+    background: #0c0a1e; padding: 16px 14px 18px;
+    border: 3px solid #2de2e6;
+    box-shadow: 0 0 0 3px #0c0a1e, 0 0 0 6px #ff2e88, 0 0 24px rgba(45,226,230,.35);
+  }
+  .lb-retro::before { /* scanlines */
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 3;
+    background: repeating-linear-gradient(rgba(0,0,0,0) 0 3px, rgba(0,0,0,.09) 3px 4px);
+  }
+  .lb-retro .lb-title {
+    text-align: center; color: #ffe14d; font-size: .9rem; letter-spacing: 1px; margin: 2px 0 14px;
+    text-shadow: 2px 2px 0 #ff2e88, 0 0 10px rgba(255,46,136,.55);
+  }
+  .lb-retro .lb-controls { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; position: relative; z-index: 1; }
+  .lb-retro .lb-filters { gap: 5px; margin: 0; }
+  .lb-retro .lb-chip {
+    font-family: var(--pixel-font); font-size: .5rem; padding: 6px 8px; border-radius: 0;
+    border: 2px solid #3a4166; background: #15123060; color: #8a93c9; letter-spacing: .5px; text-transform: uppercase;
+  }
+  .lb-retro .lb-chip.on { background: #1c1840; box-shadow: 0 0 0 2px currentColor, 0 0 8px currentColor; }
+  .lb-retro .lb-chip.on:not([class*="diff-"]) { color: #2de2e6; border-color: #2de2e6; box-shadow: 0 0 0 2px #2de2e6, 0 0 8px #2de2e6; }
+  .lb-retro .lb-setfilter { display: flex; align-items: center; gap: 8px; justify-content: center; }
+  .lb-retro .lb-set-label { font-size: .5rem; color: #ffe14d; letter-spacing: 1px; }
+  .lb-retro .lb-set {
+    font-family: var(--mono-font); font-weight: 700; font-size: .8rem; color: #2de2e6; background: #15123080;
+    border: 2px solid #2de2e6; border-radius: 0; padding: 6px 8px; max-width: 240px; cursor: pointer;
+  }
+  .lb-retro .lb-set option { background: #0c0a1e; color: #d7ddf5; font-family: monospace; }
+  .lb-retro .lb-body { position: relative; z-index: 1; }
+  .lb-retro .lb-note { font-family: var(--mono-font); font-size: .82rem; color: #aab2e0; line-height: 1.7; padding: 14px 4px; text-align: center; }
+  .lb-retro .lb-head, .lb-retro .lb-row { display: grid; grid-template-columns: 2.4em 1fr auto auto; gap: 8px; align-items: center; }
+  .lb-retro .lb-head {
+    font-family: var(--mono-font); font-weight: 700; font-size: .66rem; color: #8a93c9; letter-spacing: .5px; padding: 0 6px 8px; margin-bottom: 6px;
+    border-bottom: 2px solid #2de2e633; text-transform: uppercase;
+  }
+  .lb-retro .lb-head .lb-modeh, .lb-retro .lb-head .lb-scoreh { background: none; border: 0; box-shadow: none; color: #6f78ad; text-align: right; padding: 0; }
+  .lb-retro .lb-list { gap: 2px; }
+  .lb-retro .lb-row { background: #ffffff06; border: 0; border-left: 3px solid transparent; border-radius: 0; padding: 8px 6px; font-size: .62rem; }
+  .lb-retro .lb-row:nth-child(odd) { background: #ffffff0d; }
+  .lb-retro .lb-row.you { background: rgba(255,46,136,.18); border-left-color: #ff2e88; box-shadow: inset 0 0 0 1px rgba(255,46,136,.4); }
+  .lb-retro .lb-rank { font-size: .6rem; color: #8a93c9; flex: none; }
+  .lb-retro .lb-row:nth-child(1) .lb-rank { color: #ffd700; text-shadow: 0 0 6px #ffd70088; }
+  .lb-retro .lb-row:nth-child(2) .lb-rank { color: #c0c8e0; }
+  .lb-retro .lb-row:nth-child(3) .lb-rank { color: #cd7f32; }
+  .lb-retro .lb-who { font-family: var(--mono-font); font-weight: 700; font-size: .92rem; color: #5cf2f6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lb-retro .lb-deck { font-family: monospace; font-size: .74rem; color: #8a93c9; letter-spacing: 0; margin-top: 3px; }
+  .lb-retro .lb-you { font-family: monospace; font-size: .64rem; color: #ff2e88; border-color: #ff2e88; }
+  .lb-retro .diff-badge { font-family: var(--mono-font); font-weight: 700; font-size: .64rem; padding: 4px 7px; border-radius: 0; border: 2px solid currentColor; background: #00000040; letter-spacing: .5px; }
+  .lb-retro .lb-score { font-size: .62rem; color: #39ff14; text-shadow: 0 0 6px #39ff1466; }
+  .lb-retro .lb-streak { font-family: monospace; font-size: .74rem; color: #ffb454; margin-top: 3px; }
+  .lb-retro .lb-myrank { font-family: var(--mono-font); font-size: .78rem; color: #ffe14d; line-height: 1.7; margin-top: 14px; text-align: center; }
+  .lb-retro .lb-warn { color: #ff6b6b; }
+  .lb-retro .lb-row.lb-sample { opacity: .62; } /* sample rows dimmed; real entries stand out */
+  .lb-retro .lb-row.you { opacity: 1; }
+
+  /* Stats & Achievements page (shares the .lb-retro arcade frame) */
+  #statsBody { position: relative; z-index: 1; }
+  .stats-streak { text-align: center; margin: 4px 0 16px; position: relative; z-index: 1; }
+  .stats-streak .num { font-family: var(--pixel-font); font-size: 1.5rem; color: #ff9f43; text-shadow: 2px 2px 0 #ff2e88; }
+  .stats-streak .lbl { font-size: .5rem; color: #8a93c9; letter-spacing: 1px; margin-top: 6px; }
+  .stat-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; position: relative; z-index: 1; }
+  .stat-tile { background: #ffffff0d; border: 2px solid #2de2e633; border-radius: 4px; padding: 10px 6px; text-align: center; }
+  .stat-tile .v { font-family: var(--pixel-font); font-size: .8rem; color: #39ff14; word-break: break-word; }
+  .stat-tile .k { font-family: var(--mono-font); font-weight: 700; font-size: .66rem; color: #aab2e0; letter-spacing: .5px; margin-top: 6px; text-transform: uppercase; }
+  .ach-title { font-family: var(--pixel-font); font-size: .56rem; color: #ffe14d; text-align: center; letter-spacing: 1px; margin: 16px 0 10px; position: relative; z-index: 1; }
+  .ach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; position: relative; z-index: 1; }
+  .ach { background: #ffffff0d; border: 2px solid #3a4166; border-radius: 4px; padding: 10px 5px; text-align: center; }
+  .ach.earned { border-color: #ffd700; box-shadow: 0 0 0 1px #ffd70055, 0 0 8px #ffd70033; }
+  .ach.locked { opacity: .42; filter: grayscale(1); }
+  .ach .ico { font-size: 1.5rem; line-height: 1; }
+  .ach .nm { font-family: var(--mono-font); font-weight: 700; font-size: .82rem; color: #5cf2f6; margin-top: 7px; line-height: 1.35; }
+  .ach.locked .nm { color: #aab2e0; }
+  .ach .ds { font-family: var(--mono-font); font-size: .74rem; color: #aab2e0; margin-top: 5px; line-height: 1.4; }
+  .ach.earned .ds { color: #39ff14; }
+  @media (max-width: 600px) {
+    .stat-tiles { grid-template-columns: repeat(2, 1fr); }
+    .ach .nm { font-size: .74rem; }
+  }
+  .lb-retro .lb-myrank .ghost { font-family: var(--pixel-font); font-size: .5rem; border: 2px solid #2de2e6; color: #2de2e6; border-radius: 0; padding: 8px 10px; }
+  /* Arcade page header */
+  .lb-page-head h2 { font-family: var(--pixel-font); font-size: .95rem; color: #ffe14d; text-shadow: 2px 2px 0 #ff2e88; line-height: 1.5; }
+  .lb-page-head .ghost { font-family: var(--pixel-font); font-size: .5rem; border: 2px solid #3a4166; border-radius: 0; padding: 8px 12px; }
+  @media (max-width: 600px) {
+    .lb-retro .lb-who { font-size: .82rem; }
+    .lb-retro .lb-score, .lb-retro .lb-rank { font-size: .58rem; }
+    .lb-retro .lb-title { font-size: .72rem; }
+    .lb-page-head h2 { font-size: .72rem; }
+    .lb-retro .diff-badge { font-size: .38rem; }
+  }
+
+  /* Profile podium badges */
+  .auth-badges { margin: 14px 0 4px; }
+  .badges-title { font-size: .82rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .badges-empty { font-size: .8rem; color: var(--muted); }
+  .badges-list { display: flex; flex-direction: column; gap: 6px; }
+  .badge-item { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 9px;
+    background: #ffffff08; border: 1px solid currentColor; font-size: .85rem; }
+  .badge-medal { font-size: 1.1rem; flex: 0 0 auto; }
+  .badge-where { color: var(--text); }
+  .badge-where b { color: inherit; }
+
+  /* Top-3 medal on the account button (the button is already position:fixed,
+     which serves as the positioning context for this absolute badge). */
+  .account-badge { position: absolute; top: -4px; right: -4px; font-size: .82rem;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,.6)); pointer-events: none; }
+
+  /* Interactive feature tour (spotlight + tooltip) */
+  .tour-overlay { position: fixed; inset: 0; z-index: 95; display: none; }
+  .tour-overlay.show { display: block; }
+  .tour-spot {
+    position: fixed; border-radius: 10px; pointer-events: none;
+    box-shadow: 0 0 0 9999px rgba(6,8,18,.80);
+    transition: left .35s cubic-bezier(.4,0,.2,1), top .35s cubic-bezier(.4,0,.2,1), width .35s, height .35s;
+  }
+  .tour-spot::after {
+    content: ""; position: absolute; inset: 0; border: 2px solid var(--accent); border-radius: 10px;
+    animation: tourpulse 1.5s ease-out infinite;
+  }
+  @keyframes tourpulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,107,157,.55); }
+    70% { box-shadow: 0 0 0 16px rgba(255,107,157,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,107,157,0); }
+  }
+  .tour-tip {
+    position: fixed; width: 300px; max-width: 88vw; z-index: 96; pointer-events: auto;
+    max-height: calc(100vh - 16px); overflow-y: auto;
+    background: linear-gradient(160deg, #2a2150, #14182b);
+    border: 1px solid #ffffff24; border-radius: 14px; padding: 15px 18px;
+    box-shadow: 0 18px 50px rgba(0,0,0,.6);
+  }
+  .tour-tip .tour-step { font-size: .68rem; text-transform: uppercase; letter-spacing: .6px; color: var(--accent2); }
+  .tour-tip h3 { margin: 4px 0 6px; font-size: 1.05rem; }
+  .tour-tip p { margin: 0 0 12px; color: var(--muted); font-size: .87rem; line-height: 1.5; }
+  .tour-tip p:empty { display: none; }
+  .tour-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .tour-dots { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; }
+  .tour-dots span { width: 6px; height: 6px; border-radius: 50%; background: #ffffff2e; transition: background .2s; }
+  .tour-dots span.on { background: var(--accent); }
+  .tour-skip { background: transparent; border: none; color: var(--muted); cursor: pointer; font-size: .82rem; padding: 6px 2px; }
+  .tour-skip:hover { color: var(--text); }
+  .tour-back { background: transparent; border: 1px solid #ffffff2e; color: var(--muted); cursor: pointer; padding: 8px 13px; border-radius: 8px; font-size: .85rem; }
+  .tour-back:hover { color: var(--text); border-color: var(--accent2); }
+  /* Hint sits on its own line at the bottom, so the footer never crowds. */
+  .tour-hint { display: block; text-align: center; color: var(--accent); font-size: .82rem; font-weight: 600;
+    margin-top: 11px; padding-top: 10px; border-top: 1px solid #ffffff14; }
+  .tour-hint:empty { display: none; }
+  @media (max-width: 600px) {
+    .tour-tip { width: calc(100vw - 24px); max-width: 400px; max-height: 70vh; overflow-y: auto; padding: 13px 15px; }
+    .tour-tip h3 { font-size: 1rem; }
+    .tour-tip p { font-size: .85rem; }
+  }
 
   /* Game "How to play" tutorial modal */
   .game-tut { max-width: 480px; }
@@ -213,6 +432,16 @@
   .kana-grid th { color: var(--muted); font-weight: 600; font-size: .8rem; padding: 4px 10px; }
   .kana-grid td { text-align: center; padding: 5px 10px; border: 1px solid #ffffff12; min-width: 34px; }
   .kana-grid tr th:first-child { color: var(--accent2); }
+  /* Example sentence table: Japanese · reading · meaning (left-aligned) */
+  .ex-table { border-collapse: collapse; margin: 6px 0 12px; width: 100%; font-size: .92rem; }
+  .ex-table td { padding: 5px 9px; border: 1px solid #ffffff12; text-align: left; vertical-align: top; }
+  .ex-table td:first-child { color: var(--text); white-space: nowrap; }
+  .ex-table td:nth-child(2) { color: var(--accent2); white-space: nowrap; }
+  .ex-table td:last-child { color: var(--muted); }
+  .lesson-sec table { max-width: 100%; }
+  .lesson-key { background: #ffffff0c; border: 1px solid #ffffff14; border-left: 3px solid var(--accent2);
+    border-radius: 8px; padding: 10px 14px; margin: 4px 0 12px; }
+  .lesson-key b { color: var(--accent2); }
 
   .lesson-practice { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 22px; padding: 16px; border-radius: 14px; background: #ffffff08; border: 1px solid #ffffff14; }
   .lesson-prac { background: var(--card-back); border: 1px solid #3a4166; color: var(--text); cursor: pointer; }
@@ -220,7 +449,67 @@
   .lesson-actions { display: flex; gap: 12px; align-items: center; }
   #lessonComplete.is-done { background: #3ddc97; border-color: #3ddc97; }
 
-  .side-brand { font-weight: 700; font-size: .95rem; letter-spacing: .5px; padding: 0 8px 14px; color: var(--text); white-space: nowrap; }
+  /* Placement test */
+  .learn-test-cta { margin: 8px 0 20px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .learn-test-cta button { font-size: .95rem; }
+  .learn-test-cta button:disabled { opacity: .75; cursor: not-allowed; }
+  .learn-test-cta button:disabled:hover { border-color: #3a4166; color: var(--muted); }
+  .learn-test-hint { color: var(--muted); font-size: .82rem; }
+  .learn-test-prog { color: var(--accent2); font-size: .78rem; text-transform: uppercase; letter-spacing: .6px; margin: 10px 0 4px; }
+  #learnTest h2 { margin: 4px 0 18px; font-size: 1.35rem; }
+  .test-choices { display: grid; gap: 10px; max-width: 460px; }
+  .test-choice {
+    text-align: left; padding: 14px 16px; border-radius: 12px; cursor: pointer;
+    background: var(--card-bg); border: 1px solid #3a4166; color: var(--text); font-size: 1rem;
+  }
+  .test-choice:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .learn-placed {
+    margin: 0 0 14px; padding: 11px 14px; border-radius: 11px; font-size: .86rem; line-height: 1.45;
+    background: rgba(61,220,151,.12); border: 1px solid rgba(61,220,151,.35); color: #b8f0d6;
+  }
+
+  .side-brand { font-weight: 700; font-size: .95rem; letter-spacing: .5px; padding: 0 8px 14px; color: var(--text); white-space: nowrap; cursor: pointer; }
+  .side-brand:hover { color: var(--accent); }
+
+  /* Home landing page */
+  body.home-active .main > h1, body.home-active .main > .subtitle { display: none; }
+  #homeView { min-height: 60vh; display: flex; align-items: center; justify-content: center; }
+  #homeView[hidden] { display: none; } /* ID rule above would otherwise beat [hidden] */
+  .home-hero { text-align: center; max-width: 640px; padding: 20px; }
+  .home-brand { font-size: 2.4rem; font-weight: 800; color: var(--accent); letter-spacing: 3px; }
+  .home-title { font-size: 2.4rem; margin: 8px 0 16px; }
+  .home-desc { color: var(--muted); line-height: 1.7; font-size: 1.02rem; margin: 0 auto 28px; max-width: 56ch; }
+  .home-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .home-actions button { padding: 12px 20px; font-size: 1rem; }
+  /* Reusable looping shine + glow that draws the eye to a button. Used for the
+     "Take the tour" button and the "Next lesson" button after marking complete. */
+  .shine-once {
+    position: relative; overflow: hidden;
+    animation: tourGlow 2.6s ease-in-out infinite;
+  }
+  .shine-once::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; z-index: 2;
+    background: linear-gradient(115deg, transparent 28%, rgba(255,255,255,.85) 50%, transparent 72%);
+    transform: translateX(-140%);
+    animation: shineSweep 2.6s ease-in-out infinite;
+  }
+  @keyframes shineSweep {
+    0% { transform: translateX(-140%); }
+    55%, 100% { transform: translateX(140%); }
+  }
+  @keyframes tourGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,157,0); }
+    35% { box-shadow: 0 0 26px 3px rgba(255,107,157,.55); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .shine-once, .shine-once::after { animation: none; }
+  }
+  @media (max-width: 600px) {
+    .home-title, .home-brand { font-size: 1.9rem; }
+    .home-desc { font-size: .92rem; }
+    .home-actions { flex-direction: column; }
+    .home-actions button { width: 100%; }
+  }
 
   .tree details { margin: 0; }
   .tree summary {
@@ -618,6 +907,12 @@
   .picker-controls .field { align-items: flex-start; }
   .picker-controls select { min-width: 200px; }
   .picker-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  #gamePreview {
+    width: 100%; max-width: 460px; height: auto; aspect-ratio: 460 / 230;
+    background: radial-gradient(120% 130% at 50% 0%, #1a2142, #0d1024);
+    border: 1px solid #ffffff14; border-radius: 16px; display: block;
+    margin: 0 auto 18px; box-shadow: 0 14px 40px rgba(0,0,0,.45);
+  }
 
   /* Pronunciation: speaker button (card back) + voice selector (settings) */
   .speaker-btn {
@@ -665,6 +960,15 @@
   /* Game mode: hide the app header so the playing field reclaims that space. */
   body.game-active h1, body.game-active .subtitle { display: none; }
   body.game-active .main { padding-bottom: 16px; }
+
+  /* On phones, compact the chrome around the canvas so the play field runs taller
+     within the space left above the soft keyboard. */
+  @media (max-width: 600px) {
+    body.game-active .main { padding-top: 10px; }
+    .game-hud { gap: 8px 10px; font-size: .82rem; margin-bottom: 6px; }
+    body.kb-open .game-hud { margin-bottom: 4px; font-size: .78rem; }
+    body.kb-open.game-active .main { padding-top: 4px; }
+  }
 
   /* Streak milestone celebration (over the canvas, fades in fast / out ~1.5s) */
   #playArea { position: relative; }
@@ -715,3 +1019,75 @@
     .sidebar { scrollbar-width: none; }
     .sidebar::-webkit-scrollbar { width: 0; height: 0; }
   }
+
+/* ====================== Journey map (physical map of Japan) ====================== */
+.learn-head-btns { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+#learnMap { position: relative; width: 100%; max-width: 860px; margin: 14px auto 0;
+  height: min(80vh, 680px); min-height: 380px; background: transparent; }
+/* ---- Leaflet satellite journey map ---- */
+.jgl { position: absolute; inset: 0; background: #0a1530; }
+/* feather the map + sea edges so they melt into the page background (no boxed border) */
+.jgl, .jmap-sea {
+  -webkit-mask-image: radial-gradient(ellipse farthest-side at 50% 50%, #000 76%, transparent 100%);
+  mask-image: radial-gradient(ellipse farthest-side at 50% 50%, #000 76%, transparent 100%); }
+/* tiny attribution + zoom buttons live ABOVE the mask so they stay crisp */
+.jgl-attr { position: absolute; left: 10px; bottom: 8px; z-index: 4; font-size: 10px; color: #aeb9e0;
+  background: rgba(8, 16, 38, .5); padding: 1px 7px; border-radius: 6px; pointer-events: none; letter-spacing: .2px; }
+#learnMap .leaflet-container { font: inherit; background: #0a1530; }
+#learnMap .leaflet-control-attribution { font-size: 10px; background: rgba(8, 16, 38, .62); color: #b9c6ee; }
+#learnMap .leaflet-control-attribution a { color: #cfe0ff; }
+#learnMap .leaflet-bar a { background: rgba(10, 16, 38, .85); color: #cfe0ff; border-color: #2a3a63; }
+#learnMap .leaflet-bar a:hover { background: #1c2747; }
+.jgl-tip { background: rgba(10, 16, 38, .9); color: #eaf0ff; border: 1px solid #2a3a63; border-radius: 7px;
+  font-size: .8rem; font-weight: 600; padding: 3px 8px; box-shadow: 0 3px 10px rgba(0, 0, 0, .4); }
+.jgl-tip::before { display: none; }
+.jgl-here { position: relative; width: 0; height: 0; }
+.jgl-pin { position: absolute; left: -12px; bottom: 1px; font-size: 24px; line-height: 1;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .7)); }
+.jgl-ping { position: absolute; left: -15px; bottom: 4px; width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(255, 215, 106, .55); animation: jglPing 1.9s ease-out infinite; }
+@keyframes jglPing { 0% { transform: scale(.35); opacity: .85; } 100% { transform: scale(2.6); opacity: 0; } }
+/* looping blue sea that surrounds the islands, then fades to reveal real Japan */
+.jmap-sea { position: absolute; inset: 0; z-index: 1200; pointer-events: none; border-radius: 14px; overflow: hidden;
+  background:
+    radial-gradient(118% 118% at 50% 48%, rgba(8, 26, 60, 0) 34%, rgba(11, 38, 86, .55) 66%, rgba(6, 20, 54, .95) 100%),
+    linear-gradient(118deg, #0a2a5e, #0e3f86, #1a6fbd, #0e3f86, #0a2a5e);
+  background-size: auto, 320% 320%;
+  animation: seaShift 9s ease-in-out infinite;
+  transition: opacity 1.9s ease; }
+.jmap-sea::after { content: ""; position: absolute; inset: -25%; mix-blend-mode: screen;
+  background: repeating-linear-gradient(116deg, rgba(255, 255, 255, .06) 0 16px, rgba(255, 255, 255, 0) 16px 38px);
+  animation: seaWaves 7s linear infinite; }
+.jmap-sea.gone { opacity: 0; }
+@keyframes seaShift { 0%, 100% { background-position: 0 0, 0% 50%; } 50% { background-position: 0 0, 100% 50%; } }
+@keyframes seaWaves { 0% { transform: translateX(0); } 100% { transform: translateX(38px); } }
+/* ---- legacy SVG map fallback ---- */
+.jmap-svg2 { width: 100%; height: auto; display: block; touch-action: none; cursor: grab;
+  background: radial-gradient(120% 90% at 60% 40%, #11203e 0%, #0c1430 60%, #0a0f24 100%);
+  border: 1px solid #1c2747; border-radius: 12px; }
+.jmap-svg2.grabbing { cursor: grabbing; }
+.jmap-zoom { position: absolute; right: 10px; bottom: 12px; display: flex; flex-direction: column; gap: 6px; z-index: 3; }
+.jmap-zbtn { width: 36px; height: 36px; border-radius: 9px; border: 1px solid #3c5288;
+  background: rgba(10, 16, 38, .82); color: #cfe0ff; font-size: 1.25rem; font-weight: 700; line-height: 1;
+  cursor: pointer; display: grid; place-items: center; backdrop-filter: blur(2px); }
+.jmap-zbtn:hover { background: #1c2747; border-color: #54a0ff; }
+.jmap-zbtn:active { transform: scale(.94); }
+.jmap-land path { fill: #26365c; stroke: #445d97; stroke-width: 1; vector-effect: non-scaling-stroke; }
+/* the winding adventure trail through every stop */
+.jroute { fill: none; stroke: #8a97cf; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 0.1 8; opacity: .65; }
+.jroute.lit { stroke: #ffd76a; stroke-width: 3.2; stroke-dasharray: none; opacity: 1;
+  filter: drop-shadow(0 0 3px rgba(255, 206, 90, .55)); }
+
+.jdot { cursor: pointer; }
+.jdot-c { fill: #6b76a6; stroke: #0a0f24; stroke-width: 2.5; transition: fill .1s; }
+.jdot:hover .jdot-c { fill: #ffffff; }
+.jdot.done .jdot-c { fill: var(--rc); }
+.jdot.todo .jdot-c { fill: #525c85; }
+.jdot.opt .jdot-c { fill: #3c4468; }
+.jdot.next .jdot-c { fill: #ffe14d; stroke: #ffffff; }
+.jdot-pulse { fill: rgba(255, 225, 77, .30); transform-box: fill-box; transform-origin: center;
+  animation: jdotPulse 1.7s ease-in-out infinite; pointer-events: none; }
+@keyframes jdotPulse { 0%, 100% { transform: scale(.55); opacity: .75; } 50% { transform: scale(1.25); opacity: 0; } }
+.jdot-curlabel { pointer-events: none; }
+.jdot-curlabel text { fill: #ffe14d; font-size: 21px; font-weight: 700; paint-order: stroke; stroke: #0a0f24; stroke-width: 4px; }

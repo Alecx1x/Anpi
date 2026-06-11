@@ -1,0 +1,169 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n1-keigo-nuanced.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n1-keigo-nuanced"]=[
+  {
+    "word": "恐れ入りますが",
+    "reading": "おそれいりますが",
+    "romaji": "osore irimasu ga",
+    "meaning": "cushion word: \"I'm sorry to trouble you, but\"",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "恐れ入りますが、少々お待ちください。",
+    "exampleReading": "おそれいりますが、しょうしょうおまちください。",
+    "exampleMeaning": "Sorry to trouble you, but please wait a moment.",
+    "level": "N1"
+  },
+  {
+    "word": "申し訳ございませんが",
+    "reading": "もうしわけございませんが",
+    "romaji": "moushiwake gozaimasen ga",
+    "meaning": "cushion word: \"I'm terribly sorry, but\"",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "申し訳ございませんが、本日は満席です。",
+    "exampleReading": "もうしわけございませんが、ほんじつはまんせきです。",
+    "exampleMeaning": "I'm very sorry, but we're full today.",
+    "level": "N1"
+  },
+  {
+    "word": "お手数ですが（おてすう）",
+    "reading": "おてすうですが",
+    "romaji": "otesuu desu ga",
+    "meaning": "\"sorry for the trouble, but\"",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "お手数ですが、ご記入をお願いします。",
+    "exampleReading": "おてすうですが、ごきにゅうをおねがいします。",
+    "exampleMeaning": "Sorry to trouble you, but please fill this in.",
+    "level": "N1"
+  },
+  {
+    "word": "差し支えなければ（さしつかえ）",
+    "reading": "さしつかえなければ",
+    "romaji": "sashitsukae nakereba",
+    "meaning": "\"if it's not inconvenient\"",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "差し支えなければ、お電話番号を教えてください。",
+    "exampleReading": "さしつかえなければ、おでんわばんごうをおしえてください。",
+    "exampleMeaning": "If you don't mind, please tell me your number.",
+    "level": "N1"
+  },
+  {
+    "word": "あいにく",
+    "reading": "",
+    "romaji": "ainiku",
+    "meaning": "\"unfortunately\" (polite)",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "あいにく担当者は不在でございます。",
+    "exampleReading": "あいにくたんとうしゃはふざいでございます。",
+    "exampleMeaning": "Unfortunately, the person in charge is away.",
+    "level": "N1"
+  },
+  {
+    "word": "〜のほど",
+    "reading": "",
+    "romaji": "no hodo",
+    "meaning": "softening nominalizer in requests",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "ご了承のほど、よろしくお願いします。",
+    "exampleReading": "ごりょうしょうのほど、よろしくおねがいします。",
+    "exampleMeaning": "We kindly ask for your understanding.",
+    "level": "N1"
+  },
+  {
+    "word": "よろしければ",
+    "reading": "",
+    "romaji": "yoroshikereba",
+    "meaning": "\"if you'd like / if it's all right\"",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "よろしければ、ご案内いたします。",
+    "exampleReading": "よろしければ、ごあんないいたします。",
+    "exampleMeaning": "If you'd like, I'll show you around.",
+    "level": "N1"
+  },
+  {
+    "word": "〜と存じます（ぞんじます）",
+    "reading": "",
+    "romaji": "to zonjimasu",
+    "meaning": "\"I believe / think\" (humble, soft)",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "問題ないかと存じます。",
+    "exampleReading": "もんだいないかとぞんじます。",
+    "exampleMeaning": "I believe there is no problem.",
+    "level": "N1"
+  },
+  {
+    "word": "ご了承ください（りょうしょう）",
+    "reading": "ごりょうしょうください",
+    "romaji": "goryoushou kudasai",
+    "meaning": "\"please understand / accept in advance\"",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "変更の場合がございます。ご了承ください。",
+    "exampleReading": "へんこうのばあいがございます。ごりょうしょうください。",
+    "exampleMeaning": "There may be changes; thank you for your understanding.",
+    "level": "N1"
+  },
+  {
+    "word": "ご容赦ください（ようしゃ）",
+    "reading": "ごようしゃください",
+    "romaji": "goyousha kudasai",
+    "meaning": "\"please forgive / excuse\"",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "不行き届きの点はご容赦ください。",
+    "exampleReading": "ふゆきとどきのてんはごようしゃください。",
+    "exampleMeaning": "Please excuse any shortcomings.",
+    "level": "N1"
+  },
+  {
+    "word": "〜ではございますが",
+    "reading": "",
+    "romaji": "de wa gozaimasu ga",
+    "meaning": "\"it is ~, but\" (formal concession)",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "簡単ではございますが、ご挨拶まで。",
+    "exampleReading": "かんたんではございますが、ごあいさつまで。",
+    "exampleMeaning": "Just a brief note by way of greeting.",
+    "level": "N1"
+  },
+  {
+    "word": "二重敬語（にじゅうけいご）",
+    "reading": "にじゅうけいご",
+    "romaji": "nijuu keigo",
+    "meaning": "\"double keigo\" — over-stacked, often incorrect",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "「お召し上がりになる」は二重敬語です。",
+    "exampleReading": "「おめしあがりになる」はにじゅうけいごです。",
+    "exampleMeaning": "\"O-meshiagari-ni-naru\" is double keigo.",
+    "level": "N1"
+  },
+  {
+    "word": "クッション言葉（ことば）",
+    "reading": "クッションことば",
+    "romaji": "kusshon kotoba",
+    "meaning": "\"cushion words\" that soften a request",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "クッション言葉を添えると印象が和らぐ。",
+    "exampleReading": "クッションことばをそえるといんしょうがやわらぐ。",
+    "exampleMeaning": "Adding cushion words softens the impression.",
+    "level": "N1"
+  },
+  {
+    "word": "〜かと存じますが",
+    "reading": "",
+    "romaji": "ka to zonjimasu ga",
+    "meaning": "\"I believe ~, but\" (very soft opinion)",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "こちらでよろしいかと存じますが。",
+    "exampleReading": "こちらでよろしいかとぞんじますが。",
+    "exampleMeaning": "I believe this should be fine.",
+    "level": "N1"
+  },
+  {
+    "word": "お納めいただければ（おさめ）",
+    "reading": "おおさめいただければ",
+    "romaji": "oosame itadakereba",
+    "meaning": "\"if you would kindly accept\"",
+    "partOfSpeech": "Keigo (polite expression)",
+    "exampleSentence": "ささやかですが、お納めいただければ幸いです。",
+    "exampleReading": "ささやかですが、おおさめいただければさいわいです。",
+    "exampleMeaning": "It's modest, but I'd be glad if you'd accept it.",
+    "level": "N1"
+  }
+];

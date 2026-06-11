@@ -1,0 +1,169 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n4-phrases-opinion.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n4-phrases-opinion"]=[
+  {
+    "word": "〜と思います",
+    "reading": "",
+    "romaji": "to omoimasu",
+    "meaning": "\"I think (that)\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "それはいい考えだと思います。",
+    "exampleReading": "それはいいかんがえだとおもいます。",
+    "exampleMeaning": "I think that's a good idea.",
+    "level": "N4"
+  },
+  {
+    "word": "〜じゃないかと思う",
+    "reading": "",
+    "romaji": "ja nai ka to omou",
+    "meaning": "\"I think maybe / isn't it that ~?\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "少し高いんじゃないかと思う。",
+    "exampleReading": "すこしたかいんじゃないかとおもう。",
+    "exampleMeaning": "I think it might be a bit expensive.",
+    "level": "N4"
+  },
+  {
+    "word": "私の意見では",
+    "reading": "わたしのいけんでは",
+    "romaji": "watashi no iken de wa",
+    "meaning": "\"in my opinion\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "私の意見では、賛成です。",
+    "exampleReading": "わたしのいけんでは、さんせいです。",
+    "exampleMeaning": "In my opinion, I'm in favor.",
+    "level": "N4"
+  },
+  {
+    "word": "〜かもしれません",
+    "reading": "",
+    "romaji": "kamo shiremasen",
+    "meaning": "\"it might be that ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "そうかもしれません。",
+    "exampleReading": "そうかもしれません。",
+    "exampleMeaning": "That might be so.",
+    "level": "N4"
+  },
+  {
+    "word": "〜の方がいい",
+    "reading": "〜のほうがいい",
+    "romaji": "no hou ga ii",
+    "meaning": "\"~ is better\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "こっちの方がいいと思う。",
+    "exampleReading": "こっちのほうがいいとおもう。",
+    "exampleMeaning": "I think this one is better.",
+    "level": "N4"
+  },
+  {
+    "word": "賛成です",
+    "reading": "さんせいです",
+    "romaji": "sansei desu",
+    "meaning": "\"I agree\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "その案に賛成です。",
+    "exampleReading": "そのあんにさんせいです。",
+    "exampleMeaning": "I agree with that proposal.",
+    "level": "N4"
+  },
+  {
+    "word": "反対です",
+    "reading": "はんたいです",
+    "romaji": "hantai desu",
+    "meaning": "\"I disagree / I'm against it\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "私はその意見に反対です。",
+    "exampleReading": "わたしはそのいけんにはんたいです。",
+    "exampleMeaning": "I'm against that opinion.",
+    "level": "N4"
+  },
+  {
+    "word": "確かに",
+    "reading": "たしかに",
+    "romaji": "tashika ni",
+    "meaning": "\"indeed / certainly (that's true)\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "確かにそうですね。",
+    "exampleReading": "たしかにそうですね。",
+    "exampleMeaning": "Indeed, that's true.",
+    "level": "N4"
+  },
+  {
+    "word": "〜と言えば",
+    "reading": "〜といえば",
+    "romaji": "to ieba",
+    "meaning": "\"speaking of ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "旅行と言えば、京都がおすすめだ。",
+    "exampleReading": "りょこうといえば、きょうとがおすすめだ。",
+    "exampleMeaning": "Speaking of travel, I recommend Kyoto.",
+    "level": "N4"
+  },
+  {
+    "word": "たぶん",
+    "reading": "",
+    "romaji": "tabun",
+    "meaning": "\"probably / maybe\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "たぶん大丈夫だと思います。",
+    "exampleReading": "たぶんだいじょうぶだとおもいます。",
+    "exampleMeaning": "I think it's probably fine.",
+    "level": "N4"
+  },
+  {
+    "word": "〜気がする",
+    "reading": "〜きがする",
+    "romaji": "ki ga suru",
+    "meaning": "\"I get the feeling that ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "うまくいく気がする。",
+    "exampleReading": "うまくいくきがする。",
+    "exampleMeaning": "I have a feeling it'll go well.",
+    "level": "N4"
+  },
+  {
+    "word": "〜べきだと思う",
+    "reading": "〜べきだとおもう",
+    "romaji": "beki da to omou",
+    "meaning": "\"I think (one) should ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "もっと休むべきだと思う。",
+    "exampleReading": "もっとやすむべきだとおもう。",
+    "exampleMeaning": "I think you should rest more.",
+    "level": "N4"
+  },
+  {
+    "word": "正直に言うと",
+    "reading": "しょうじきにいうと",
+    "romaji": "shoujiki ni iu to",
+    "meaning": "\"to be honest\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "正直に言うと、あまり好きじゃない。",
+    "exampleReading": "しょうじきにいうと、あまりすきじゃない。",
+    "exampleMeaning": "To be honest, I don't really like it.",
+    "level": "N4"
+  },
+  {
+    "word": "どちらかと言うと",
+    "reading": "どちらかというと",
+    "romaji": "dochira ka to iu to",
+    "meaning": "\"if anything / rather\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "どちらかと言うと夏が好きだ。",
+    "exampleReading": "どちらかというとなつがすきだ。",
+    "exampleMeaning": "If anything, I prefer summer.",
+    "level": "N4"
+  },
+  {
+    "word": "そうは思いません",
+    "reading": "そうはおもいません",
+    "romaji": "sou wa omoimasen",
+    "meaning": "\"I don't think so\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "失礼ですが、そうは思いません。",
+    "exampleReading": "しつれいですが、そうはおもいません。",
+    "exampleMeaning": "With respect, I don't think so.",
+    "level": "N4"
+  }
+];

@@ -1,0 +1,178 @@
+[
+  {
+    "word": "参る（まいる）",
+    "reading": "まいる",
+    "romaji": "mairu",
+    "meaning": "to go / come (humble)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "明日、御社に参ります。",
+    "exampleReading": "あした、おんしゃにまいります。",
+    "exampleMeaning": "I'll come to your company tomorrow.",
+    "level": "N2"
+  },
+  {
+    "word": "申す（もうす）",
+    "reading": "もうす",
+    "romaji": "mousu",
+    "meaning": "to say / be called (humble)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "田中と申します。",
+    "exampleReading": "たなかともうします。",
+    "exampleMeaning": "My name is Tanaka.",
+    "level": "N2"
+  },
+  {
+    "word": "申し上げる（もうしあげる）",
+    "reading": "もうしあげる",
+    "romaji": "moushiageru",
+    "meaning": "to say / tell (humble, to a superior)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "心よりお礼申し上げます。",
+    "exampleReading": "こころよりおれいもうしあげます。",
+    "exampleMeaning": "I sincerely thank you.",
+    "level": "N2"
+  },
+  {
+    "word": "いたす",
+    "reading": "",
+    "romaji": "itasu",
+    "meaning": "to do (humble, for する)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "私がご案内いたします。",
+    "exampleReading": "わたしがごあんないいたします。",
+    "exampleMeaning": "I will show you the way.",
+    "level": "N2"
+  },
+  {
+    "word": "いただく",
+    "reading": "",
+    "romaji": "itadaku",
+    "meaning": "to eat / drink / receive (humble)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "遠慮なくいただきます。",
+    "exampleReading": "えんりょなくいただきます。",
+    "exampleMeaning": "I'll gladly have some.",
+    "level": "N2"
+  },
+  {
+    "word": "拝見する（はいけんする）",
+    "reading": "はいけんする",
+    "romaji": "haiken suru",
+    "meaning": "to look / see (humble)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "お写真を拝見しました。",
+    "exampleReading": "おしゃしんをはいけんしました。",
+    "exampleMeaning": "I saw your photo.",
+    "level": "N2"
+  },
+  {
+    "word": "伺う（うかがう）",
+    "reading": "うかがう",
+    "romaji": "ukagau",
+    "meaning": "to ask / visit / hear (humble)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "明日、お宅に伺います。",
+    "exampleReading": "あした、おたくにうかがいます。",
+    "exampleMeaning": "I'll visit your home tomorrow.",
+    "level": "N2"
+  },
+  {
+    "word": "存じる（ぞんじる）",
+    "reading": "ぞんじる",
+    "romaji": "zonjiru",
+    "meaning": "to know / think (humble)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "その件は存じております。",
+    "exampleReading": "そのけんはぞんじております。",
+    "exampleMeaning": "I'm aware of that matter.",
+    "level": "N2"
+  },
+  {
+    "word": "存じ上げる（ぞんじあげる）",
+    "reading": "ぞんじあげる",
+    "romaji": "zonjiageru",
+    "meaning": "to know (a person) (humble)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "お名前は存じ上げております。",
+    "exampleReading": "おなまえはぞんじあげております。",
+    "exampleMeaning": "I know your name.",
+    "level": "N2"
+  },
+  {
+    "word": "おる",
+    "reading": "",
+    "romaji": "oru",
+    "meaning": "to be / exist (humble, for いる)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "父は今、外出しております。",
+    "exampleReading": "ちちはいま、がいしゅつしております。",
+    "exampleMeaning": "My father is out right now.",
+    "level": "N2"
+  },
+  {
+    "word": "お目にかかる（おめにかかる）",
+    "reading": "おめにかかる",
+    "romaji": "ome ni kakaru",
+    "meaning": "to meet (humble, of 会う)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "社長にお目にかかりました。",
+    "exampleReading": "しゃちょうにおめにかかりました。",
+    "exampleMeaning": "I met the president.",
+    "level": "N2"
+  },
+  {
+    "word": "お〜する／お〜いたす",
+    "reading": "",
+    "romaji": "o~ suru / itasu",
+    "meaning": "general humble verb pattern",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "お荷物をお持ちします。",
+    "exampleReading": "おにもつをおもちします。",
+    "exampleMeaning": "I'll carry your luggage.",
+    "level": "N2"
+  },
+  {
+    "word": "差し上げる（さしあげる）",
+    "reading": "さしあげる",
+    "romaji": "sashiageru",
+    "meaning": "to give (humble)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "資料を差し上げます。",
+    "exampleReading": "しりょうをさしあげます。",
+    "exampleMeaning": "I'll give you the documents.",
+    "level": "N2"
+  },
+  {
+    "word": "承る（うけたまわる）",
+    "reading": "うけたまわる",
+    "romaji": "uketamawaru",
+    "meaning": "to receive / undertake (humble, of 聞く/受ける)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "ご注文を承ります。",
+    "exampleReading": "ごちゅうもんをうけたまわります。",
+    "exampleMeaning": "I'll take your order.",
+    "level": "N2"
+  },
+  {
+    "word": "拝借する（はいしゃくする）",
+    "reading": "はいしゃくする",
+    "romaji": "haishaku suru",
+    "meaning": "to borrow (humble)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "お電話を拝借できますか。",
+    "exampleReading": "おでんわをはいしゃくできますか。",
+    "exampleMeaning": "May I use your phone?",
+    "level": "N2"
+  },
+  {
+    "word": "〜させていただく",
+    "reading": "",
+    "romaji": "sasete itadaku",
+    "meaning": "to humbly do (with your permission)",
+    "partOfSpeech": "Keigo (kenjougo)",
+    "exampleSentence": "それでは、説明させていただきます。",
+    "exampleReading": "それでは、せつめいさせていただきます。",
+    "exampleMeaning": "Now then, allow me to explain.",
+    "level": "N2"
+  }
+]

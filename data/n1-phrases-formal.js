@@ -1,0 +1,169 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n1-phrases-formal.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n1-phrases-formal"]=[
+  {
+    "word": "〜に他ならない",
+    "reading": "〜にほかならない",
+    "romaji": "ni hoka naranai",
+    "meaning": "\"is nothing but / precisely ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "これは努力の賜物に他ならない。",
+    "exampleReading": "これはどりょくのたまものにほかならない。",
+    "exampleMeaning": "This is nothing but the fruit of hard work.",
+    "level": "N1"
+  },
+  {
+    "word": "〜を余儀なくされる",
+    "reading": "〜をよぎなくされる",
+    "romaji": "o yogi naku sareru",
+    "meaning": "\"to be forced to ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "計画の変更を余儀なくされた。",
+    "exampleReading": "けいかくのへんこうをよぎなくされた。",
+    "exampleMeaning": "We were forced to change the plan.",
+    "level": "N1"
+  },
+  {
+    "word": "〜に堪えない",
+    "reading": "〜にたえない",
+    "romaji": "ni taenai",
+    "meaning": "\"cannot bear ~ / unbearable\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "その光景は見るに堪えない。",
+    "exampleReading": "そのこうけいはみるにたえない。",
+    "exampleMeaning": "That sight is unbearable to watch.",
+    "level": "N1"
+  },
+  {
+    "word": "〜と言わざるを得ない",
+    "reading": "〜といわざるをえない",
+    "romaji": "to iwazaru o enai",
+    "meaning": "\"cannot but say that ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "それは失敗と言わざるを得ない。",
+    "exampleReading": "それはしっぱいといわざるをえない。",
+    "exampleMeaning": "One cannot but call it a failure.",
+    "level": "N1"
+  },
+  {
+    "word": "〜には当たらない",
+    "reading": "〜にはあたらない",
+    "romaji": "ni wa ataranai",
+    "meaning": "\"does not warrant ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "それほど驚くには当たらない。",
+    "exampleReading": "それほどおどろくにはあたらない。",
+    "exampleMeaning": "It doesn't warrant that much surprise.",
+    "level": "N1"
+  },
+  {
+    "word": "〜を踏まえて",
+    "reading": "〜をふまえて",
+    "romaji": "o fumaete",
+    "meaning": "\"based on / in light of ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "現状を踏まえて判断する。",
+    "exampleReading": "げんじょうをふまえてはんだんする。",
+    "exampleMeaning": "I'll judge based on the current situation.",
+    "level": "N1"
+  },
+  {
+    "word": "〜の感を否めない",
+    "reading": "〜のかんをいなめない",
+    "romaji": "no kan o inamenai",
+    "meaning": "\"cannot deny a sense of ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "時代遅れの感を否めない。",
+    "exampleReading": "じだいおくれのかんをいなめない。",
+    "exampleMeaning": "One cannot deny a sense of being outdated.",
+    "level": "N1"
+  },
+  {
+    "word": "〜に資する",
+    "reading": "〜にしする",
+    "romaji": "ni shisuru",
+    "meaning": "\"to contribute to ~\" (formal)",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "社会の発展に資する。",
+    "exampleReading": "しゃかいのはってんにしする。",
+    "exampleMeaning": "It contributes to society's development.",
+    "level": "N1"
+  },
+  {
+    "word": "〜を以て",
+    "reading": "〜をもって",
+    "romaji": "o motte",
+    "meaning": "\"by means of / as of ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "書面を以て通知する。",
+    "exampleReading": "しょめんをもってつうちする。",
+    "exampleMeaning": "We will notify you in writing.",
+    "level": "N1"
+  },
+  {
+    "word": "〜に鑑みて",
+    "reading": "〜にかんがみて",
+    "romaji": "ni kangamite",
+    "meaning": "\"in view of / in light of ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "状況に鑑みて中止する。",
+    "exampleReading": "じょうきょうにかんがみてちゅうしする。",
+    "exampleMeaning": "In view of the situation, we'll cancel.",
+    "level": "N1"
+  },
+  {
+    "word": "〜は言うまでもない",
+    "reading": "〜はいうまでもない",
+    "romaji": "wa iu made mo nai",
+    "meaning": "\"it goes without saying that ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "重要なのは言うまでもない。",
+    "exampleReading": "じゅうようなのはいうまでもない。",
+    "exampleMeaning": "It goes without saying that it's important.",
+    "level": "N1"
+  },
+  {
+    "word": "〜を禁じ得ない",
+    "reading": "〜をきんじえない",
+    "romaji": "o kinjienai",
+    "meaning": "\"cannot suppress (a feeling) ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "怒りを禁じ得ない。",
+    "exampleReading": "いかりをきんじえない。",
+    "exampleMeaning": "I cannot suppress my anger.",
+    "level": "N1"
+  },
+  {
+    "word": "〜の感がある",
+    "reading": "〜のかんがある",
+    "romaji": "no kan ga aru",
+    "meaning": "\"there is a sense of ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "やや唐突の感がある。",
+    "exampleReading": "ややとうとつのかんがある。",
+    "exampleMeaning": "There's a somewhat abrupt feel to it.",
+    "level": "N1"
+  },
+  {
+    "word": "〜に越したことはない",
+    "reading": "〜にこしたことはない",
+    "romaji": "ni koshita koto wa nai",
+    "meaning": "\"there's nothing better than ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "用心するに越したことはない。",
+    "exampleReading": "ようじんするにこしたことはない。",
+    "exampleMeaning": "There's nothing better than being cautious.",
+    "level": "N1"
+  },
+  {
+    "word": "〜の限りである",
+    "reading": "〜のかぎりである",
+    "romaji": "no kagiri de aru",
+    "meaning": "\"to be the utmost / extremely ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "お会いできて光栄の限りである。",
+    "exampleReading": "おあいできてこうえいのかぎりである。",
+    "exampleMeaning": "It is the greatest honor to meet you.",
+    "level": "N1"
+  }
+];

@@ -1,0 +1,136 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n4-grammar-giving.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n4-grammar-giving"]=[
+  {
+    "word": "あげる",
+    "reading": "",
+    "romaji": "ageru",
+    "meaning": "give (I/we → others)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "友達に本をあげた。",
+    "exampleReading": "ともだちにほんをあげた。",
+    "exampleMeaning": "I gave a book to my friend.",
+    "level": "N4"
+  },
+  {
+    "word": "くれる",
+    "reading": "",
+    "romaji": "kureru",
+    "meaning": "give (others → me/us)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "兄が私に時計をくれた。",
+    "exampleReading": "あにがわたしにとけいをくれた。",
+    "exampleMeaning": "My older brother gave me a watch.",
+    "level": "N4"
+  },
+  {
+    "word": "もらう",
+    "reading": "",
+    "romaji": "morau",
+    "meaning": "receive",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "先生に辞書をもらった。",
+    "exampleReading": "せんせいにじしょをもらった。",
+    "exampleMeaning": "I received a dictionary from my teacher.",
+    "level": "N4"
+  },
+  {
+    "word": "〜てあげる",
+    "reading": "",
+    "romaji": "te ageru",
+    "meaning": "do (something) for someone",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "妹の宿題を手伝ってあげた。",
+    "exampleReading": "いもうとのしゅくだいをてつだってあげた。",
+    "exampleMeaning": "I helped my little sister with her homework.",
+    "level": "N4"
+  },
+  {
+    "word": "〜てくれる",
+    "reading": "",
+    "romaji": "te kureru",
+    "meaning": "do (something) for me/us",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "友達が駅まで送ってくれた。",
+    "exampleReading": "ともだちがえきまでおくってくれた。",
+    "exampleMeaning": "My friend gave me a ride to the station.",
+    "level": "N4"
+  },
+  {
+    "word": "〜てもらう",
+    "reading": "",
+    "romaji": "te morau",
+    "meaning": "have/get someone to do",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "友達に写真を撮ってもらった。",
+    "exampleReading": "ともだちにしゃしんをとってもらった。",
+    "exampleMeaning": "I had my friend take a photo for me.",
+    "level": "N4"
+  },
+  {
+    "word": "さしあげる",
+    "reading": "",
+    "romaji": "sashiageru",
+    "meaning": "give (humble, to a superior)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "先生にお土産をさしあげた。",
+    "exampleReading": "せんせいにおみやげをさしあげた。",
+    "exampleMeaning": "I gave my teacher a souvenir (humbly).",
+    "level": "N4"
+  },
+  {
+    "word": "くださる",
+    "reading": "",
+    "romaji": "kudasaru",
+    "meaning": "give to me (honorific)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "部長が記念品をくださった。",
+    "exampleReading": "ぶちょうがきねんひんをくださった。",
+    "exampleMeaning": "The department head gave me a keepsake (honorific).",
+    "level": "N4"
+  },
+  {
+    "word": "いただく",
+    "reading": "",
+    "romaji": "itadaku",
+    "meaning": "receive (humble)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "社長に貴重なアドバイスをいただいた。",
+    "exampleReading": "しゃちょうにきちょうなアドバイスをいただいた。",
+    "exampleMeaning": "I received valuable advice from the president (humbly).",
+    "level": "N4"
+  },
+  {
+    "word": "やる",
+    "reading": "",
+    "romaji": "yaru",
+    "meaning": "give (to plants, animals, juniors)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "毎朝、花に水をやる。",
+    "exampleReading": "まいあさ、はなにみずをやる。",
+    "exampleMeaning": "I water the flowers every morning.",
+    "level": "N4"
+  },
+  {
+    "word": "〜ていただく",
+    "reading": "",
+    "romaji": "te itadaku",
+    "meaning": "humbly have someone do for me",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "先生に作文を直していただいた。",
+    "exampleReading": "せんせいにさくぶんをなおしていただいた。",
+    "exampleMeaning": "I had my teacher kindly correct my essay.",
+    "level": "N4"
+  },
+  {
+    "word": "〜てくださる",
+    "reading": "",
+    "romaji": "te kudasaru",
+    "meaning": "someone kindly does for me (honorific)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "課長が仕事を手伝ってくださった。",
+    "exampleReading": "かちょうがしごとをてつだってくださった。",
+    "exampleMeaning": "The section chief kindly helped me with my work.",
+    "level": "N4"
+  }
+];

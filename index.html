@@ -5,14 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anpi</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
   <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">☰</button>
-  <button class="account-btn" id="accountBtn" title="Account — sign in to sync across devices">
-    <span id="accountLabel">👤</span>
-  </button>
-  <button class="game-dia-btn" id="gameDiaBtn" title="Voiced mark display (゛゜)">あ゛</button>
+  <div class="topbar-right">
+    <button class="account-btn" id="accountBtn" title="Account — sign in to sync across devices">
+      <span id="accountLabel">👤</span>
+      <span id="accountBadge" class="account-badge" hidden title="You're a top-3 scorer!">🏅</span>
+    </button>
+    <button class="game-dia-btn" id="gameDiaBtn" title="Voiced mark display (゛゜)">あ゛</button>
+  </div>
   <div class="game-dia-panel" id="gameDiaPanel" hidden>
     <div class="gdp-title">Voiced kana marks (゛゜)</div>
     <label class="fp-opt-label" for="diaSizeSelGame">Size</label>
@@ -34,13 +39,17 @@
 
   <div class="app">
   <aside class="sidebar" id="sidebar">
-    <div class="side-brand">Anpi</div>
+    <div class="side-brand" id="sideBrand" title="Home">Anpi</div>
     <button class="learn-nav" id="learnNav">🎓 Learn — start here</button>
     <nav class="tree">
 
       <details class="root">
-        <summary>📚 Japanese</summary>
+        <summary>📚 Flashcards</summary>
         <div class="root-group">
+
+          <details class="cat jp-group">
+            <summary>Japanese</summary>
+            <div class="group">
 
           <details class="cat">
             <summary>📦 N5 — Beginner</summary>
@@ -72,12 +81,11 @@
                 </div>
               </details>
               <details class="sub">
-                <summary>Grammar Patterns <span class="badge">soon</span></summary>
+                <summary>Grammar Patterns</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>All N5 Grammar <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Basic sentence structure <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Question forms <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Negative forms <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n5gramstruct">Basic sentence structure</button>
+                  <button class="deck" data-deck="n5gramq">Question forms</button>
+                  <button class="deck" data-deck="n5gramneg">Negative forms</button>
                 </div>
               </details>
               <details class="sub">
@@ -87,20 +95,20 @@
                 </div>
               </details>
               <details class="sub">
-                <summary>Numbers &amp; Counters <span class="badge">soon</span></summary>
+                <summary>Numbers &amp; Counters</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Basic numbers <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Dates &amp; Time <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Common counters <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n5numbers">Basic numbers</button>
+                  <button class="deck" data-deck="n5datetime">Dates &amp; Time</button>
+                  <button class="deck" data-deck="n5counters">Common counters</button>
                 </div>
               </details>
               <details class="sub">
-                <summary>Phrases &amp; Expressions <span class="badge">soon</span></summary>
+                <summary>Phrases &amp; Expressions</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Greetings <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Introductions <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Classroom phrases <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Shopping basics <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n5greetings">Greetings</button>
+                  <button class="deck" data-deck="n5intro">Introductions</button>
+                  <button class="deck" data-deck="n5classroom">Classroom phrases</button>
+                  <button class="deck" data-deck="n5shopping">Shopping basics</button>
                 </div>
               </details>
             </div>
@@ -128,36 +136,36 @@
                 </div>
               </details>
               <details class="sub">
-                <summary>Grammar Patterns <span class="badge">soon</span></summary>
+                <summary>Grammar Patterns</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>All N4 Grammar <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Te-form patterns <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Conditional forms <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Giving &amp; Receiving <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n4gram">All N4 Grammar</button>
+                  <button class="deck" data-deck="n4gramte">Te-form patterns</button>
+                  <button class="deck" data-deck="n4gramcond">Conditional forms</button>
+                  <button class="deck" data-deck="n4gramgive">Giving &amp; Receiving</button>
                 </div>
               </details>
               <details class="sub">
-                <summary>Particles <span class="badge">soon</span></summary>
+                <summary>Particles</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Advanced particle usage <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Compound particles <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n4partadv">Advanced particle usage</button>
+                  <button class="deck" data-deck="n4partcomp">Compound particles</button>
                 </div>
               </details>
               <details class="sub">
-                <summary>Verb Forms <span class="badge">soon</span></summary>
+                <summary>Verb Forms</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Te-form <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Ta-form <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Nai-form <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Potential form <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n4verbte">Te-form</button>
+                  <button class="deck" data-deck="n4verbta">Ta-form</button>
+                  <button class="deck" data-deck="n4verbnai">Nai-form</button>
+                  <button class="deck" data-deck="n4verbpot">Potential form</button>
                 </div>
               </details>
               <details class="sub">
-                <summary>Phrases &amp; Expressions <span class="badge">soon</span></summary>
+                <summary>Phrases &amp; Expressions</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Daily conversation <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Expressing opinions <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Making requests <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n4phrdaily">Daily conversation</button>
+                  <button class="deck" data-deck="n4phropinion">Expressing opinions</button>
+                  <button class="deck" data-deck="n4phrrequest">Making requests</button>
                 </div>
               </details>
             </div>
@@ -185,34 +193,34 @@
                 </div>
               </details>
               <details class="sub">
-                <summary>Grammar Patterns <span class="badge">soon</span></summary>
+                <summary>Grammar Patterns</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>All N3 Grammar <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Compound sentences <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Expressing nuance <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n3gram">All N3 Grammar</button>
+                  <button class="deck" data-deck="n3gramcompound">Compound sentences</button>
+                  <button class="deck" data-deck="n3gramnuance">Expressing nuance</button>
                 </div>
               </details>
               <details class="sub">
-                <summary>Verb Forms <span class="badge">soon</span></summary>
+                <summary>Verb Forms</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Passive form <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Causative form <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Causative passive <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n3verbpass">Passive form</button>
+                  <button class="deck" data-deck="n3verbcaus">Causative form</button>
+                  <button class="deck" data-deck="n3verbcauspass">Causative passive</button>
                 </div>
               </details>
               <details class="sub">
-                <summary>Keigo — Introduction <span class="badge">soon</span></summary>
+                <summary>Keigo — Introduction</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Teineigo (polite) <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Basic honorifics <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n3keigoteinei">Teineigo (polite)</button>
+                  <button class="deck" data-deck="n3keigohonor">Basic honorifics</button>
                 </div>
               </details>
               <details class="sub">
-                <summary>Phrases &amp; Expressions <span class="badge">soon</span></summary>
+                <summary>Phrases &amp; Expressions</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Formal conversation <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Expressing feelings <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Connecting ideas <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n3phrformal">Formal conversation</button>
+                  <button class="deck" data-deck="n3phrfeelings">Expressing feelings</button>
+                  <button class="deck" data-deck="n3phrconnect">Connecting ideas</button>
                 </div>
               </details>
             </div>
@@ -240,25 +248,25 @@
                 </div>
               </details>
               <details class="sub">
-                <summary>Grammar Patterns <span class="badge">soon</span></summary>
+                <summary>Grammar Patterns</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>All N2 Grammar <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Complex structures <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Formal expressions <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n2gram">All N2 Grammar</button>
+                  <button class="deck" data-deck="n2gramcomplex">Complex structures</button>
+                  <button class="deck" data-deck="n2gramformal">Formal expressions</button>
                 </div>
               </details>
               <details class="sub">
-                <summary>Keigo <span class="badge">soon</span></summary>
+                <summary>Keigo</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Sonkeigo (respectful) <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Kenjougo (humble) <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n2keigosonkeigo">Sonkeigo (respectful)</button>
+                  <button class="deck" data-deck="n2keigokenjougo">Kenjougo (humble)</button>
                 </div>
               </details>
               <details class="sub">
-                <summary>Phrases &amp; Expressions <span class="badge">soon</span></summary>
+                <summary>Phrases &amp; Expressions</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Business conversation <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Written expression <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n2phrbusiness">Business conversation</button>
+                  <button class="deck" data-deck="n2phrwritten">Written expression</button>
                 </div>
               </details>
             </div>
@@ -286,27 +294,30 @@
                 </div>
               </details>
               <details class="sub">
-                <summary>Grammar Patterns <span class="badge">soon</span></summary>
+                <summary>Grammar Patterns</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>All N1 Grammar <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Advanced structures <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Literary &amp; written grammar <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n1gram">All N1 Grammar</button>
+                  <button class="deck" data-deck="n1gramadvanced">Advanced structures</button>
+                  <button class="deck" data-deck="n1gramliterary">Literary &amp; written grammar</button>
                 </div>
               </details>
               <details class="sub">
-                <summary>Keigo <span class="badge">soon</span></summary>
+                <summary>Keigo</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Advanced Keigo <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Nuanced honorifics <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n1keigoadvanced">Advanced Keigo</button>
+                  <button class="deck" data-deck="n1keigonuanced">Nuanced honorifics</button>
                 </div>
               </details>
               <details class="sub">
-                <summary>Phrases &amp; Expressions <span class="badge">soon</span></summary>
+                <summary>Phrases &amp; Expressions</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Formal &amp; literary expression <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Nuanced communication <span class="badge">soon</span></button>
+                  <button class="deck" data-deck="n1phrformal">Formal &amp; literary expression</button>
+                  <button class="deck" data-deck="n1phrnuanced">Nuanced communication</button>
                 </div>
               </details>
+            </div>
+          </details>
+
             </div>
           </details>
 
@@ -316,6 +327,10 @@
       <details class="root">
         <summary>🎮 Game <span class="badge play">play</span></summary>
         <div class="root-group">
+
+          <details class="cat jp-group">
+            <summary>Japanese</summary>
+            <div class="group">
 
           <details class="cat">
             <summary>📦 N5 — Beginner</summary>
@@ -346,15 +361,7 @@
                   <button class="deck" data-game="n5adverbs">Adverbs <span class="badge play">▶</span></button>
                 </div>
               </details>
-              <details class="sub">
-                <summary>Grammar Patterns <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>All N5 Grammar <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Basic sentence structure <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Question forms <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Negative forms <span class="badge">soon</span></button>
-                </div>
-              </details>
+
               <details class="sub">
                 <summary>Particles</summary>
                 <div class="items">
@@ -362,20 +369,20 @@
                 </div>
               </details>
               <details class="sub">
-                <summary>Numbers &amp; Counters <span class="badge">soon</span></summary>
+                <summary>Numbers &amp; Counters</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Basic numbers <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Dates &amp; Time <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Common counters <span class="badge">soon</span></button>
+                  <button class="deck" data-game="n5numbers">Basic numbers <span class="badge play">▶</span></button>
+                  <button class="deck" data-game="n5datetime">Dates &amp; Time <span class="badge play">▶</span></button>
+                  <button class="deck" data-game="n5counters">Common counters <span class="badge play">▶</span></button>
                 </div>
               </details>
               <details class="sub">
-                <summary>Phrases &amp; Expressions <span class="badge">soon</span></summary>
+                <summary>Phrases &amp; Expressions</summary>
                 <div class="items">
-                  <button class="deck soon" disabled>Greetings <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Introductions <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Classroom phrases <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Shopping basics <span class="badge">soon</span></button>
+                  <button class="deck" data-game="n5greetings">Greetings <span class="badge play">▶</span></button>
+                  <button class="deck" data-game="n5intro">Introductions <span class="badge play">▶</span></button>
+                  <button class="deck" data-game="n5classroom">Classroom phrases <span class="badge play">▶</span></button>
+                  <button class="deck" data-game="n5shopping">Shopping basics <span class="badge play">▶</span></button>
                 </div>
               </details>
             </div>
@@ -585,6 +592,9 @@
             </div>
           </details>
 
+            </div>
+          </details>
+
         </div>
       </details>
 
@@ -599,12 +609,51 @@
       </details>
 
     </nav>
-    <button class="tutorial-replay" id="tutorialReplay" title="Replay the intro tutorial">↻ Show tutorial again</button>
+    <button class="tutorial-replay" id="tutorialReplay" title="Replay the feature tour">✨ Take the tour</button>
   </aside>
 
   <main class="main">
   <h1>Anpi</h1>
   <div class="subtitle">Japanese language learning · flashcards, games &amp; more</div>
+
+  <div id="homeView" hidden>
+    <div class="home-hero">
+      <div class="home-brand">ようこそ</div>
+      <h1 class="home-title">Welcome to Anpi</h1>
+      <p class="home-desc">Anpi helps you learn Japanese from zero — reading (hiragana &amp; katakana), kanji,
+        and vocabulary — through flashcards, a fast-paced typing game, and a guided, in-depth curriculum.
+        Open the <b>☰</b> menu (top-left) to browse decks and games, or pick a starting point below.</p>
+      <div class="home-actions">
+        <button id="homeLearn" class="primary">🎓 Start the guided path</button>
+        <button id="homeStudy">📚 Browse flashcards</button>
+        <button id="homeGame">🎮 Play games</button>
+        <button id="homeLeaderboard">🏆 Leaderboards</button>
+        <button id="homeStats">🏅 My Stats</button>
+        <button id="homeTour" class="ghost">✨ Take the tour</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="statsView" hidden>
+    <div class="lb-page lb-retro">
+      <div class="lb-page-head">
+        <h2>🏅 MY STATS</h2>
+        <button id="statsBackHome" class="ghost">← Home</button>
+      </div>
+      <div id="statsBody"></div>
+    </div>
+  </div>
+
+  <div id="leaderboardView" hidden>
+    <div class="lb-page">
+      <div class="lb-page-head">
+        <h2>🏆 Global Leaderboard</h2>
+        <button id="lbBackHome" class="ghost">← Home</button>
+      </div>
+      <p class="lb-page-sub">Top scores across every deck and difficulty. Filter by mode, and sign in &amp; play to claim a spot.</p>
+      <div id="leaderboardBody" class="leaderboard"></div>
+    </div>
+  </div>
 
   <div id="studyView">
   <div class="controls">
@@ -661,8 +710,8 @@
         <div class="zone zone-center" id="zoneCenter"></div>
         <div class="zone zone-right" id="zoneRight"><span class="zone-arrow">›</span></div>
       </div>
-      <!-- Pronunciation temporarily disabled — greyed out with an "Audio coming soon" tooltip -->
-      <button class="speaker-btn disabled" id="speakerBtn" data-tip="Audio coming soon" aria-label="Audio coming soon" aria-disabled="true" hidden>🔊</button>
+      <!-- Pronunciation — speaks the term via the browser's Japanese voice -->
+      <button class="speaker-btn" id="speakerBtn" title="Hear pronunciation" aria-label="Hear pronunciation" hidden>🔊</button>
       <!-- First-visit tutorial overlay (auto-plays over the card) -->
       <div class="tutorial" id="tutorial" hidden>
         <div class="tut-highlight"></div>
@@ -701,6 +750,10 @@
         <span><span class="dia-key dak"></span> dakuten ゛</span>
         <span><span class="dia-key han"></span> handakuten ゜</span>
       </div>
+      <div class="fp-divider"></div>
+      <div class="field-panel-title">Audio 🔊</div>
+      <label class="fp-checkline"><input type="checkbox" id="autoSpeakChk"> Auto-play pronunciation on flip</label>
+      <div class="fp-opt-label" id="ttsUnavailable" hidden>Using online audio (no Japanese voice installed). For offline, higher-quality sound, install a Japanese voice in your OS language settings.</div>
     </div>
   </aside>
   </div><!-- /study-row -->
@@ -710,10 +763,22 @@
     <!-- Placement: choose your starting level -->
     <div id="learnPlacement" class="learn-panel">
       <h2>🎓 Learn Japanese — from zero</h2>
+      <div class="learn-test-cta">
+        <button id="learnTestStart" class="ghost" disabled>📝 Take the placement test <span class="badge">coming soon</span></button>
+        <span class="learn-test-hint">A quick quiz to auto-place your level is on the way. For now, pick where you're starting below.</span>
+      </div>
       <p class="learn-intro">A guided path that teaches how the language actually works, step by step,
         and drills each piece with the flashcards and game. Pick where you're starting from —
         you can change this anytime, and nothing is ever locked.</p>
       <div id="learnLevels" class="learn-levels"></div>
+    </div>
+
+    <!-- Placement test -->
+    <div id="learnTest" class="learn-panel" hidden>
+      <button id="testBack" class="ghost">← Back</button>
+      <div class="learn-test-prog" id="testProg"></div>
+      <h2 id="testQ"></h2>
+      <div class="test-choices" id="testChoices"></div>
     </div>
 
     <!-- The path: ordered units grouped by stage -->
@@ -724,9 +789,14 @@
           <div class="learn-progress"><div id="learnProgressBar"></div></div>
           <div class="learn-progress-label" id="learnProgressLabel"></div>
         </div>
-        <button id="learnChangeLevel" class="ghost">Change level</button>
+        <div class="learn-head-btns">
+          <button id="learnViewToggle" class="ghost">☰ List</button>
+          <button id="learnChangeLevel" class="ghost">Change level</button>
+        </div>
       </div>
-      <div id="learnUnits"></div>
+      <div class="learn-placed" id="learnPlaced" hidden></div>
+      <div id="learnMap"></div>
+      <div id="learnUnits" hidden></div>
     </div>
 
     <!-- A single lesson -->
@@ -764,9 +834,11 @@
           </select>
         </label>
       </div>
+      <!-- Live preview of the game canvas with the ship idling, ready to launch -->
+      <canvas id="gamePreview" width="460" height="230"></canvas>
       <div class="picker-actions">
         <button id="deckPickerNext" class="primary">Continue →</button>
-        <button id="deckPickerBack" class="ghost">← Back to Study</button>
+        <button id="deckPickerBack" class="ghost">← Home</button>
         <button id="gameTutReplay" class="ghost">❓ How to play</button>
       </div>
     </div>
@@ -800,13 +872,14 @@
     <div id="endScreen" class="game-panel" hidden>
       <h2 id="endTitle">Game Over</h2>
       <div id="endStats"></div>
+      <div id="endLeaderboard" class="leaderboard" hidden></div>
       <h3>Top 5 missed &amp; mistyped</h3>
       <ol id="endMissed" class="report-list"></ol>
       <div class="end-actions">
         <button id="playAgain" class="primary">Play Again</button>
         <button id="changeMode">Change Mode</button>
         <button id="changeDeck">Change Deck</button>
-        <button id="endToStudy">Back to Study</button>
+        <button id="endToStudy">🏠 Home</button>
       </div>
     </div>
   </div>
@@ -866,6 +939,14 @@
       <div id="authLoggedIn" hidden>
         <div class="auth-user-label">Signed in as</div>
         <div class="auth-user" id="authUser"></div>
+        <label class="auth-label" for="authDisplayName">Username</label>
+        <div class="auth-name-row">
+          <input id="authDisplayName" class="auth-input" type="text" maxlength="24"
+                 autocomplete="off" placeholder="Pick a username">
+          <button id="saveNameBtn">Save</button>
+        </div>
+        <p class="auth-note">Your public name on global leaderboards. Your email is never shown.</p>
+        <div class="auth-badges" id="authBadges"></div>
         <div class="auth-actions">
           <button id="signOutBtn" class="primary">Sign Out</button>
         </div>
@@ -900,7 +981,9 @@
 
 <script src="lib/kanji.js"></script>
 <script src="lib/curriculum.js"></script>
+<script src="lib/japan-map.js"></script>
 <script src="app.js"></script>
 <script src="lib/supabase-sync.js"></script>
+<script src="lib/badges.js"></script>
 </body>
 </html>

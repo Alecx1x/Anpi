@@ -1,0 +1,224 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n4-verbs-teform.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n4-verbs-teform"]=[
+  {
+    "word": "書いて",
+    "reading": "かいて",
+    "romaji": "kaite",
+    "meaning": "write → 書いて (and / please)",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "ここに名前を書いてください。",
+    "exampleReading": "ここになまえをかいてください。",
+    "exampleMeaning": "Please write your name here.",
+    "level": "N4"
+  },
+  {
+    "word": "行って",
+    "reading": "いって",
+    "romaji": "itte",
+    "meaning": "go → 行って (irregular!)",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "銀行に行ってきます。",
+    "exampleReading": "ぎんこうにいってきます。",
+    "exampleMeaning": "I'll go to the bank (and come back).",
+    "level": "N4"
+  },
+  {
+    "word": "話して",
+    "reading": "はなして",
+    "romaji": "hanashite",
+    "meaning": "speak → 話して",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "もっとゆっくり話してください。",
+    "exampleReading": "もっとゆっくりはなしてください。",
+    "exampleMeaning": "Please speak more slowly.",
+    "level": "N4"
+  },
+  {
+    "word": "泳いで",
+    "reading": "およいで",
+    "romaji": "oyoide",
+    "meaning": "swim → 泳いで",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "海で泳いで、楽しかった。",
+    "exampleReading": "うみでおよいで、たのしかった。",
+    "exampleMeaning": "I swam in the sea and it was fun.",
+    "level": "N4"
+  },
+  {
+    "word": "待って",
+    "reading": "まって",
+    "romaji": "matte",
+    "meaning": "wait → 待って",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "ちょっと待ってください。",
+    "exampleReading": "ちょっとまってください。",
+    "exampleMeaning": "Please wait a moment.",
+    "level": "N4"
+  },
+  {
+    "word": "飲んで",
+    "reading": "のんで",
+    "romaji": "nonde",
+    "meaning": "drink → 飲んで",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "薬を飲んで寝た。",
+    "exampleReading": "くすりをのんでねた。",
+    "exampleMeaning": "I took my medicine and went to sleep.",
+    "level": "N4"
+  },
+  {
+    "word": "読んで",
+    "reading": "よんで",
+    "romaji": "yonde",
+    "meaning": "read → 読んで",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "本を読んで感想を書く。",
+    "exampleReading": "ほんをよんでかんそうをかく。",
+    "exampleMeaning": "I read a book and write my impressions.",
+    "level": "N4"
+  },
+  {
+    "word": "遊んで",
+    "reading": "あそんで",
+    "romaji": "asonde",
+    "meaning": "play → 遊んで",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "公園で遊んでいる。",
+    "exampleReading": "こうえんであそんでいる。",
+    "exampleMeaning": "They're playing in the park.",
+    "level": "N4"
+  },
+  {
+    "word": "買って",
+    "reading": "かって",
+    "romaji": "katte",
+    "meaning": "buy → 買って",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "パンを買ってきた。",
+    "exampleReading": "パンをかってきた。",
+    "exampleMeaning": "I went and bought some bread.",
+    "level": "N4"
+  },
+  {
+    "word": "使って",
+    "reading": "つかって",
+    "romaji": "tsukatte",
+    "meaning": "use → 使って",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "辞書を使って調べる。",
+    "exampleReading": "じしょをつかってしらべる。",
+    "exampleMeaning": "I look it up using a dictionary.",
+    "level": "N4"
+  },
+  {
+    "word": "帰って",
+    "reading": "かえって",
+    "romaji": "kaette",
+    "meaning": "return → 帰って",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "家に帰って休む。",
+    "exampleReading": "いえにかえってやすむ。",
+    "exampleMeaning": "I'll go home and rest.",
+    "level": "N4"
+  },
+  {
+    "word": "作って",
+    "reading": "つくって",
+    "romaji": "tsukutte",
+    "meaning": "make → 作って",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "料理を作って待っている。",
+    "exampleReading": "りょうりをつくってまっている。",
+    "exampleMeaning": "I'm making food and waiting.",
+    "level": "N4"
+  },
+  {
+    "word": "持って",
+    "reading": "もって",
+    "romaji": "motte",
+    "meaning": "hold → 持って",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "傘を持って出かける。",
+    "exampleReading": "かさをもってでかける。",
+    "exampleMeaning": "I'll take an umbrella and go out.",
+    "level": "N4"
+  },
+  {
+    "word": "呼んで",
+    "reading": "よんで",
+    "romaji": "yonde",
+    "meaning": "call → 呼んで",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "友達を呼んでパーティーをする。",
+    "exampleReading": "ともだちをよんでパーティーをする。",
+    "exampleMeaning": "I'll invite friends and have a party.",
+    "level": "N4"
+  },
+  {
+    "word": "急いで",
+    "reading": "いそいで",
+    "romaji": "isoide",
+    "meaning": "hurry → 急いで",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "急いで駅へ向かった。",
+    "exampleReading": "いそいでえきへむかった。",
+    "exampleMeaning": "I hurried toward the station.",
+    "level": "N4"
+  },
+  {
+    "word": "食べて",
+    "reading": "たべて",
+    "romaji": "tabete",
+    "meaning": "eat → 食べて",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "ご飯を食べて薬を飲む。",
+    "exampleReading": "ごはんをたべてくすりをのむ。",
+    "exampleMeaning": "I eat a meal and take my medicine.",
+    "level": "N4"
+  },
+  {
+    "word": "見て",
+    "reading": "みて",
+    "romaji": "mite",
+    "meaning": "watch → 見て",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "映画を見て泣いた。",
+    "exampleReading": "えいがをみてないた。",
+    "exampleMeaning": "I watched a movie and cried.",
+    "level": "N4"
+  },
+  {
+    "word": "起きて",
+    "reading": "おきて",
+    "romaji": "okite",
+    "meaning": "get up → 起きて",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "朝六時に起きて散歩する。",
+    "exampleReading": "あさろくじにおきてさんぽする。",
+    "exampleMeaning": "I get up at 6 a.m. and take a walk.",
+    "level": "N4"
+  },
+  {
+    "word": "して",
+    "reading": "して",
+    "romaji": "shite",
+    "meaning": "do → して",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "宿題をして寝た。",
+    "exampleReading": "しゅくだいをしてねた。",
+    "exampleMeaning": "I did my homework and went to bed.",
+    "level": "N4"
+  },
+  {
+    "word": "来て",
+    "reading": "きて",
+    "romaji": "kite",
+    "meaning": "come → 来て (きて)",
+    "partOfSpeech": "Verb (te-form)",
+    "exampleSentence": "友達が遊びに来て嬉しい。",
+    "exampleReading": "ともだちがあそびにきてうれしい。",
+    "exampleMeaning": "I'm happy my friend came to visit.",
+    "level": "N4"
+  }
+];

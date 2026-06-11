@@ -1,0 +1,200 @@
+[
+  {
+    "word": "言われる",
+    "reading": "いわれる",
+    "romaji": "iwareru",
+    "meaning": "be told/said → 言われる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "友達にうそつきだと言われた。",
+    "exampleReading": "ともだちにうそつきだといわれた。",
+    "exampleMeaning": "I was called a liar by my friend.",
+    "level": "N3"
+  },
+  {
+    "word": "呼ばれる",
+    "reading": "よばれる",
+    "romaji": "yobareru",
+    "meaning": "be called → 呼ばれる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "先生に名前を呼ばれた。",
+    "exampleReading": "せんせいになまえをよばれた。",
+    "exampleMeaning": "My name was called by the teacher.",
+    "level": "N3"
+  },
+  {
+    "word": "書かれる",
+    "reading": "かかれる",
+    "romaji": "kakareru",
+    "meaning": "be written → 書かれる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "壁に落書きを書かれた。",
+    "exampleReading": "かべにらくがきをかかれた。",
+    "exampleMeaning": "Graffiti was scrawled on my wall (on me).",
+    "level": "N3"
+  },
+  {
+    "word": "読まれる",
+    "reading": "よまれる",
+    "romaji": "yomareru",
+    "meaning": "be read → 読まれる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "日記を妹に読まれた。",
+    "exampleReading": "にっきをいもうとによまれた。",
+    "exampleMeaning": "My diary was read by my little sister.",
+    "level": "N3"
+  },
+  {
+    "word": "使われる",
+    "reading": "つかわれる",
+    "romaji": "tsukawareru",
+    "meaning": "be used → 使われる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "パソコンを勝手に使われた。",
+    "exampleReading": "パソコンをかってにつかわれた。",
+    "exampleMeaning": "My computer was used without permission.",
+    "level": "N3"
+  },
+  {
+    "word": "取られる",
+    "reading": "とられる",
+    "romaji": "torareru",
+    "meaning": "be taken → 取られる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "泥棒に財布を取られた。",
+    "exampleReading": "どろぼうにさいふをとられた。",
+    "exampleMeaning": "My wallet was taken by a thief.",
+    "level": "N3"
+  },
+  {
+    "word": "飲まれる",
+    "reading": "のまれる",
+    "romaji": "nomareru",
+    "meaning": "be drunk → 飲まれる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "ジュースを弟に飲まれた。",
+    "exampleReading": "ジュースをおとうとにのまれた。",
+    "exampleMeaning": "My juice was drunk by my little brother.",
+    "level": "N3"
+  },
+  {
+    "word": "踏まれる",
+    "reading": "ふまれる",
+    "romaji": "fumareru",
+    "meaning": "be stepped on → 踏まれる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "満員電車で足を踏まれた。",
+    "exampleReading": "まんいんでんしゃであしをふまれた。",
+    "exampleMeaning": "My foot was stepped on in the crowded train.",
+    "level": "N3"
+  },
+  {
+    "word": "笑われる",
+    "reading": "わらわれる",
+    "romaji": "warawareru",
+    "meaning": "be laughed at → 笑われる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "みんなに笑われた。",
+    "exampleReading": "みんなにわらわれた。",
+    "exampleMeaning": "I was laughed at by everyone.",
+    "level": "N3"
+  },
+  {
+    "word": "怒られる",
+    "reading": "おこられる",
+    "romaji": "okorareru",
+    "meaning": "be scolded → 怒られる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "遅刻して先生に怒られた。",
+    "exampleReading": "ちこくしてせんせいにおこられた。",
+    "exampleMeaning": "I was late and got scolded by the teacher.",
+    "level": "N3"
+  },
+  {
+    "word": "売られる",
+    "reading": "うられる",
+    "romaji": "urareru",
+    "meaning": "be sold → 売られる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "その絵は高く売られた。",
+    "exampleReading": "そのえはたかくうられた。",
+    "exampleMeaning": "That painting was sold for a high price.",
+    "level": "N3"
+  },
+  {
+    "word": "建てられる",
+    "reading": "たてられる",
+    "romaji": "taterareru",
+    "meaning": "be built → 建てられる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "駅前に新しいビルが建てられた。",
+    "exampleReading": "えきまえにあたらしいビルがたてられた。",
+    "exampleMeaning": "A new building was built in front of the station.",
+    "level": "N3"
+  },
+  {
+    "word": "食べられる",
+    "reading": "たべられる",
+    "romaji": "taberareru",
+    "meaning": "be eaten → 食べられる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "ケーキを猫に食べられた。",
+    "exampleReading": "ケーキをねこにたべられた。",
+    "exampleMeaning": "My cake was eaten by the cat.",
+    "level": "N3"
+  },
+  {
+    "word": "見られる",
+    "reading": "みられる",
+    "romaji": "mirareru",
+    "meaning": "be seen → 見られる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "泣いているところを見られた。",
+    "exampleReading": "ないているところをみられた。",
+    "exampleMeaning": "I was seen while crying.",
+    "level": "N3"
+  },
+  {
+    "word": "ほめられる",
+    "reading": "ほめられる",
+    "romaji": "homerareru",
+    "meaning": "be praised → ほめられる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "仕事を上司にほめられた。",
+    "exampleReading": "しごとをじょうしにほめられた。",
+    "exampleMeaning": "I was praised for my work by my boss.",
+    "level": "N3"
+  },
+  {
+    "word": "招待される",
+    "reading": "しょうたいされる",
+    "romaji": "shoutaisareru",
+    "meaning": "be invited → 招待される",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "結婚式に招待された。",
+    "exampleReading": "けっこんしきにしょうたいされた。",
+    "exampleMeaning": "I was invited to the wedding.",
+    "level": "N3"
+  },
+  {
+    "word": "注意される",
+    "reading": "ちゅういされる",
+    "romaji": "chuuisareru",
+    "meaning": "be warned → 注意される",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "店員に注意された。",
+    "exampleReading": "てんいんにちゅういされた。",
+    "exampleMeaning": "I was warned by the store clerk.",
+    "level": "N3"
+  },
+  {
+    "word": "来られる",
+    "reading": "こられる",
+    "romaji": "korareru",
+    "meaning": "be come (adversative) → 来られる",
+    "partOfSpeech": "Verb (passive / 受身)",
+    "exampleSentence": "忙しい時に友達に来られて困った。",
+    "exampleReading": "いそがしいときにともだちにこられてこまった。",
+    "exampleMeaning": "I was troubled by a friend coming when I was busy.",
+    "level": "N3"
+  }
+]

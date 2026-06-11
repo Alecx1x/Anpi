@@ -1,0 +1,156 @@
+[
+  {
+    "word": "について",
+    "reading": "",
+    "romaji": "ni tsuite",
+    "meaning": "about / concerning",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "趣味について話す。",
+    "exampleReading": "しゅみについてはなす。",
+    "exampleMeaning": "I talk about my hobbies.",
+    "level": "N4"
+  },
+  {
+    "word": "のために",
+    "reading": "",
+    "romaji": "no tame ni",
+    "meaning": "for the sake of / in order to",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "家族のために働く。",
+    "exampleReading": "かぞくのためにはたらく。",
+    "exampleMeaning": "I work for my family.",
+    "level": "N4"
+  },
+  {
+    "word": "のように",
+    "reading": "",
+    "romaji": "no you ni",
+    "meaning": "like / as",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "鳥のように飛びたい。",
+    "exampleReading": "とりのようにとびたい。",
+    "exampleMeaning": "I want to fly like a bird.",
+    "level": "N4"
+  },
+  {
+    "word": "みたいに",
+    "reading": "",
+    "romaji": "mitai ni",
+    "meaning": "like (casual)",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "子供みたいに笑う。",
+    "exampleReading": "こどもみたいにわらう。",
+    "exampleMeaning": "He laughs like a child.",
+    "level": "N4"
+  },
+  {
+    "word": "の代わりに",
+    "reading": "のかわりに",
+    "romaji": "no kawari ni",
+    "meaning": "instead of",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "父の代わりに私が行く。",
+    "exampleReading": "ちちのかわりにわたしがいく。",
+    "exampleMeaning": "I'll go instead of my father.",
+    "level": "N4"
+  },
+  {
+    "word": "のおかげで",
+    "reading": "",
+    "romaji": "no okage de",
+    "meaning": "thanks to (positive)",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "先生のおかげで合格した。",
+    "exampleReading": "せんせいのおかげでごうかくした。",
+    "exampleMeaning": "Thanks to my teacher, I passed.",
+    "level": "N4"
+  },
+  {
+    "word": "のせいで",
+    "reading": "",
+    "romaji": "no sei de",
+    "meaning": "because of (negative, blame)",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "雨のせいで遅れた。",
+    "exampleReading": "あめのせいでおくれた。",
+    "exampleMeaning": "I was late because of the rain.",
+    "level": "N4"
+  },
+  {
+    "word": "によって",
+    "reading": "",
+    "romaji": "ni yotte",
+    "meaning": "by / depending on",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "季節によって景色が変わる。",
+    "exampleReading": "きせつによってけしきがかわる。",
+    "exampleMeaning": "The scenery changes with the seasons.",
+    "level": "N4"
+  },
+  {
+    "word": "に対して",
+    "reading": "にたいして",
+    "romaji": "ni taishite",
+    "meaning": "toward / regarding",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "質問に対して答える。",
+    "exampleReading": "しつもんにたいしてこたえる。",
+    "exampleMeaning": "I answer the question.",
+    "level": "N4"
+  },
+  {
+    "word": "として",
+    "reading": "",
+    "romaji": "to shite",
+    "meaning": "as (in the role of)",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "代表として参加する。",
+    "exampleReading": "だいひょうとしてさんかする。",
+    "exampleMeaning": "I participate as a representative.",
+    "level": "N4"
+  },
+  {
+    "word": "にとって",
+    "reading": "",
+    "romaji": "ni totte",
+    "meaning": "for / to (from the view of)",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "私にとって難しい問題だ。",
+    "exampleReading": "わたしにとってむずかしいもんだいだ。",
+    "exampleMeaning": "It's a hard problem for me.",
+    "level": "N4"
+  },
+  {
+    "word": "とともに",
+    "reading": "",
+    "romaji": "to tomo ni",
+    "meaning": "together with / as",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "時間とともに変わる。",
+    "exampleReading": "じかんとともにかわる。",
+    "exampleMeaning": "It changes with time.",
+    "level": "N4"
+  },
+  {
+    "word": "に比べて",
+    "reading": "にくらべて",
+    "romaji": "ni kurabete",
+    "meaning": "compared to",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "去年に比べて暑い。",
+    "exampleReading": "きょねんにくらべてあつい。",
+    "exampleMeaning": "It's hot compared to last year.",
+    "level": "N4"
+  },
+  {
+    "word": "に関する",
+    "reading": "にかんする",
+    "romaji": "ni kansuru",
+    "meaning": "regarding / related to",
+    "partOfSpeech": "Particle",
+    "exampleSentence": "環境に関する本を読む。",
+    "exampleReading": "かんきょうにかんするほんをよむ。",
+    "exampleMeaning": "I read a book about the environment.",
+    "level": "N4"
+  }
+]

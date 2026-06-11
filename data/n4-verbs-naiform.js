@@ -1,0 +1,224 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n4-verbs-naiform.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n4-verbs-naiform"]=[
+  {
+    "word": "食べない",
+    "reading": "たべない",
+    "romaji": "tabenai",
+    "meaning": "don't eat → 食べない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "朝ごはんを食べない。",
+    "exampleReading": "あさごはんをたべない。",
+    "exampleMeaning": "I don't eat breakfast.",
+    "level": "N4"
+  },
+  {
+    "word": "見ない",
+    "reading": "みない",
+    "romaji": "minai",
+    "meaning": "don't watch → 見ない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "あまりテレビを見ない。",
+    "exampleReading": "あまりテレビをみない。",
+    "exampleMeaning": "I don't watch much TV.",
+    "level": "N4"
+  },
+  {
+    "word": "起きない",
+    "reading": "おきない",
+    "romaji": "okinai",
+    "meaning": "don't get up → 起きない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "休みの日は早く起きない。",
+    "exampleReading": "やすみのひははやくおきない。",
+    "exampleMeaning": "I don't get up early on days off.",
+    "level": "N4"
+  },
+  {
+    "word": "飲まない",
+    "reading": "のまない",
+    "romaji": "nomanai",
+    "meaning": "don't drink → 飲まない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "お酒を飲まない。",
+    "exampleReading": "おさけをのまない。",
+    "exampleMeaning": "I don't drink alcohol.",
+    "level": "N4"
+  },
+  {
+    "word": "読まない",
+    "reading": "よまない",
+    "romaji": "yomanai",
+    "meaning": "don't read → 読まない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "新聞を読まない。",
+    "exampleReading": "しんぶんをよまない。",
+    "exampleMeaning": "I don't read the newspaper.",
+    "level": "N4"
+  },
+  {
+    "word": "行かない",
+    "reading": "いかない",
+    "romaji": "ikanai",
+    "meaning": "don't go → 行かない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "今日は学校に行かない。",
+    "exampleReading": "きょうはがっこうにいかない。",
+    "exampleMeaning": "I'm not going to school today.",
+    "level": "N4"
+  },
+  {
+    "word": "書かない",
+    "reading": "かかない",
+    "romaji": "kakanai",
+    "meaning": "don't write → 書かない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "最近、日記を書かない。",
+    "exampleReading": "さいきん、にっきをかかない。",
+    "exampleMeaning": "I haven't been writing in my diary lately.",
+    "level": "N4"
+  },
+  {
+    "word": "話さない",
+    "reading": "はなさない",
+    "romaji": "hanasanai",
+    "meaning": "don't speak → 話さない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "彼はあまり話さない。",
+    "exampleReading": "かれはあまりはなさない。",
+    "exampleMeaning": "He doesn't talk much.",
+    "level": "N4"
+  },
+  {
+    "word": "泳がない",
+    "reading": "およがない",
+    "romaji": "oyoganai",
+    "meaning": "don't swim → 泳がない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "冬は海で泳がない。",
+    "exampleReading": "ふゆはうみでおよがない。",
+    "exampleMeaning": "I don't swim in the sea in winter.",
+    "level": "N4"
+  },
+  {
+    "word": "待たない",
+    "reading": "またない",
+    "romaji": "matanai",
+    "meaning": "don't wait → 待たない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "これ以上は待たない。",
+    "exampleReading": "これいじょうはまたない。",
+    "exampleMeaning": "I won't wait any longer.",
+    "level": "N4"
+  },
+  {
+    "word": "買わない",
+    "reading": "かわない",
+    "romaji": "kawanai",
+    "meaning": "don't buy → 買わない (u→wa!)",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "高いものは買わない。",
+    "exampleReading": "たかいものはかわない。",
+    "exampleMeaning": "I don't buy expensive things.",
+    "level": "N4"
+  },
+  {
+    "word": "使わない",
+    "reading": "つかわない",
+    "romaji": "tsukawanai",
+    "meaning": "don't use → 使わない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "この道具は使わない。",
+    "exampleReading": "このどうぐはつかわない。",
+    "exampleMeaning": "I don't use this tool.",
+    "level": "N4"
+  },
+  {
+    "word": "帰らない",
+    "reading": "かえらない",
+    "romaji": "kaeranai",
+    "meaning": "don't return → 帰らない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "今夜は帰らない。",
+    "exampleReading": "こんやはかえらない。",
+    "exampleMeaning": "I'm not coming home tonight.",
+    "level": "N4"
+  },
+  {
+    "word": "作らない",
+    "reading": "つくらない",
+    "romaji": "tsukuranai",
+    "meaning": "don't make → 作らない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "平日は料理を作らない。",
+    "exampleReading": "へいじつはりょうりをつくらない。",
+    "exampleMeaning": "I don't cook on weekdays.",
+    "level": "N4"
+  },
+  {
+    "word": "持たない",
+    "reading": "もたない",
+    "romaji": "motanai",
+    "meaning": "don't carry → 持たない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "現金を持たない。",
+    "exampleReading": "げんきんをもたない。",
+    "exampleMeaning": "I don't carry cash.",
+    "level": "N4"
+  },
+  {
+    "word": "呼ばない",
+    "reading": "よばない",
+    "romaji": "yobanai",
+    "meaning": "don't call → 呼ばない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "彼は呼ばない。",
+    "exampleReading": "かれはよばない。",
+    "exampleMeaning": "I won't invite him.",
+    "level": "N4"
+  },
+  {
+    "word": "急がない",
+    "reading": "いそがない",
+    "romaji": "isoganai",
+    "meaning": "don't hurry → 急がない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "時間があるから急がない。",
+    "exampleReading": "じかんがあるからいそがない。",
+    "exampleMeaning": "I won't rush since there's time.",
+    "level": "N4"
+  },
+  {
+    "word": "遊ばない",
+    "reading": "あそばない",
+    "romaji": "asobanai",
+    "meaning": "don't play → 遊ばない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "試験前は遊ばない。",
+    "exampleReading": "しけんまえはあそばない。",
+    "exampleMeaning": "I don't go out before exams.",
+    "level": "N4"
+  },
+  {
+    "word": "しない",
+    "reading": "しない",
+    "romaji": "shinai",
+    "meaning": "don't do → しない",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "週末は仕事をしない。",
+    "exampleReading": "しゅうまつはしごとをしない。",
+    "exampleMeaning": "I don't work on weekends.",
+    "level": "N4"
+  },
+  {
+    "word": "来ない",
+    "reading": "こない",
+    "romaji": "konai",
+    "meaning": "don't come → 来ない (こない)",
+    "partOfSpeech": "Verb (nai-form / plain neg.)",
+    "exampleSentence": "彼はパーティーに来ない。",
+    "exampleReading": "かれはパーティーにこない。",
+    "exampleMeaning": "He's not coming to the party.",
+    "level": "N4"
+  }
+];

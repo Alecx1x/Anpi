@@ -1,0 +1,180 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n3-keigo-teineigo.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n3-keigo-teineigo"]=[
+  {
+    "word": "〜です／〜ます",
+    "reading": "",
+    "romaji": "desu / masu",
+    "meaning": "polite sentence endings — the standard 丁寧語 register",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "私は学生です。毎日勉強します。",
+    "exampleReading": "わたしはがくせいです。まいにちべんきょうします。",
+    "exampleMeaning": "I'm a student. I study every day.",
+    "level": "N3"
+  },
+  {
+    "word": "でございます",
+    "reading": "",
+    "romaji": "de gozaimasu",
+    "meaning": "very polite \"to be\" (formal です)",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "こちらが受付でございます。",
+    "exampleReading": "こちらがうけつけでございます。",
+    "exampleMeaning": "This is the reception desk.",
+    "level": "N3"
+  },
+  {
+    "word": "ございます",
+    "reading": "",
+    "romaji": "gozaimasu",
+    "meaning": "polite \"there is / to have\" (formal ある)",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "ご質問がございますか。",
+    "exampleReading": "ごしつもんがございますか。",
+    "exampleMeaning": "Do you have any questions?",
+    "level": "N3"
+  },
+  {
+    "word": "お〜・ご〜（美化語）",
+    "reading": "",
+    "romaji": "o~ / go~",
+    "meaning": "beautifying polite prefix on nouns",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "お水とお茶をお持ちします。",
+    "exampleReading": "おみずとおちゃをおもちします。",
+    "exampleMeaning": "I'll bring water and tea.",
+    "level": "N3"
+  },
+  {
+    "word": "〜ております",
+    "reading": "",
+    "romaji": "te orimasu",
+    "meaning": "polite \"-ing / state\" (humble-polite ている)",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "ただいま確認しております。",
+    "exampleReading": "ただいまかくにんしております。",
+    "exampleMeaning": "I'm checking on it right now.",
+    "level": "N3"
+  },
+  {
+    "word": "よろしいでしょうか",
+    "reading": "",
+    "romaji": "yoroshii deshou ka",
+    "meaning": "\"would that be all right?\" (polite check)",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "こちらの席でよろしいでしょうか。",
+    "exampleReading": "こちらのせきでよろしいでしょうか。",
+    "exampleMeaning": "Would this seat be all right?",
+    "level": "N3"
+  },
+  {
+    "word": "〜ていただけますか",
+    "reading": "",
+    "romaji": "te itadakemasu ka",
+    "meaning": "\"could you please ~?\" (polite request)",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "少々お待ちいただけますか。",
+    "exampleReading": "しょうしょうおまちいただけますか。",
+    "exampleMeaning": "Could you please wait a moment?",
+    "level": "N3"
+  },
+  {
+    "word": "お願いいたします",
+    "reading": "おねがいいたします",
+    "romaji": "onegai itashimasu",
+    "meaning": "\"please / I kindly ask\"",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "よろしくお願いいたします。",
+    "exampleReading": "よろしくおねがいいたします。",
+    "exampleMeaning": "Thank you in advance for your help.",
+    "level": "N3"
+  },
+  {
+    "word": "失礼します",
+    "reading": "しつれいします",
+    "romaji": "shitsurei shimasu",
+    "meaning": "\"excuse me / pardon me\"",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "お先に失礼します。",
+    "exampleReading": "おさきにしつれいします。",
+    "exampleMeaning": "Please excuse me for leaving first.",
+    "level": "N3"
+  },
+  {
+    "word": "かしこまりました",
+    "reading": "",
+    "romaji": "kashikomarimashita",
+    "meaning": "\"certainly\" (polite acknowledgment)",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "かしこまりました。すぐにお持ちします。",
+    "exampleReading": "かしこまりました。すぐにおもちします。",
+    "exampleMeaning": "Certainly. I'll bring it right away.",
+    "level": "N3"
+  },
+  {
+    "word": "承知しました",
+    "reading": "しょうちしました",
+    "romaji": "shouchi shimashita",
+    "meaning": "\"understood / noted\" (business polite)",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "承知しました。明日対応いたします。",
+    "exampleReading": "しょうちしました。あしたたいおういたします。",
+    "exampleMeaning": "Understood. I'll take care of it tomorrow.",
+    "level": "N3"
+  },
+  {
+    "word": "恐れ入りますが",
+    "reading": "おそれいりますが",
+    "romaji": "osore irimasu ga",
+    "meaning": "\"I'm sorry to trouble you, but\"",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "恐れ入りますが、お名前をお願いします。",
+    "exampleReading": "おそれいりますが、おなまえをおねがいします。",
+    "exampleMeaning": "Excuse me, but may I have your name?",
+    "level": "N3"
+  },
+  {
+    "word": "〜でしょうか",
+    "reading": "",
+    "romaji": "deshou ka",
+    "meaning": "polite, softened question ending",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "何時にお会いできるでしょうか。",
+    "exampleReading": "なんじにおあいできるでしょうか。",
+    "exampleMeaning": "What time could we meet?",
+    "level": "N3"
+  },
+  {
+    "word": "お〜ください",
+    "reading": "",
+    "romaji": "o~ kudasai",
+    "meaning": "polite request form",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "こちらにお掛けください。",
+    "exampleReading": "こちらにおかけください。",
+    "exampleMeaning": "Please have a seat here.",
+    "level": "N3"
+  },
+  {
+    "word": "少々お待ちください",
+    "reading": "しょうしょうおまちください",
+    "romaji": "shoushou omachi kudasai",
+    "meaning": "\"please wait a moment\"",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "少々お待ちください。",
+    "exampleReading": "しょうしょうおまちください。",
+    "exampleMeaning": "Please wait just a moment.",
+    "level": "N3"
+  },
+  {
+    "word": "どうぞ",
+    "reading": "",
+    "romaji": "douzo",
+    "meaning": "\"please / go ahead\" (offering)",
+    "partOfSpeech": "Keigo (teineigo)",
+    "exampleSentence": "どうぞお入りください。",
+    "exampleReading": "どうぞおはいりください。",
+    "exampleMeaning": "Please, come in.",
+    "level": "N3"
+  }
+];

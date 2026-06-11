@@ -1,0 +1,189 @@
+[
+  {
+    "word": "飲ませられる",
+    "reading": "のませられる",
+    "romaji": "nomaserareru",
+    "meaning": "be made to drink → 飲ませられる (colloq. 飲まされる)",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "先輩にお酒を飲ませられた。",
+    "exampleReading": "せんぱいにおさけをのませられた。",
+    "exampleMeaning": "I was made to drink alcohol by my senior.",
+    "level": "N3"
+  },
+  {
+    "word": "待たせられる",
+    "reading": "またせられる",
+    "romaji": "mataserareru",
+    "meaning": "be made to wait → 待たせられる (待たされる)",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "一時間も待たせられた。",
+    "exampleReading": "いちじかんもまたせられた。",
+    "exampleMeaning": "I was made to wait a whole hour.",
+    "level": "N3"
+  },
+  {
+    "word": "行かせられる",
+    "reading": "いかせられる",
+    "romaji": "ikaserareru",
+    "meaning": "be made to go → 行かせられる (行かされる)",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "母に買い物に行かせられた。",
+    "exampleReading": "ははにかいものにいかせられた。",
+    "exampleMeaning": "I was made to go shopping by my mother.",
+    "level": "N3"
+  },
+  {
+    "word": "書かせられる",
+    "reading": "かかせられる",
+    "romaji": "kakaserareru",
+    "meaning": "be made to write → 書かせられる (書かされる)",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "反省文を書かせられた。",
+    "exampleReading": "はんせいぶんをかかせられた。",
+    "exampleMeaning": "I was made to write a letter of apology.",
+    "level": "N3"
+  },
+  {
+    "word": "読ませられる",
+    "reading": "よませられる",
+    "romaji": "yomaserareru",
+    "meaning": "be made to read → 読ませられる (読まされる)",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "大勢の前で読ませられた。",
+    "exampleReading": "おおぜいのまえでよませられた。",
+    "exampleMeaning": "I was made to read in front of a crowd.",
+    "level": "N3"
+  },
+  {
+    "word": "払わせられる",
+    "reading": "はらわせられる",
+    "romaji": "harawaserareru",
+    "meaning": "be made to pay → 払わせられる (払わされる)",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "高い料金を払わせられた。",
+    "exampleReading": "たかいりょうきんをはらわせられた。",
+    "exampleMeaning": "I was made to pay a high fee.",
+    "level": "N3"
+  },
+  {
+    "word": "歌わせられる",
+    "reading": "うたわせられる",
+    "romaji": "utawaserareru",
+    "meaning": "be made to sing → 歌わせられる (歌わされる)",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "カラオケで歌わせられた。",
+    "exampleReading": "カラオケでうたわせられた。",
+    "exampleMeaning": "I was made to sing at karaoke.",
+    "level": "N3"
+  },
+  {
+    "word": "立たせられる",
+    "reading": "たたせられる",
+    "romaji": "tataserareru",
+    "meaning": "be made to stand → 立たせられる (立たされる)",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "廊下に立たせられた。",
+    "exampleReading": "ろうかにたたせられた。",
+    "exampleMeaning": "I was made to stand in the hallway.",
+    "level": "N3"
+  },
+  {
+    "word": "働かせられる",
+    "reading": "はたらかせられる",
+    "romaji": "hatarakaserareru",
+    "meaning": "be made to work → 働かせられる (働かされる)",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "休みの日も働かせられた。",
+    "exampleReading": "やすみのひもはたらかせられた。",
+    "exampleMeaning": "I was made to work even on my days off.",
+    "level": "N3"
+  },
+  {
+    "word": "手伝わせられる",
+    "reading": "てつだわせられる",
+    "romaji": "tetsudawaserareru",
+    "meaning": "be made to help → 手伝わせられる",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "友達の引っ越しを手伝わせられた。",
+    "exampleReading": "ともだちのひっこしをてつだわせられた。",
+    "exampleMeaning": "I was made to help with my friend's move.",
+    "level": "N3"
+  },
+  {
+    "word": "食べさせられる",
+    "reading": "たべさせられる",
+    "romaji": "tabesaserareru",
+    "meaning": "be made to eat → 食べさせられる",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "嫌いな野菜を食べさせられた。",
+    "exampleReading": "きらいなやさいをたべさせられた。",
+    "exampleMeaning": "I was made to eat vegetables I dislike.",
+    "level": "N3"
+  },
+  {
+    "word": "覚えさせられる",
+    "reading": "おぼえさせられる",
+    "romaji": "oboesaserareru",
+    "meaning": "be made to memorize → 覚えさせられる",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "たくさんの漢字を覚えさせられた。",
+    "exampleReading": "たくさんのかんじをおぼえさせられた。",
+    "exampleMeaning": "I was made to memorize a lot of kanji.",
+    "level": "N3"
+  },
+  {
+    "word": "やめさせられる",
+    "reading": "やめさせられる",
+    "romaji": "yamesaserareru",
+    "meaning": "be forced to quit → やめさせられる",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "会社をやめさせられた。",
+    "exampleReading": "かいしゃをやめさせられた。",
+    "exampleMeaning": "I was forced to quit the company.",
+    "level": "N3"
+  },
+  {
+    "word": "勉強させられる",
+    "reading": "べんきょうさせられる",
+    "romaji": "benkyousaserareru",
+    "meaning": "be made to study → 勉強させられる",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "親に英語を勉強させられた。",
+    "exampleReading": "おやにえいごをべんきょうさせられた。",
+    "exampleMeaning": "I was made to study English by my parents.",
+    "level": "N3"
+  },
+  {
+    "word": "練習させられる",
+    "reading": "れんしゅうさせられる",
+    "romaji": "renshuusaserareru",
+    "meaning": "be made to practice → 練習させられる",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "毎日遅くまで練習させられた。",
+    "exampleReading": "まいにちおそくまでれんしゅうさせられた。",
+    "exampleMeaning": "I was made to practice late every day.",
+    "level": "N3"
+  },
+  {
+    "word": "させられる",
+    "reading": "させられる",
+    "romaji": "saserareru",
+    "meaning": "be made to do → させられる",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "つまらない仕事をさせられた。",
+    "exampleReading": "つまらないしごとをさせられた。",
+    "exampleMeaning": "I was made to do boring work.",
+    "level": "N3"
+  },
+  {
+    "word": "来させられる",
+    "reading": "こさせられる",
+    "romaji": "kosaserareru",
+    "meaning": "be made to come → 来させられる (こさせられる)",
+    "partOfSpeech": "Verb (causative-passive / 使役受身)",
+    "exampleSentence": "休日に会社に来させられた。",
+    "exampleReading": "きゅうじつにかいしゃにこさせられた。",
+    "exampleMeaning": "I was made to come to the office on my day off.",
+    "level": "N3"
+  }
+]

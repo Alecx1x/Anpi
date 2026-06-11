@@ -1,0 +1,114 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n5-classroom.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n5-classroom"]=[
+  {
+    "word": "わかりました",
+    "reading": "",
+    "romaji": "wakarimashita",
+    "meaning": "I understand / understood",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "わかりません",
+    "reading": "",
+    "romaji": "wakarimasen",
+    "meaning": "I don't understand",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "もう一度おねがいします",
+    "reading": "もういちどおねがいします",
+    "romaji": "mou ichido onegaishimasu",
+    "meaning": "Once more, please",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "ちょっと待ってください",
+    "reading": "ちょっとまってください",
+    "romaji": "chotto matte kudasai",
+    "meaning": "Please wait a moment",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "質問があります",
+    "reading": "しつもんがあります",
+    "romaji": "shitsumon ga arimasu",
+    "meaning": "I have a question",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "〜は何ですか",
+    "reading": "〜はなんですか",
+    "romaji": "... wa nan desu ka",
+    "meaning": "What is ...?",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "聞いてください",
+    "reading": "きいてください",
+    "romaji": "kiite kudasai",
+    "meaning": "Please listen",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "見てください",
+    "reading": "みてください",
+    "romaji": "mite kudasai",
+    "meaning": "Please look",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "読んでください",
+    "reading": "よんでください",
+    "romaji": "yonde kudasai",
+    "meaning": "Please read",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "書いてください",
+    "reading": "かいてください",
+    "romaji": "kaite kudasai",
+    "meaning": "Please write",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  }
+];

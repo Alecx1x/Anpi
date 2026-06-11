@@ -1,0 +1,169 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n3-phrases-formal.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n3-phrases-formal"]=[
+  {
+    "word": "失礼ですが",
+    "reading": "しつれいですが",
+    "romaji": "shitsurei desu ga",
+    "meaning": "\"excuse me, but ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "失礼ですが、お名前は?",
+    "exampleReading": "しつれいですが、おなまえは?",
+    "exampleMeaning": "Excuse me, but your name is?",
+    "level": "N3"
+  },
+  {
+    "word": "恐れ入りますが",
+    "reading": "おそれいりますが",
+    "romaji": "osore irimasu ga",
+    "meaning": "\"I'm sorry to trouble you, but\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "恐れ入りますが、少々お待ちください。",
+    "exampleReading": "おそれいりますが、しょうしょうおまちください。",
+    "exampleMeaning": "Sorry to trouble you, but please wait a moment.",
+    "level": "N3"
+  },
+  {
+    "word": "お忙しいところ",
+    "reading": "おいそがしいところ",
+    "romaji": "o-isogashii tokoro",
+    "meaning": "\"(sorry) while you're busy\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "お忙しいところ、すみません。",
+    "exampleReading": "おいそがしいところ、すみません。",
+    "exampleMeaning": "Sorry to bother you when you're busy.",
+    "level": "N3"
+  },
+  {
+    "word": "よろしければ",
+    "reading": "",
+    "romaji": "yoroshikereba",
+    "meaning": "\"if you'd like\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "よろしければ、ご案内します。",
+    "exampleReading": "よろしければ、ごあんないします。",
+    "exampleMeaning": "If you'd like, I'll show you around.",
+    "level": "N3"
+  },
+  {
+    "word": "差し支えなければ",
+    "reading": "さしつかえなければ",
+    "romaji": "sashitsukae nakereba",
+    "meaning": "\"if it's not inconvenient\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "差し支えなければ、ご連絡先を。",
+    "exampleReading": "さしつかえなければ、ごれんらくさきを。",
+    "exampleMeaning": "If you don't mind, your contact details, please.",
+    "level": "N3"
+  },
+  {
+    "word": "お言葉に甘えて",
+    "reading": "おことばにあまえて",
+    "romaji": "o-kotoba ni amaete",
+    "meaning": "\"taking you up on your kind offer\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "お言葉に甘えて、いただきます。",
+    "exampleReading": "おことばにあまえて、いただきます。",
+    "exampleMeaning": "I'll gladly accept your kind offer.",
+    "level": "N3"
+  },
+  {
+    "word": "おかげさまで",
+    "reading": "",
+    "romaji": "okagesama de",
+    "meaning": "\"thanks to you\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "おかげさまで、うまくいきました。",
+    "exampleReading": "おかげさまで、うまくいきました。",
+    "exampleMeaning": "Thanks to you, it went well.",
+    "level": "N3"
+  },
+  {
+    "word": "ご無沙汰しております",
+    "reading": "ごぶさたしております",
+    "romaji": "gobusata shite orimasu",
+    "meaning": "\"it's been a long time\" (formal)",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "ご無沙汰しております。",
+    "exampleReading": "ごぶさたしております。",
+    "exampleMeaning": "It's been a while.",
+    "level": "N3"
+  },
+  {
+    "word": "申し訳ございません",
+    "reading": "もうしわけございません",
+    "romaji": "moushiwake gozaimasen",
+    "meaning": "\"I'm very sorry\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "ご迷惑をおかけし、申し訳ございません。",
+    "exampleReading": "ごめいわくをおかけし、もうしわけございません。",
+    "exampleMeaning": "I'm very sorry for the inconvenience.",
+    "level": "N3"
+  },
+  {
+    "word": "お手数をおかけします",
+    "reading": "おてすうをおかけします",
+    "romaji": "otesuu o okake shimasu",
+    "meaning": "\"sorry for the trouble I'm causing\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "お手数をおかけしますが、よろしくお願いします。",
+    "exampleReading": "おてすうをおかけしますが、よろしくおねがいします。",
+    "exampleMeaning": "Sorry for the trouble; thank you in advance.",
+    "level": "N3"
+  },
+  {
+    "word": "〜と申します",
+    "reading": "〜ともうします",
+    "romaji": "to moushimasu",
+    "meaning": "\"my name is ~\" (humble)",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "ABC社の田中と申します。",
+    "exampleReading": "エービーシーしゃのたなかともうします。",
+    "exampleMeaning": "I'm Tanaka from ABC Company.",
+    "level": "N3"
+  },
+  {
+    "word": "失礼いたします",
+    "reading": "しつれいいたします",
+    "romaji": "shitsurei itashimasu",
+    "meaning": "\"excuse me\" (formal, entering/leaving)",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "それでは、失礼いたします。",
+    "exampleReading": "それでは、しつれいいたします。",
+    "exampleMeaning": "Well then, please excuse me.",
+    "level": "N3"
+  },
+  {
+    "word": "ご迷惑をおかけしました",
+    "reading": "ごめいわくをおかけしました",
+    "romaji": "go-meiwaku o okake shimashita",
+    "meaning": "\"sorry for the inconvenience caused\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "この度はご迷惑をおかけしました。",
+    "exampleReading": "このたびはごめいわくをおかけしました。",
+    "exampleMeaning": "I apologize for the inconvenience this time.",
+    "level": "N3"
+  },
+  {
+    "word": "何卒よろしくお願いします",
+    "reading": "なにとぞよろしくおねがいします",
+    "romaji": "nanitozo yoroshiku onegai shimasu",
+    "meaning": "\"I sincerely ask for your kind help\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "何卒よろしくお願いします。",
+    "exampleReading": "なにとぞよろしくおねがいします。",
+    "exampleMeaning": "I humbly ask for your kind consideration.",
+    "level": "N3"
+  },
+  {
+    "word": "かしこまりました",
+    "reading": "",
+    "romaji": "kashikomarimashita",
+    "meaning": "\"certainly / understood\" (polite)",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "かしこまりました。",
+    "exampleReading": "かしこまりました。",
+    "exampleMeaning": "Certainly.",
+    "level": "N3"
+  }
+];

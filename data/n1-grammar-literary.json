@@ -1,0 +1,167 @@
+[
+  {
+    "word": "〜べし",
+    "reading": "",
+    "romaji": "beshi",
+    "meaning": "should / must (classical)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "学生は勉学に励むべし。",
+    "exampleReading": "がくせいはべんがくにはげむべし。",
+    "exampleMeaning": "Students should devote themselves to study.",
+    "level": "N1"
+  },
+  {
+    "word": "〜べからず",
+    "reading": "",
+    "romaji": "bekarazu",
+    "meaning": "must not (classical, on signs)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "ここに駐車するべからず。",
+    "exampleReading": "ここにちゅうしゃするべからず。",
+    "exampleMeaning": "Parking is forbidden here.",
+    "level": "N1"
+  },
+  {
+    "word": "〜ごとし / ごとく",
+    "reading": "",
+    "romaji": "gotoshi / gotoku",
+    "meaning": "like / as (classical)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "光陰矢のごとし。",
+    "exampleReading": "こういんやのごとし。",
+    "exampleMeaning": "Time flies like an arrow.",
+    "level": "N1"
+  },
+  {
+    "word": "〜んばかり(に)",
+    "reading": "",
+    "romaji": "n bakari ni",
+    "meaning": "almost / as if about to",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "彼女は泣かんばかりの表情だった。",
+    "exampleReading": "かのじょはなかんばかりのひょうじょうだった。",
+    "exampleMeaning": "She had an almost-crying expression.",
+    "level": "N1"
+  },
+  {
+    "word": "〜まじき",
+    "reading": "",
+    "romaji": "majiki",
+    "meaning": "unbefitting / that should never be",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "それは教師にあるまじき行為だ。",
+    "exampleReading": "それはきょうしにあるまじきこういだ。",
+    "exampleMeaning": "That is conduct unbecoming of a teacher.",
+    "level": "N1"
+  },
+  {
+    "word": "〜ずして",
+    "reading": "",
+    "romaji": "zu shite",
+    "meaning": "without ~ing (literary)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "努力せずして成功はあり得ない。",
+    "exampleReading": "どりょくせずしてせいこうはありえない。",
+    "exampleMeaning": "There can be no success without effort.",
+    "level": "N1"
+  },
+  {
+    "word": "〜ずじまい",
+    "reading": "",
+    "romaji": "zu jimai",
+    "meaning": "ended up not ~ing",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "結局、彼に会えずじまいだった。",
+    "exampleReading": "けっきょく、かれにあえずじまいだった。",
+    "exampleMeaning": "In the end, I never got to meet him.",
+    "level": "N1"
+  },
+  {
+    "word": "〜いわんや",
+    "reading": "",
+    "romaji": "iwan ya",
+    "meaning": "let alone / much less",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "大人でも難しい。いわんや子供をや。",
+    "exampleReading": "おとなでもむずかしい。いわんやこどもをや。",
+    "exampleMeaning": "It's hard even for adults, let alone children.",
+    "level": "N1"
+  },
+  {
+    "word": "〜とて",
+    "reading": "",
+    "romaji": "tote",
+    "meaning": "even / even though (literary)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "子供とて、罪は罪だ。",
+    "exampleReading": "こどもとて、つみはつみだ。",
+    "exampleMeaning": "Even for a child, a crime is a crime.",
+    "level": "N1"
+  },
+  {
+    "word": "〜ものを",
+    "reading": "",
+    "romaji": "mono o",
+    "meaning": "if only ~ / and yet (regret)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "言ってくれれば手伝ったものを。",
+    "exampleReading": "いってくれればてつだったものを。",
+    "exampleMeaning": "If only you'd told me, I would have helped.",
+    "level": "N1"
+  },
+  {
+    "word": "〜ところを",
+    "reading": "",
+    "romaji": "tokoro o",
+    "meaning": "at a time when (polite set phrase)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "お忙しいところを、ありがとうございます。",
+    "exampleReading": "おいそがしいところを、ありがとうございます。",
+    "exampleMeaning": "Thank you, even though you're busy.",
+    "level": "N1"
+  },
+  {
+    "word": "〜とあれば",
+    "reading": "",
+    "romaji": "to areba",
+    "meaning": "if it's for ~ / if that's the case",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "子供のためとあれば、何でもする。",
+    "exampleReading": "こどものためとあれば、なんでもする。",
+    "exampleMeaning": "If it's for my child, I'll do anything.",
+    "level": "N1"
+  },
+  {
+    "word": "〜きらいがある",
+    "reading": "",
+    "romaji": "kirai ga aru",
+    "meaning": "have a (bad) tendency to",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "彼は物事を悲観的に考えるきらいがある。",
+    "exampleReading": "かれはものごとをひかんてきにかんがえるきらいがある。",
+    "exampleMeaning": "He has a tendency to think about things pessimistically.",
+    "level": "N1"
+  },
+  {
+    "word": "〜にあらず",
+    "reading": "",
+    "romaji": "ni arazu",
+    "meaning": "is not (classical)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "これは夢にあらず、現実だ。",
+    "exampleReading": "これはゆめにあらず、げんじつだ。",
+    "exampleMeaning": "This is not a dream; it is reality.",
+    "level": "N1"
+  },
+  {
+    "word": "〜んとする",
+    "reading": "",
+    "romaji": "n to suru",
+    "meaning": "be about to (literary)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "日が暮れんとしている。",
+    "exampleReading": "ひがくれんとしている。",
+    "exampleMeaning": "The day is about to draw to a close.",
+    "level": "N1"
+  }
+]

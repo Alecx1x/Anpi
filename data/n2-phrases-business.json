@@ -1,0 +1,178 @@
+[
+  {
+    "word": "お世話になっております",
+    "reading": "おせわになっております",
+    "romaji": "o-sewa ni natte orimasu",
+    "meaning": "\"thank you for your continued business\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "いつもお世話になっております。",
+    "exampleReading": "いつもおせわになっております。",
+    "exampleMeaning": "Thank you for your continued support.",
+    "level": "N2"
+  },
+  {
+    "word": "承知いたしました",
+    "reading": "しょうちいたしました",
+    "romaji": "shouchi itashimashita",
+    "meaning": "\"understood / certainly\" (humble)",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "承知いたしました。手配します。",
+    "exampleReading": "しょうちいたしました。てはいします。",
+    "exampleMeaning": "Understood. I'll arrange it.",
+    "level": "N2"
+  },
+  {
+    "word": "確認させていただきます",
+    "reading": "かくにんさせていただきます",
+    "romaji": "kakunin sasete itadakimasu",
+    "meaning": "\"allow me to confirm\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "内容を確認させていただきます。",
+    "exampleReading": "ないようをかくにんさせていただきます。",
+    "exampleMeaning": "Allow me to confirm the details.",
+    "level": "N2"
+  },
+  {
+    "word": "お手すきの際に",
+    "reading": "おてすきのさいに",
+    "romaji": "o-tesuki no sai ni",
+    "meaning": "\"when you have a moment\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "お手すきの際にご連絡ください。",
+    "exampleReading": "おてすきのさいにごれんらくください。",
+    "exampleMeaning": "Please contact me when you have a moment.",
+    "level": "N2"
+  },
+  {
+    "word": "ご検討ください",
+    "reading": "ごけんとうください",
+    "romaji": "go-kentou kudasai",
+    "meaning": "\"please consider it\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "前向きにご検討ください。",
+    "exampleReading": "まえむきにごけんとうください。",
+    "exampleMeaning": "Please give it your positive consideration.",
+    "level": "N2"
+  },
+  {
+    "word": "折り返しご連絡します",
+    "reading": "おりかえしごれんらくします",
+    "romaji": "orikaeshi go-renraku shimasu",
+    "meaning": "\"I'll get back to you\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "折り返しご連絡いたします。",
+    "exampleReading": "おりかえしごれんらくいたします。",
+    "exampleMeaning": "I'll call you back.",
+    "level": "N2"
+  },
+  {
+    "word": "お世話になります",
+    "reading": "おせわになります",
+    "romaji": "o-sewa ni narimasu",
+    "meaning": "\"thank you in advance\" (new contact)",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "この度はお世話になります。",
+    "exampleReading": "このたびはおせわになります。",
+    "exampleMeaning": "Thank you for your help on this matter.",
+    "level": "N2"
+  },
+  {
+    "word": "恐れ入りますが",
+    "reading": "おそれいりますが",
+    "romaji": "osore irimasu ga",
+    "meaning": "\"I'm sorry to trouble you, but\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "恐れ入りますが、ご確認をお願いします。",
+    "exampleReading": "おそれいりますが、ごかくにんをおねがいします。",
+    "exampleMeaning": "Sorry to trouble you, but please confirm.",
+    "level": "N2"
+  },
+  {
+    "word": "お忙しいところ恐縮ですが",
+    "reading": "おいそがしいところきょうしゅくですが",
+    "romaji": "o-isogashii tokoro kyoushuku desu ga",
+    "meaning": "\"sorry to bother you when busy, but\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "お忙しいところ恐縮ですが、お願いします。",
+    "exampleReading": "おいそがしいところきょうしゅくですが、おねがいします。",
+    "exampleMeaning": "Sorry to bother you when you're busy, but please.",
+    "level": "N2"
+  },
+  {
+    "word": "ご査収ください",
+    "reading": "ごさしゅうください",
+    "romaji": "go-sashuu kudasai",
+    "meaning": "\"please find enclosed and review\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "資料を添付します。ご査収ください。",
+    "exampleReading": "しりょうをてんぷします。ごさしゅうください。",
+    "exampleMeaning": "I've attached the documents; please review them.",
+    "level": "N2"
+  },
+  {
+    "word": "取り急ぎ",
+    "reading": "とりいそぎ",
+    "romaji": "toriisogi",
+    "meaning": "\"just a quick note / in haste\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "取り急ぎ、お礼まで。",
+    "exampleReading": "とりいそぎ、おれいまで。",
+    "exampleMeaning": "Just a quick note of thanks for now.",
+    "level": "N2"
+  },
+  {
+    "word": "〜の件ですが",
+    "reading": "〜のけんですが",
+    "romaji": "no ken desu ga",
+    "meaning": "\"regarding the matter of ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "先日の件ですが、いかがでしょうか。",
+    "exampleReading": "せんじつのけんですが、いかがでしょうか。",
+    "exampleMeaning": "Regarding the other day's matter, how is it going?",
+    "level": "N2"
+  },
+  {
+    "word": "お時間をいただけますか",
+    "reading": "おじかんをいただけますか",
+    "romaji": "o-jikan o itadakemasu ka",
+    "meaning": "\"could I have your time?\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "少しお時間をいただけますか。",
+    "exampleReading": "すこしおじかんをいただけますか。",
+    "exampleMeaning": "Could you spare me a moment?",
+    "level": "N2"
+  },
+  {
+    "word": "申し訳ございませんが",
+    "reading": "もうしわけございませんが",
+    "romaji": "moushiwake gozaimasen ga",
+    "meaning": "\"I'm terribly sorry, but ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "申し訳ございませんが、変更をお願いします。",
+    "exampleReading": "もうしわけございませんが、へんこうをおねがいします。",
+    "exampleMeaning": "I'm very sorry, but please make a change.",
+    "level": "N2"
+  },
+  {
+    "word": "お疲れ様です",
+    "reading": "おつかれさまです",
+    "romaji": "o-tsukaresama desu",
+    "meaning": "\"thank you for your work\" (workplace greeting)",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "お疲れ様です。会議の件です。",
+    "exampleReading": "おつかれさまです。かいぎのけんです。",
+    "exampleMeaning": "Hello. It's about the meeting.",
+    "level": "N2"
+  },
+  {
+    "word": "何卒よろしくお願い申し上げます",
+    "reading": "なにとぞよろしくおねがいもうしあげます",
+    "romaji": "nanitozo yoroshiku onegai moushiagemasu",
+    "meaning": "\"I humbly request your kind help\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "何卒よろしくお願い申し上げます。",
+    "exampleReading": "なにとぞよろしくおねがいもうしあげます。",
+    "exampleMeaning": "I sincerely ask for your kind consideration.",
+    "level": "N2"
+  }
+]

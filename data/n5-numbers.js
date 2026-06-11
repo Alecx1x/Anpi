@@ -1,0 +1,158 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n5-numbers.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n5-numbers"]=[
+  {
+    "word": "ゼロ",
+    "reading": "ゼロ",
+    "romaji": "zero",
+    "meaning": "zero (0); also 零 / れい",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "一",
+    "reading": "いち",
+    "romaji": "ichi",
+    "meaning": "one (1)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "二",
+    "reading": "に",
+    "romaji": "ni",
+    "meaning": "two (2)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "三",
+    "reading": "さん",
+    "romaji": "san",
+    "meaning": "three (3)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "四",
+    "reading": "よん",
+    "romaji": "yon",
+    "meaning": "four (4); also し (shi)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "五",
+    "reading": "ご",
+    "romaji": "go",
+    "meaning": "five (5)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "六",
+    "reading": "ろく",
+    "romaji": "roku",
+    "meaning": "six (6)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "七",
+    "reading": "なな",
+    "romaji": "nana",
+    "meaning": "seven (7); also しち (shichi)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "八",
+    "reading": "はち",
+    "romaji": "hachi",
+    "meaning": "eight (8)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "九",
+    "reading": "きゅう",
+    "romaji": "kyuu",
+    "meaning": "nine (9); also く (ku)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "十",
+    "reading": "じゅう",
+    "romaji": "juu",
+    "meaning": "ten (10)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "百",
+    "reading": "ひゃく",
+    "romaji": "hyaku",
+    "meaning": "hundred (100)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "千",
+    "reading": "せん",
+    "romaji": "sen",
+    "meaning": "thousand (1,000)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "万",
+    "reading": "まん",
+    "romaji": "man",
+    "meaning": "ten thousand (10,000)",
+    "partOfSpeech": "Number",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  }
+];

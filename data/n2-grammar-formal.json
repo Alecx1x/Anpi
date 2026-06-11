@@ -1,0 +1,167 @@
+[
+  {
+    "word": "〜ざるを得ない",
+    "reading": "",
+    "romaji": "zaru o enai",
+    "meaning": "cannot help but / be forced to",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "上司の命令だから、従わざるを得ない。",
+    "exampleReading": "じょうしのめいれいだから、したがわざるをえない。",
+    "exampleMeaning": "It's the boss's order, so I have no choice but to obey.",
+    "level": "N2"
+  },
+  {
+    "word": "〜ずにはいられない",
+    "reading": "",
+    "romaji": "zu ni wa irarenai",
+    "meaning": "can't help but ~",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "その映画を見ると泣かずにはいられない。",
+    "exampleReading": "そのえいがをみるとなかずにはいられない。",
+    "exampleMeaning": "I can't help crying when I watch that movie.",
+    "level": "N2"
+  },
+  {
+    "word": "〜得る / 得ない",
+    "reading": "",
+    "romaji": "uru / enai",
+    "meaning": "can possibly / cannot possibly",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "それも十分あり得る話だ。",
+    "exampleReading": "それもじゅうぶんありえるはなしだ。",
+    "exampleMeaning": "That's an entirely possible scenario.",
+    "level": "N2"
+  },
+  {
+    "word": "〜にすぎない",
+    "reading": "",
+    "romaji": "ni suginai",
+    "meaning": "no more than / merely",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "それは言い訳にすぎない。",
+    "exampleReading": "それはいいわけにすぎない。",
+    "exampleMeaning": "That's nothing more than an excuse.",
+    "level": "N2"
+  },
+  {
+    "word": "〜にほかならない",
+    "reading": "",
+    "romaji": "ni hoka naranai",
+    "meaning": "is nothing other than",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "成功は努力の結果にほかならない。",
+    "exampleReading": "せいこうはどりょくのけっかにほかならない。",
+    "exampleMeaning": "Success is nothing other than the result of effort.",
+    "level": "N2"
+  },
+  {
+    "word": "〜とは限らない",
+    "reading": "",
+    "romaji": "to wa kagiranai",
+    "meaning": "not necessarily",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "高いものがいいとは限らない。",
+    "exampleReading": "たかいものがいいとはかぎらない。",
+    "exampleMeaning": "Expensive things aren't necessarily good.",
+    "level": "N2"
+  },
+  {
+    "word": "〜わけではない",
+    "reading": "",
+    "romaji": "wake de wa nai",
+    "meaning": "it doesn't mean that ~",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "嫌いなわけではないが、好きでもない。",
+    "exampleReading": "きらいなわけではないが、すきでもない。",
+    "exampleMeaning": "It's not that I dislike it, but I don't like it either.",
+    "level": "N2"
+  },
+  {
+    "word": "〜というものだ",
+    "reading": "",
+    "romaji": "to iu mono da",
+    "meaning": "that's what ~ is / is simply",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "それは無理というものだ。",
+    "exampleReading": "それはむりというものだ。",
+    "exampleMeaning": "That's simply asking too much.",
+    "level": "N2"
+  },
+  {
+    "word": "〜であろう",
+    "reading": "",
+    "romaji": "de arou",
+    "meaning": "probably / surely (written)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "未来はもっと便利になるであろう。",
+    "exampleReading": "みらいはもっとべんりになるであろう。",
+    "exampleMeaning": "The future will surely become more convenient.",
+    "level": "N2"
+  },
+  {
+    "word": "〜ねばならない",
+    "reading": "",
+    "romaji": "neba naranai",
+    "meaning": "must (formal / literary)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "我々は努力せねばならない。",
+    "exampleReading": "われわれはどりょくせねばならない。",
+    "exampleMeaning": "We must make an effort.",
+    "level": "N2"
+  },
+  {
+    "word": "〜べく",
+    "reading": "",
+    "romaji": "beku",
+    "meaning": "in order to (formal)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "真実を知るべく調査を続けた。",
+    "exampleReading": "しんじつをしるべくちょうさをつづけた。",
+    "exampleMeaning": "He continued the investigation in order to learn the truth.",
+    "level": "N2"
+  },
+  {
+    "word": "〜とともに",
+    "reading": "",
+    "romaji": "to tomo ni",
+    "meaning": "along with / as",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "経済の発展とともに、生活が豊かになった。",
+    "exampleReading": "けいざいのはってんとともに、せいかつがゆたかになった。",
+    "exampleMeaning": "Along with economic development, life became richer.",
+    "level": "N2"
+  },
+  {
+    "word": "〜をもって",
+    "reading": "",
+    "romaji": "o motte",
+    "meaning": "as of / by means of (formal)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "本日をもって閉店いたします。",
+    "exampleReading": "ほんじつをもってへいてんいたします。",
+    "exampleMeaning": "We will be closing as of today.",
+    "level": "N2"
+  },
+  {
+    "word": "〜に際して",
+    "reading": "",
+    "romaji": "ni saishite",
+    "meaning": "on the occasion of (formal)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "卒業に際して、一言申し上げます。",
+    "exampleReading": "そつぎょうにさいして、ひとこともうしあげます。",
+    "exampleMeaning": "On the occasion of graduation, I'd like to say a few words.",
+    "level": "N2"
+  },
+  {
+    "word": "〜かのようだ",
+    "reading": "",
+    "romaji": "ka no you da",
+    "meaning": "as if / as though",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "彼はまるで何も知らないかのように振る舞った。",
+    "exampleReading": "かれはまるでなにもしらないかのようにふるまった。",
+    "exampleMeaning": "He behaved as if he knew nothing.",
+    "level": "N2"
+  }
+]

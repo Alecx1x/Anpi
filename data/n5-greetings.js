@@ -1,0 +1,136 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n5-greetings.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n5-greetings"]=[
+  {
+    "word": "おはようございます",
+    "reading": "",
+    "romaji": "ohayou gozaimasu",
+    "meaning": "Good morning (polite)",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "こんにちは",
+    "reading": "",
+    "romaji": "konnichiwa",
+    "meaning": "Hello / Good afternoon",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "こんばんは",
+    "reading": "",
+    "romaji": "konbanwa",
+    "meaning": "Good evening",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "さようなら",
+    "reading": "",
+    "romaji": "sayounara",
+    "meaning": "Goodbye",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "おやすみなさい",
+    "reading": "",
+    "romaji": "oyasuminasai",
+    "meaning": "Good night",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "ありがとうございます",
+    "reading": "",
+    "romaji": "arigatou gozaimasu",
+    "meaning": "Thank you",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "すみません",
+    "reading": "",
+    "romaji": "sumimasen",
+    "meaning": "Excuse me / I'm sorry",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "ごめんなさい",
+    "reading": "",
+    "romaji": "gomennasai",
+    "meaning": "I'm sorry",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "いただきます",
+    "reading": "",
+    "romaji": "itadakimasu",
+    "meaning": "(said before eating)",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "ごちそうさまでした",
+    "reading": "",
+    "romaji": "gochisousama deshita",
+    "meaning": "(said after eating)",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "はい",
+    "reading": "",
+    "romaji": "hai",
+    "meaning": "yes",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  },
+  {
+    "word": "いいえ",
+    "reading": "",
+    "romaji": "iie",
+    "meaning": "no",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "",
+    "exampleReading": "",
+    "exampleMeaning": "",
+    "level": "N5"
+  }
+];

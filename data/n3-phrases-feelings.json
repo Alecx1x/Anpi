@@ -1,0 +1,178 @@
+[
+  {
+    "word": "嬉しい",
+    "reading": "うれしい",
+    "romaji": "ureshii",
+    "meaning": "\"happy / glad\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "合格できて本当に嬉しい。",
+    "exampleReading": "ごうかくできてほんとうにうれしい。",
+    "exampleMeaning": "I'm really happy I passed.",
+    "level": "N3"
+  },
+  {
+    "word": "楽しみにしている",
+    "reading": "たのしみにしている",
+    "romaji": "tanoshimi ni shite iru",
+    "meaning": "\"looking forward to\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "旅行を楽しみにしている。",
+    "exampleReading": "りょこうをたのしみにしている。",
+    "exampleMeaning": "I'm looking forward to the trip.",
+    "level": "N3"
+  },
+  {
+    "word": "残念ながら",
+    "reading": "ざんねんながら",
+    "romaji": "zannen nagara",
+    "meaning": "\"unfortunately / regrettably\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "残念ながら、参加できません。",
+    "exampleReading": "ざんねんながら、さんかできません。",
+    "exampleMeaning": "Unfortunately, I can't attend.",
+    "level": "N3"
+  },
+  {
+    "word": "がっかりする",
+    "reading": "",
+    "romaji": "gakkari suru",
+    "meaning": "\"to be disappointed\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "結果にがっかりした。",
+    "exampleReading": "けっかにがっかりした。",
+    "exampleMeaning": "I was disappointed with the result.",
+    "level": "N3"
+  },
+  {
+    "word": "感動する",
+    "reading": "かんどうする",
+    "romaji": "kandou suru",
+    "meaning": "\"to be moved / touched\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "その映画に感動した。",
+    "exampleReading": "そのえいがにかんどうした。",
+    "exampleMeaning": "I was moved by that movie.",
+    "level": "N3"
+  },
+  {
+    "word": "安心する",
+    "reading": "あんしんする",
+    "romaji": "anshin suru",
+    "meaning": "\"to feel relieved\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "連絡が来て安心した。",
+    "exampleReading": "れんらくがきてあんしんした。",
+    "exampleMeaning": "I felt relieved when I got the message.",
+    "level": "N3"
+  },
+  {
+    "word": "心配する",
+    "reading": "しんぱいする",
+    "romaji": "shinpai suru",
+    "meaning": "\"to worry\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "試験の結果が心配だ。",
+    "exampleReading": "しけんのけっかがしんぱいだ。",
+    "exampleMeaning": "I'm worried about the exam results.",
+    "level": "N3"
+  },
+  {
+    "word": "緊張する",
+    "reading": "きんちょうする",
+    "romaji": "kinchou suru",
+    "meaning": "\"to be nervous\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "面接でとても緊張した。",
+    "exampleReading": "めんせつでとてもきんちょうした。",
+    "exampleMeaning": "I was very nervous in the interview.",
+    "level": "N3"
+  },
+  {
+    "word": "びっくりする",
+    "reading": "",
+    "romaji": "bikkuri suru",
+    "meaning": "\"to be surprised\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "突然のニュースにびっくりした。",
+    "exampleReading": "とつぜんのニュースにびっくりした。",
+    "exampleMeaning": "I was surprised by the sudden news.",
+    "level": "N3"
+  },
+  {
+    "word": "困っている",
+    "reading": "こまっている",
+    "romaji": "komatte iru",
+    "meaning": "\"to be troubled / in a bind\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "道に迷って困っている。",
+    "exampleReading": "みちにまよってこまっている。",
+    "exampleMeaning": "I'm lost and don't know what to do.",
+    "level": "N3"
+  },
+  {
+    "word": "〜てよかった",
+    "reading": "",
+    "romaji": "te yokatta",
+    "meaning": "\"I'm glad that ~\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "あなたに会えてよかった。",
+    "exampleReading": "あなたにあえてよかった。",
+    "exampleMeaning": "I'm glad I got to meet you.",
+    "level": "N3"
+  },
+  {
+    "word": "うらやましい",
+    "reading": "",
+    "romaji": "urayamashii",
+    "meaning": "\"envious / jealous\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "君がうらやましい。",
+    "exampleReading": "きみがうらやましい。",
+    "exampleMeaning": "I envy you.",
+    "level": "N3"
+  },
+  {
+    "word": "恥ずかしい",
+    "reading": "はずかしい",
+    "romaji": "hazukashii",
+    "meaning": "\"embarrassed / ashamed\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "みんなの前で間違えて恥ずかしい。",
+    "exampleReading": "みんなのまえでまちがえてはずかしい。",
+    "exampleMeaning": "I'm embarrassed for making a mistake in front of everyone.",
+    "level": "N3"
+  },
+  {
+    "word": "もったいない",
+    "reading": "",
+    "romaji": "mottainai",
+    "meaning": "\"wasteful / a shame\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "まだ使えるのに捨てるのはもったいない。",
+    "exampleReading": "まだつかえるのにすてるのはもったいない。",
+    "exampleMeaning": "It's a waste to throw it out when it still works.",
+    "level": "N3"
+  },
+  {
+    "word": "感謝している",
+    "reading": "かんしゃしている",
+    "romaji": "kansha shite iru",
+    "meaning": "\"to be grateful\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "心から感謝しています。",
+    "exampleReading": "こころからかんしゃしています。",
+    "exampleMeaning": "I'm grateful from the bottom of my heart.",
+    "level": "N3"
+  },
+  {
+    "word": "楽しかった",
+    "reading": "たのしかった",
+    "romaji": "tanoshikatta",
+    "meaning": "\"it was fun\"",
+    "partOfSpeech": "Expression",
+    "exampleSentence": "今日は本当に楽しかった。",
+    "exampleReading": "きょうはほんとうにたのしかった。",
+    "exampleMeaning": "Today was really fun.",
+    "level": "N3"
+  }
+]

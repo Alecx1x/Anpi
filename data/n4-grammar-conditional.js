@@ -1,0 +1,136 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n4-grammar-conditional.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n4-grammar-conditional"]=[
+  {
+    "word": "〜と (自然な結果)",
+    "reading": "",
+    "romaji": "to",
+    "meaning": "whenever / if (natural, inevitable result)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "春になると桜が咲く。",
+    "exampleReading": "はるになるとさくらがさく。",
+    "exampleMeaning": "When spring comes, the cherry blossoms bloom.",
+    "level": "N4"
+  },
+  {
+    "word": "〜ば",
+    "reading": "",
+    "romaji": "ba",
+    "meaning": "if (hypothetical condition)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "値段が安ければ買います。",
+    "exampleReading": "ねだんがやすければかいます。",
+    "exampleMeaning": "If the price is cheap, I'll buy it.",
+    "level": "N4"
+  },
+  {
+    "word": "〜なければ",
+    "reading": "",
+    "romaji": "nakereba",
+    "meaning": "if (one) doesn't ~",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "急がなければ間に合わない。",
+    "exampleReading": "いそがなければまにあわない。",
+    "exampleMeaning": "If we don't hurry, we won't make it in time.",
+    "level": "N4"
+  },
+  {
+    "word": "〜たら",
+    "reading": "",
+    "romaji": "tara",
+    "meaning": "if / when (once ~ happens)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "駅に着いたら電話してください。",
+    "exampleReading": "えきについたらでんわしてください。",
+    "exampleMeaning": "Please call me when you arrive at the station.",
+    "level": "N4"
+  },
+  {
+    "word": "〜なら",
+    "reading": "",
+    "romaji": "nara",
+    "meaning": "if it's the case that ~",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "日本へ行くなら京都がおすすめだ。",
+    "exampleReading": "にほんへいくならきょうとがおすすめだ。",
+    "exampleMeaning": "If you're going to Japan, I recommend Kyoto.",
+    "level": "N4"
+  },
+  {
+    "word": "〜たら (発見)",
+    "reading": "",
+    "romaji": "tara",
+    "meaning": "when ~ (and then discovered)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "家に帰ったら誰もいなかった。",
+    "exampleReading": "いえにかえったらだれもいなかった。",
+    "exampleMeaning": "When I got home, no one was there.",
+    "level": "N4"
+  },
+  {
+    "word": "〜ないと",
+    "reading": "",
+    "romaji": "nai to",
+    "meaning": "have to (lit. if (one) doesn't ~)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "もう行かないと遅れるよ。",
+    "exampleReading": "もういかないとおくれるよ。",
+    "exampleMeaning": "I have to go now or I'll be late.",
+    "level": "N4"
+  },
+  {
+    "word": "〜ば〜ほど",
+    "reading": "",
+    "romaji": "ba ~hodo",
+    "meaning": "the more ~, the more ~",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "練習すればするほど上手になる。",
+    "exampleReading": "れんしゅうすればするほどじょうずになる。",
+    "exampleMeaning": "The more you practice, the better you become.",
+    "level": "N4"
+  },
+  {
+    "word": "〜たらどうですか",
+    "reading": "",
+    "romaji": "tara dou desu ka",
+    "meaning": "why don't you ~? (suggestion)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "一度、医者に行ったらどうですか。",
+    "exampleReading": "いちど、いしゃにいったらどうですか。",
+    "exampleMeaning": "Why don't you go see a doctor?",
+    "level": "N4"
+  },
+  {
+    "word": "もし〜たら",
+    "reading": "",
+    "romaji": "moshi ~tara",
+    "meaning": "if (hypothetical, with 'moshi')",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "もし時間があったら手伝ってください。",
+    "exampleReading": "もしじかんがあったらてつだってください。",
+    "exampleMeaning": "If you have time, please help me.",
+    "level": "N4"
+  },
+  {
+    "word": "〜ても",
+    "reading": "",
+    "romaji": "te mo",
+    "meaning": "even if",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "雨が降っても試合は行われる。",
+    "exampleReading": "あめがふってもしあいはおこなわれる。",
+    "exampleMeaning": "The match will be held even if it rains.",
+    "level": "N4"
+  },
+  {
+    "word": "〜ばよかった",
+    "reading": "",
+    "romaji": "ba yokatta",
+    "meaning": "should have ~ (regret)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "もっと早く来ればよかった。",
+    "exampleReading": "もっとはやくくればよかった。",
+    "exampleMeaning": "I should have come earlier.",
+    "level": "N4"
+  }
+];

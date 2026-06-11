@@ -1,0 +1,156 @@
+[
+  {
+    "word": "〜じゃありません",
+    "reading": "",
+    "romaji": "ja arimasen",
+    "meaning": "\"is not\" (noun / na-adjective, polite)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "学生じゃありません。",
+    "exampleReading": "がくせいじゃありません。",
+    "exampleMeaning": "I'm not a student.",
+    "level": "N5"
+  },
+  {
+    "word": "〜ではありません",
+    "reading": "",
+    "romaji": "dewa arimasen",
+    "meaning": "\"is not\" (more formal)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "これは私のではありません。",
+    "exampleReading": "これはわたしのではありません。",
+    "exampleMeaning": "This is not mine.",
+    "level": "N5"
+  },
+  {
+    "word": "〜じゃありませんでした",
+    "reading": "",
+    "romaji": "ja arimasen deshita",
+    "meaning": "\"was not\" (noun / na-adj, past)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "昨日は休みじゃありませんでした。",
+    "exampleReading": "きのうはやすみじゃありませんでした。",
+    "exampleMeaning": "Yesterday was not a day off.",
+    "level": "N5"
+  },
+  {
+    "word": "〜ません",
+    "reading": "",
+    "romaji": "masen",
+    "meaning": "\"do not ~\" (verb, polite)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "肉を食べません。",
+    "exampleReading": "にくをたべません。",
+    "exampleMeaning": "I don't eat meat.",
+    "level": "N5"
+  },
+  {
+    "word": "〜ませんでした",
+    "reading": "",
+    "romaji": "masen deshita",
+    "meaning": "\"did not ~\" (verb, past polite)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "昨日は学校に行きませんでした。",
+    "exampleReading": "きのうはがっこうにいきませんでした。",
+    "exampleMeaning": "I didn't go to school yesterday.",
+    "level": "N5"
+  },
+  {
+    "word": "〜くないです",
+    "reading": "",
+    "romaji": "kunai desu",
+    "meaning": "\"is not ~\" (い-adjective)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "この店は高くないです。",
+    "exampleReading": "このみせはたかくないです。",
+    "exampleMeaning": "This shop is not expensive.",
+    "level": "N5"
+  },
+  {
+    "word": "〜くなかったです",
+    "reading": "",
+    "romaji": "kunakatta desu",
+    "meaning": "\"was not ~\" (い-adjective, past)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "映画は面白くなかったです。",
+    "exampleReading": "えいがはおもしろくなかったです。",
+    "exampleMeaning": "The movie was not interesting.",
+    "level": "N5"
+  },
+  {
+    "word": "ありません",
+    "reading": "",
+    "romaji": "arimasen",
+    "meaning": "there isn't / don't have (things)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "今、お金がありません。",
+    "exampleReading": "いま、おかねがありません。",
+    "exampleMeaning": "I don't have any money right now.",
+    "level": "N5"
+  },
+  {
+    "word": "いません",
+    "reading": "",
+    "romaji": "imasen",
+    "meaning": "there isn't (people / animals)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "教室に誰もいません。",
+    "exampleReading": "きょうしつにだれもいません。",
+    "exampleMeaning": "There is no one in the classroom.",
+    "level": "N5"
+  },
+  {
+    "word": "〜ないでください",
+    "reading": "",
+    "romaji": "naide kudasai",
+    "meaning": "please don't ~",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "ここで写真を撮らないでください。",
+    "exampleReading": "ここでしゃしんをとらないでください。",
+    "exampleMeaning": "Please don't take photos here.",
+    "level": "N5"
+  },
+  {
+    "word": "〜ない (plain)",
+    "reading": "",
+    "romaji": "nai",
+    "meaning": "\"not ~\" (plain/casual negative)",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "今日はテレビを見ない。",
+    "exampleReading": "きょうはテレビをみない。",
+    "exampleMeaning": "I'm not watching TV today.",
+    "level": "N5"
+  },
+  {
+    "word": "まだ〜ていません",
+    "reading": "",
+    "romaji": "mada ~te imasen",
+    "meaning": "have not ~ yet",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "宿題はまだ終わっていません。",
+    "exampleReading": "しゅくだいはまだおわっていません。",
+    "exampleMeaning": "I haven't finished my homework yet.",
+    "level": "N5"
+  },
+  {
+    "word": "あまり〜ない",
+    "reading": "",
+    "romaji": "amari ~nai",
+    "meaning": "not very / not much",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "コーヒーはあまり飲みません。",
+    "exampleReading": "コーヒーはあまりのみません。",
+    "exampleMeaning": "I don't drink much coffee.",
+    "level": "N5"
+  },
+  {
+    "word": "全然〜ない",
+    "reading": "",
+    "romaji": "zenzen ~nai",
+    "meaning": "not at all",
+    "partOfSpeech": "Grammar",
+    "exampleSentence": "意味が全然分かりません。",
+    "exampleReading": "いみがぜんぜんわかりません。",
+    "exampleMeaning": "I don't understand the meaning at all.",
+    "level": "N5"
+  }
+]

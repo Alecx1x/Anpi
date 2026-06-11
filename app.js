@@ -22,6 +22,20 @@ const DECK_DEFS = {
   n5adjna:   { file: "n5-adjectives-na", type: "vocab", label: "N5 な-Adjectives" },
   n5adverbs: { file: "n5-adverbs",       type: "vocab", label: "N5 Adverbs" },
   n5particles: { file: "n5-particles",   type: "vocab", label: "N5 Particles" },
+  // N5 Numbers & Counters
+  n5numbers:   { file: "n5-numbers",      type: "vocab", label: "N5 Basic Numbers" },
+  n5datetime:  { file: "n5-datetime",     type: "vocab", label: "N5 Dates & Time" },
+  n5counters:  { file: "n5-counters",     type: "vocab", label: "N5 Counters" },
+  // N5 Phrases & Expressions
+  n5greetings: { file: "n5-greetings",    type: "vocab", label: "N5 Greetings" },
+  n5intro:     { file: "n5-introductions",type: "vocab", label: "N5 Introductions" },
+  n5classroom: { file: "n5-classroom",    type: "vocab", label: "N5 Classroom Phrases" },
+  n5shopping:  { file: "n5-shopping",     type: "vocab", label: "N5 Shopping Basics" },
+  // N5 Grammar Patterns (study only — patterns make poor game targets)
+  n5gramall:   { file: "n5-grammar-all",       type: "vocab", label: "All N5 Grammar", noGame: true },
+  n5gramstruct:{ file: "n5-grammar-structure", type: "vocab", label: "N5 Sentence Structure", noGame: true },
+  n5gramq:     { file: "n5-grammar-questions", type: "vocab", label: "N5 Question Forms", noGame: true },
+  n5gramneg:   { file: "n5-grammar-negatives", type: "vocab", label: "N5 Negative Forms", noGame: true },
   // N4 vocabulary
   n4vocab:   { file: "n4-vocabulary",    type: "vocab", label: "All N4 Vocabulary" },
   n4nouns:   { file: "n4-nouns",         type: "vocab", label: "N4 Nouns" },
@@ -30,6 +44,21 @@ const DECK_DEFS = {
   n4adji:    { file: "n4-adjectives-i",  type: "vocab", label: "N4 い-Adjectives" },
   n4adjna:   { file: "n4-adjectives-na", type: "vocab", label: "N4 な-Adjectives" },
   n4adverbs: { file: "n4-adverbs",       type: "vocab", label: "N4 Adverbs" },
+  // N4 grammar patterns, particles & phrases (study decks)
+  n4gram:      { file: "n4-grammar-all",         type: "vocab", label: "All N4 Grammar", noGame: true },
+  n4gramte:    { file: "n4-grammar-teform",      type: "vocab", label: "N4 Te-form Patterns", noGame: true },
+  n4gramcond:  { file: "n4-grammar-conditional", type: "vocab", label: "N4 Conditional Forms", noGame: true },
+  n4gramgive:  { file: "n4-grammar-giving",      type: "vocab", label: "N4 Giving & Receiving", noGame: true },
+  n4partadv:   { file: "n4-particles-advanced",  type: "vocab", label: "N4 Advanced Particles", noGame: true },
+  n4partcomp:  { file: "n4-particles-compound",  type: "vocab", label: "N4 Compound Particles", noGame: true },
+  n4phrdaily:  { file: "n4-phrases-daily",       type: "vocab", label: "N4 Daily Conversation", noGame: true },
+  n4phropinion:{ file: "n4-phrases-opinion",     type: "vocab", label: "N4 Expressing Opinions", noGame: true },
+  n4phrrequest:{ file: "n4-phrases-request",     type: "vocab", label: "N4 Making Requests", noGame: true },
+  // N4 verb forms (conjugation drills)
+  n4verbte:  { file: "n4-verbs-teform",    type: "vocab", label: "N4 Te-form Verbs", noGame: true },
+  n4verbta:  { file: "n4-verbs-taform",    type: "vocab", label: "N4 Ta-form Verbs", noGame: true },
+  n4verbnai: { file: "n4-verbs-naiform",   type: "vocab", label: "N4 Nai-form Verbs", noGame: true },
+  n4verbpot: { file: "n4-verbs-potential", type: "vocab", label: "N4 Potential Verbs", noGame: true },
   // N3 vocabulary
   n3vocab:   { file: "n3-vocabulary",    type: "vocab", label: "All N3 Vocabulary" },
   n3nouns:   { file: "n3-nouns",         type: "vocab", label: "N3 Nouns" },
@@ -38,6 +67,18 @@ const DECK_DEFS = {
   n3adji:    { file: "n3-adjectives-i",  type: "vocab", label: "N3 い-Adjectives" },
   n3adjna:   { file: "n3-adjectives-na", type: "vocab", label: "N3 な-Adjectives" },
   n3adverbs: { file: "n3-adverbs",       type: "vocab", label: "N3 Adverbs" },
+  // N3 grammar, verb forms, keigo & phrases (study decks)
+  n3gram:         { file: "n3-grammar-all",              type: "vocab", label: "All N3 Grammar", noGame: true },
+  n3gramcompound: { file: "n3-grammar-compound",         type: "vocab", label: "N3 Compound Sentences", noGame: true },
+  n3gramnuance:   { file: "n3-grammar-nuance",           type: "vocab", label: "N3 Expressing Nuance", noGame: true },
+  n3verbpass:     { file: "n3-verbs-passive",            type: "vocab", label: "N3 Passive Form", noGame: true },
+  n3verbcaus:     { file: "n3-verbs-causative",          type: "vocab", label: "N3 Causative Form", noGame: true },
+  n3verbcauspass: { file: "n3-verbs-causative-passive",  type: "vocab", label: "N3 Causative-Passive", noGame: true },
+  n3keigoteinei:  { file: "n3-keigo-teineigo",           type: "vocab", label: "N3 Teineigo (Polite)", noGame: true },
+  n3keigohonor:   { file: "n3-keigo-honorifics",         type: "vocab", label: "N3 Basic Honorifics", noGame: true },
+  n3phrformal:    { file: "n3-phrases-formal",           type: "vocab", label: "N3 Formal Conversation", noGame: true },
+  n3phrfeelings:  { file: "n3-phrases-feelings",         type: "vocab", label: "N3 Expressing Feelings", noGame: true },
+  n3phrconnect:   { file: "n3-phrases-connecting",       type: "vocab", label: "N3 Connecting Ideas", noGame: true },
   // N2 vocabulary
   n2vocab:   { file: "n2-vocabulary",    type: "vocab", label: "All N2 Vocabulary" },
   n2nouns:   { file: "n2-nouns",         type: "vocab", label: "N2 Nouns" },
@@ -46,6 +87,14 @@ const DECK_DEFS = {
   n2adji:    { file: "n2-adjectives-i",  type: "vocab", label: "N2 い-Adjectives" },
   n2adjna:   { file: "n2-adjectives-na", type: "vocab", label: "N2 な-Adjectives" },
   n2adverbs: { file: "n2-adverbs",       type: "vocab", label: "N2 Adverbs" },
+  // N2 grammar, keigo & phrases (study decks)
+  n2gram:          { file: "n2-grammar-all",      type: "vocab", label: "All N2 Grammar", noGame: true },
+  n2gramcomplex:   { file: "n2-grammar-complex",  type: "vocab", label: "N2 Complex Structures", noGame: true },
+  n2gramformal:    { file: "n2-grammar-formal",   type: "vocab", label: "N2 Formal Expressions", noGame: true },
+  n2keigosonkeigo: { file: "n2-keigo-sonkeigo",   type: "vocab", label: "N2 Sonkeigo (Respectful)", noGame: true },
+  n2keigokenjougo: { file: "n2-keigo-kenjougo",   type: "vocab", label: "N2 Kenjougo (Humble)", noGame: true },
+  n2phrbusiness:   { file: "n2-phrases-business", type: "vocab", label: "N2 Business Conversation", noGame: true },
+  n2phrwritten:    { file: "n2-phrases-written",  type: "vocab", label: "N2 Written Expression", noGame: true },
   // N1 vocabulary
   n1vocab:   { file: "n1-vocabulary",    type: "vocab", label: "All N1 Vocabulary" },
   n1nouns:   { file: "n1-nouns",         type: "vocab", label: "N1 Nouns" },
@@ -54,6 +103,14 @@ const DECK_DEFS = {
   n1adji:    { file: "n1-adjectives-i",  type: "vocab", label: "N1 い-Adjectives" },
   n1adjna:   { file: "n1-adjectives-na", type: "vocab", label: "N1 な-Adjectives" },
   n1adverbs: { file: "n1-adverbs",       type: "vocab", label: "N1 Adverbs" },
+  // N1 grammar, keigo & phrases (study decks)
+  n1gram:          { file: "n1-grammar-all",      type: "vocab", label: "All N1 Grammar", noGame: true },
+  n1gramadvanced:  { file: "n1-grammar-advanced", type: "vocab", label: "N1 Advanced Structures", noGame: true },
+  n1gramliterary:  { file: "n1-grammar-literary", type: "vocab", label: "N1 Literary & Written Grammar", noGame: true },
+  n1keigoadvanced: { file: "n1-keigo-advanced",   type: "vocab", label: "N1 Advanced Keigo", noGame: true },
+  n1keigonuanced:  { file: "n1-keigo-nuanced",    type: "vocab", label: "N1 Nuanced Honorifics", noGame: true },
+  n1phrformal:     { file: "n1-phrases-formal",   type: "vocab", label: "N1 Formal & Literary Expression", noGame: true },
+  n1phrnuanced:    { file: "n1-phrases-nuanced",  type: "vocab", label: "N1 Nuanced Communication", noGame: true },
 };
 
 const KANJIAPI = "https://kanjiapi.dev/v1/";
@@ -430,7 +487,7 @@ function flip() {
   flipped = !flipped;
   card.classList.toggle("flipped", flipped);
   $("yesno").classList.toggle("show", flipped); // Yes/No (below the card) only when flipped
-  $("speakerBtn").hidden = !flipped; // replay button on the back
+  $("speakerBtn").hidden = !flipped; // replay button on the back (local or online TTS)
   if (flipped) { pauseFrontTimer(); maybeRenderStroke(); speakCurrentCard(); } // auto-pronounce on flip
   else { startFrontTimer(); resetStroke(); stopSpeech(); }
 }
@@ -460,6 +517,7 @@ function prev() {
 function answer(correct) {
   if (deck.length === 0 || !flipped) return;
   results[index] = correct;
+  markCard(correct); // stats / streak / achievements
   advance();
   checkComplete();
 }
@@ -700,6 +758,106 @@ function buildTopDecks(groups) {
       decks.push({ key: lv + "particles", label: L + " Particles", type: "vocab",
         sets: [{ id: lv + "particles", label: "All " + L + " Particles", deckKey: lv + "particles" }] });
     }
+    // Extra N5 sections: Numbers & Counters, Phrases, Grammar (each a deck with
+    // its subsets as sets). A set maps to its own data deck (no filter needed).
+    if (lv === "n5") {
+      const grp = (key, label, sets) => { if (sets.every(s => DECK_DEFS[s.deckKey])) decks.push({ key, label, type: "vocab", sets }); };
+      grp("n5num", "N5 Numbers & Counters", [
+        { id: "n5numbers", label: "Basic numbers", deckKey: "n5numbers" },
+        { id: "n5datetime", label: "Dates & Time", deckKey: "n5datetime" },
+        { id: "n5counters", label: "Counters", deckKey: "n5counters" },
+      ]);
+      grp("n5phr", "N5 Phrases & Expressions", [
+        { id: "n5greetings", label: "Greetings", deckKey: "n5greetings" },
+        { id: "n5intro", label: "Introductions", deckKey: "n5intro" },
+        { id: "n5classroom", label: "Classroom phrases", deckKey: "n5classroom" },
+        { id: "n5shopping", label: "Shopping basics", deckKey: "n5shopping" },
+      ]);
+      grp("n5gram", "N5 Grammar", [
+        { id: "n5gramall", label: "All N5 Grammar", deckKey: "n5gramall" },
+        { id: "n5gramstruct", label: "Basic sentence structure", deckKey: "n5gramstruct" },
+        { id: "n5gramq", label: "Question forms", deckKey: "n5gramq" },
+        { id: "n5gramneg", label: "Negative forms", deckKey: "n5gramneg" },
+      ]);
+    }
+    if (lv === "n4") {
+      const grp = (key, label, sets) => { if (sets.every(s => DECK_DEFS[s.deckKey])) decks.push({ key, label, type: "vocab", sets }); };
+      grp("n4gramgrp", "N4 Grammar Patterns", [
+        { id: "n4gram", label: "All N4 Grammar", deckKey: "n4gram" },
+        { id: "n4gramte", label: "Te-form patterns", deckKey: "n4gramte" },
+        { id: "n4gramcond", label: "Conditional forms", deckKey: "n4gramcond" },
+        { id: "n4gramgive", label: "Giving & Receiving", deckKey: "n4gramgive" },
+      ]);
+      grp("n4partgrp", "N4 Particles", [
+        { id: "n4partadv", label: "Advanced particle usage", deckKey: "n4partadv" },
+        { id: "n4partcomp", label: "Compound particles", deckKey: "n4partcomp" },
+      ]);
+      grp("n4verbgrp", "N4 Verb Forms", [
+        { id: "n4verbte", label: "Te-form", deckKey: "n4verbte" },
+        { id: "n4verbta", label: "Ta-form", deckKey: "n4verbta" },
+        { id: "n4verbnai", label: "Nai-form", deckKey: "n4verbnai" },
+        { id: "n4verbpot", label: "Potential form", deckKey: "n4verbpot" },
+      ]);
+      grp("n4phrgrp", "N4 Phrases & Expressions", [
+        { id: "n4phrdaily", label: "Daily conversation", deckKey: "n4phrdaily" },
+        { id: "n4phropinion", label: "Expressing opinions", deckKey: "n4phropinion" },
+        { id: "n4phrrequest", label: "Making requests", deckKey: "n4phrrequest" },
+      ]);
+    }
+    if (lv === "n3") {
+      const grp = (key, label, sets) => { if (sets.every(s => DECK_DEFS[s.deckKey])) decks.push({ key, label, type: "vocab", sets }); };
+      grp("n3gramgrp", "N3 Grammar Patterns", [
+        { id: "n3gram", label: "All N3 Grammar", deckKey: "n3gram" },
+        { id: "n3gramcompound", label: "Compound sentences", deckKey: "n3gramcompound" },
+        { id: "n3gramnuance", label: "Expressing nuance", deckKey: "n3gramnuance" },
+      ]);
+      grp("n3verbgrp", "N3 Verb Forms", [
+        { id: "n3verbpass", label: "Passive form", deckKey: "n3verbpass" },
+        { id: "n3verbcaus", label: "Causative form", deckKey: "n3verbcaus" },
+        { id: "n3verbcauspass", label: "Causative passive", deckKey: "n3verbcauspass" },
+      ]);
+      grp("n3keigogrp", "N3 Keigo — Introduction", [
+        { id: "n3keigoteinei", label: "Teineigo (polite)", deckKey: "n3keigoteinei" },
+        { id: "n3keigohonor", label: "Basic honorifics", deckKey: "n3keigohonor" },
+      ]);
+      grp("n3phrgrp", "N3 Phrases & Expressions", [
+        { id: "n3phrformal", label: "Formal conversation", deckKey: "n3phrformal" },
+        { id: "n3phrfeelings", label: "Expressing feelings", deckKey: "n3phrfeelings" },
+        { id: "n3phrconnect", label: "Connecting ideas", deckKey: "n3phrconnect" },
+      ]);
+    }
+    if (lv === "n2") {
+      const grp = (key, label, sets) => { if (sets.every(s => DECK_DEFS[s.deckKey])) decks.push({ key, label, type: "vocab", sets }); };
+      grp("n2gramgrp", "N2 Grammar Patterns", [
+        { id: "n2gram", label: "All N2 Grammar", deckKey: "n2gram" },
+        { id: "n2gramcomplex", label: "Complex structures", deckKey: "n2gramcomplex" },
+        { id: "n2gramformal", label: "Formal expressions", deckKey: "n2gramformal" },
+      ]);
+      grp("n2keigogrp", "N2 Keigo", [
+        { id: "n2keigosonkeigo", label: "Sonkeigo (respectful)", deckKey: "n2keigosonkeigo" },
+        { id: "n2keigokenjougo", label: "Kenjougo (humble)", deckKey: "n2keigokenjougo" },
+      ]);
+      grp("n2phrgrp", "N2 Phrases & Expressions", [
+        { id: "n2phrbusiness", label: "Business conversation", deckKey: "n2phrbusiness" },
+        { id: "n2phrwritten", label: "Written expression", deckKey: "n2phrwritten" },
+      ]);
+    }
+    if (lv === "n1") {
+      const grp = (key, label, sets) => { if (sets.every(s => DECK_DEFS[s.deckKey])) decks.push({ key, label, type: "vocab", sets }); };
+      grp("n1gramgrp", "N1 Grammar Patterns", [
+        { id: "n1gram", label: "All N1 Grammar", deckKey: "n1gram" },
+        { id: "n1gramadvanced", label: "Advanced structures", deckKey: "n1gramadvanced" },
+        { id: "n1gramliterary", label: "Literary & written grammar", deckKey: "n1gramliterary" },
+      ]);
+      grp("n1keigogrp", "N1 Keigo", [
+        { id: "n1keigoadvanced", label: "Advanced Keigo", deckKey: "n1keigoadvanced" },
+        { id: "n1keigonuanced", label: "Nuanced honorifics", deckKey: "n1keigonuanced" },
+      ]);
+      grp("n1phrgrp", "N1 Phrases & Expressions", [
+        { id: "n1phrformal", label: "Formal & literary expression", deckKey: "n1phrformal" },
+        { id: "n1phrnuanced", label: "Nuanced communication", deckKey: "n1phrnuanced" },
+      ]);
+    }
   }
 
   TOP_DECKS = decks;
@@ -724,7 +882,7 @@ function populateSetDropdown(topKey) {
 
 // The single entry point. Select a set by its id; update both dropdowns + the
 // sidebar highlight, persist, and load the resolved deck (with any filter).
-function selectSet(selKey) {
+function selectSet(selKey, opts) {
   let entry = SET_BY_ID[selKey];
   if (!entry && DECK_DEFS[selKey]) entry = { topKey: selKey, set: { id: selKey, deckKey: selKey } }; // pre-init fallback
   if (!entry) return;
@@ -737,7 +895,7 @@ function selectSet(selKey) {
   populateSetDropdown(topKey);
   groupSelect.value = selKey;
   try { localStorage.setItem(SEL_SECTION_KEY(topKey), selKey); localStorage.setItem(SEL_LAST_KEY, topKey); } catch (e) {}
-  setMainView("study"); // selecting a deck always lands in the study view
+  if (!opts || !opts.keepView) setMainView("study"); // selecting a deck lands in study (unless silent initial load)
   loadDeck(set.deckKey);
 }
 
@@ -786,7 +944,7 @@ function restoreSelection() {
     if (d) { const saved = localStorage.getItem(SEL_SECTION_KEY(top)); sel = (saved && SET_BY_ID[saved]) ? saved : d.sets[0].id; }
   } catch (e) {}
   if (!SET_BY_ID[sel]) sel = "hiragana";
-  selectSet(sel);
+  selectSet(sel, { keepView: true }); // preload the deck but stay on the home page
 }
 
 async function initSelection() {
@@ -801,16 +959,13 @@ async function initSelection() {
   populateDeckDropdown();
   buildKanjiSidebar();          // inject By Category / By Radical buttons
   // Keep the dropdowns on the current selection (or apply a persisted group set now available).
-  if (wantSel && SET_BY_ID[wantSel] && wantSel !== currentSelKey) selectSet(wantSel);
+  if (wantSel && SET_BY_ID[wantSel] && wantSel !== currentSelKey) selectSet(wantSel, { keepView: true });
   else { deckSelect.value = currentTopKey; populateSetDropdown(currentTopKey); groupSelect.value = currentSelKey; syncSidebar(); }
 }
 
 function applySidebarState() {
-  let stored = null;
-  try { stored = localStorage.getItem(SIDEBAR_KEY); } catch {}
-  // No saved preference → start collapsed on narrow screens so the card has room.
-  const collapsed = stored === null ? window.innerWidth <= 720 : stored === "1";
-  $("sidebar").classList.toggle("collapsed", collapsed);
+  // Always start with the nav closed on load; the ☰ button opens it.
+  $("sidebar").classList.add("collapsed");
 }
 function toggleSidebar() {
   const collapsed = $("sidebar").classList.toggle("collapsed");
@@ -936,16 +1091,86 @@ function toggleFieldPanel() {
 // function speakCurrentCard() { speak(currentSpeakText()); }
 // ---- end disabled TTS ----
 
-// What to pronounce (kept for re-enable): kana → hiragana char; kanji → the kanji.
+// What to pronounce: kana → the shown kana; kanji/vocab → the kana READING
+// (far more reliable than letting TTS guess a kanji's reading), with fallbacks.
 function currentSpeakText() {
   const e = deck[index];
   if (!e) return "";
-  return deckType === "kanji" ? e.character : e.h;
+  // Kanji: speak the character itself — the TTS engine reads it with its natural
+  // reading (一→ichi, 山→yama), cleaner than our comma-separated on/kun lists.
+  if (deckType === "kanji") return e.character || "";
+  if (deckType === "vocab") return e.reading || e.word || ""; // prefer the kana reading
+  return frontChar(e); // kana deck: the character on the front (e.h / e.k)
 }
-// No-op stubs while audio is disabled — call sites stay intact, nothing fetches/plays.
-function speak(_text) { /* audio disabled — see commented implementation above */ }
-function stopSpeech() { /* audio disabled */ }
-function speakCurrentCard() { /* audio disabled */ }
+
+// ---- Pronunciation via the browser's built-in Speech Synthesis (ja-JP) ----
+// Free, no backend, no CORS — uses the device's installed Japanese voice.
+let autoSpeak = true;
+try { autoSpeak = localStorage.getItem("anpiAutoSpeak") !== "0"; } catch (e) {}
+let _jaVoice = null;
+const TTS = { audio: null };
+function speechAvailable() { return !!(window.speechSynthesis && window.SpeechSynthesisUtterance); }
+function pickJaVoice() {
+  try {
+    const vs = (window.speechSynthesis && speechSynthesis.getVoices()) || [];
+    const ja = vs.filter(v => /^ja(-|_|$)/i.test(v.lang) || /japanese|日本/i.test(v.name));
+    // Only trust a TRULY local (offline) voice. Online "natural" voices — e.g. Edge's
+    // Nanami — show up here but frequently don't actually speak via the web Speech API,
+    // so we skip them and use the /api/tts proxy (which works reliably for everyone).
+    _jaVoice = ja.find(v => v.localService) || null;
+  } catch (e) {}
+  updateAudioNote();
+}
+function updateAudioNote() { const u = $("ttsUnavailable"); if (u) u.hidden = !!_jaVoice; } // tip only when no local JP voice
+if (speechAvailable()) {
+  pickJaVoice();
+  try { speechSynthesis.addEventListener("voiceschanged", pickJaVoice); } catch (e) {}
+}
+// Local Japanese voice (offline, instant) — used only when one is installed.
+function speakLocal(text) {
+  try {
+    const u = new SpeechSynthesisUtterance(String(text));
+    u.lang = "ja-JP"; if (_jaVoice) u.voice = _jaVoice; u.rate = 0.9;
+    const btn = $("speakerBtn");
+    u.onstart = () => { if (btn) btn.classList.add("speaking"); };
+    const clear = () => { if (btn) btn.classList.remove("speaking"); };
+    u.onend = clear; u.onerror = clear;
+    speechSynthesis.speak(u);
+  } catch (e) { /* silent */ }
+}
+// Online fallback so everyone hears audio without installing a voice. Streams MP3
+// from our own Cloudflare TTS proxy (/api/tts → Workers AI). Needs a network
+// connection and only works on the deployed site (not file://).
+function speakOnline(text) {
+  try {
+    const btn = $("speakerBtn");
+    const a = new Audio("/api/tts?q=" + encodeURIComponent(String(text)) + "&v=3"); // v= busts old cached (silent MeloTTS) audio
+    TTS.audio = a;
+    a.addEventListener("playing", () => { if (btn) btn.classList.add("speaking"); });
+    const clear = () => { if (btn) btn.classList.remove("speaking"); };
+    a.addEventListener("ended", clear); a.addEventListener("error", clear);
+    const p = a.play(); if (p && p.catch) p.catch(() => {});
+  } catch (e) { /* silent */ }
+}
+function speak(text) {
+  if (!text) return;
+  stopSpeech();
+  // Always use the /api/tts proxy on the deployed site — it returns standard WAV and
+  // plays consistently everywhere. Local SpeechSynthesis is used ONLY offline (file://),
+  // because some browsers' "local" voices (e.g. Edge's online Japanese) silently no-op.
+  if (location.protocol === "file:" && speechAvailable() && _jaVoice) speakLocal(text);
+  else speakOnline(text);
+}
+function stopSpeech() {
+  try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
+  if (TTS.audio) { try { TTS.audio.pause(); } catch (e) {} TTS.audio = null; }
+  const btn = $("speakerBtn"); if (btn) btn.classList.remove("speaking");
+}
+function speakCurrentCard() { if (autoSpeak) speak(currentSpeakText()); } // auto-on-flip (respects setting)
+function setAutoSpeak(on) {
+  autoSpeak = !!on;
+  try { localStorage.setItem("anpiAutoSpeak", autoSpeak ? "1" : "0"); } catch (e) {}
+}
 
 // ===================================================================
 //  Space Invaders mini-game
@@ -1051,9 +1276,10 @@ function layoutGameCanvas() {
   const topRel = canvas.getBoundingClientRect().top - (vv ? vv.offsetTop : 0);
   const inputH = gameInput.offsetHeight || 48;
   const tipH = (!kbOpen && tipEl) ? tipEl.offsetHeight : 0;
-  // kbOpen: input is fixed above the keyboard → only reserve input+gap.
-  // desktop/normal: input+tip flow below, plus .main's 60px bottom padding.
-  const reserve = kbOpen ? (inputH + 16) : (inputH + tipH + 40);
+  // kbOpen: input is fixed just above the keyboard → reserve only input + a thin
+  // gap so the canvas runs as tall as possible without the keyboard reaching it.
+  // desktop/normal: input + tip flow below, plus a small bottom margin.
+  const reserve = kbOpen ? (inputH + 8) : (inputH + tipH + 24);
   const availH = Math.max(180, visH - topRel - reserve);
 
   const w = Math.max(220, Math.round(availW));
@@ -1167,12 +1393,23 @@ function setMainView(which) {
   $("studyView").hidden = which !== "study";
   $("gameView").hidden  = which !== "game";
   const lv = $("learnView"); if (lv) lv.hidden = which !== "learn";
+  const hv = $("homeView"); if (hv) hv.hidden = which !== "home";
+  const bv = $("leaderboardView"); if (bv) bv.hidden = which !== "leaderboard";
+  const sv = $("statsView"); if (sv) sv.hidden = which !== "stats";
   document.body.classList.toggle("game-active", which === "game");
+  document.body.classList.toggle("home-active", which === "home");
 }
+function showLeaderboardView() {
+  if (game.active) backToStudy();
+  setMainView("leaderboard");
+  renderGlobalLeaderboard($("leaderboardBody"), { limit: 50, initialDelay: 0 });
+}
+function showHome() { if (game.active) backToStudy(); setMainView("home"); }
 function showGameView() { setMainView("game"); }
 function backToStudy() {
   game.active = false; game.running = false;
   cancelAnimationFrame(game.raf);
+  stopPreview();
   // Restore the header and clear any keyboard-pinned input styling.
   document.body.classList.remove("game-active");
   document.body.classList.remove("kb-open");
@@ -1181,6 +1418,21 @@ function backToStudy() {
   gameInput.style.zIndex = ""; gameInput.style.marginTop = "";
   setMainView("study");
   syncSidebar();
+}
+// Exiting a game mid-play returns to the deck/set picker, still inside game mode
+// (not out to the flashcards) so the player can pick another deck and play again.
+function exitGameToPicker() {
+  game.running = false;
+  cancelAnimationFrame(game.raf);
+  // Clear any soft-keyboard-pinned input styling left over from play.
+  document.body.classList.remove("kb-open");
+  try { gameInput.blur(); } catch (e) {}
+  gameInput.style.position = ""; gameInput.style.left = ""; gameInput.style.transform = "";
+  gameInput.style.bottom = ""; gameInput.style.width = ""; gameInput.style.maxWidth = "";
+  gameInput.style.zIndex = ""; gameInput.style.marginTop = "";
+  game.active = true;     // remain in the game section
+  setMainView("game");
+  showDeckPicker();       // back to "Choose deck & set"
 }
 
 // ---------- Game deck/set picker (mirrors the study dropdowns) ----------
@@ -1204,7 +1456,7 @@ function launchGame(deckKey) {
 function populateGameDeckOptions() {
   const sel = $("gameDeckSelect");
   if (sel.dataset.filled) return;
-  sel.innerHTML = Object.keys(DECK_DEFS).map(k => `<option value="${k}">${DECK_DEFS[k].label}</option>`).join("");
+  sel.innerHTML = Object.keys(DECK_DEFS).filter(k => !DECK_DEFS[k].noGame).map(k => `<option value="${k}">${DECK_DEFS[k].label}</option>`).join("");
   sel.dataset.filled = "1";
 }
 function updateGameSetVisibility() {
@@ -1222,10 +1474,12 @@ function showDeckPicker() {
   $("gameDeckSelect").value = game.deckKey;
   $("gameSetSelect").value = game.set || "all";
   updateGameSetVisibility();
+  startPreview(); // idle ship preview until the user hits Continue
 }
 
 // Confirm the picker → persist, load data, then go to difficulty selection.
 async function gamePickerContinue() {
+  stopPreview(); // leaving the picker
   game.deckKey = $("gameDeckSelect").value;
   game.def = DECK_DEFS[game.deckKey];
   game.deckType = game.def.type;
@@ -1665,6 +1919,44 @@ function drawShip() {
   ctx.restore();
 }
 
+// Draw the ship (idle blue hull) at an arbitrary point on any 2D context — used
+// for the deck-picker preview as well as a building block for the live ship.
+function drawShipOn(c, x, y) {
+  const hull = "#7c9cff";
+  c.save();
+  c.shadowColor = hull; c.shadowBlur = 16;
+  c.fillStyle = hull;
+  c.beginPath();
+  c.moveTo(x, y - 18); c.lineTo(x - 22, y + 14); c.lineTo(x + 22, y + 14);
+  c.closePath(); c.fill();
+  c.fillStyle = "#ff6b9d";
+  c.beginPath(); c.arc(x, y, 5, 0, Math.PI * 2); c.fill();
+  // A soft thruster flame so the idle ship reads as powered-up and ready.
+  c.globalAlpha = 0.5 + 0.3 * Math.sin(previewT * 4);
+  c.fillStyle = "#ffb347"; c.shadowColor = "#ffb347"; c.shadowBlur = 12;
+  c.beginPath();
+  c.moveTo(x - 7, y + 14); c.lineTo(x + 7, y + 14); c.lineTo(x, y + 26);
+  c.closePath(); c.fill();
+  c.restore();
+}
+
+// Idle preview shown on the "Choose deck & set" page: the ship gently bobs in the
+// centre of a game-style canvas, so the game feels loaded and ready to launch.
+let previewRaf = 0, previewT = 0;
+function startPreview() {
+  stopPreview();
+  const pc = $("gamePreview"); if (!pc) return;
+  const pctx = pc.getContext("2d");
+  (function loop() {
+    previewT += 0.02;
+    pctx.clearRect(0, 0, pc.width, pc.height);
+    const bob = Math.sin(previewT) * 6;
+    drawShipOn(pctx, pc.width / 2, pc.height / 2 + bob);
+    previewRaf = requestAnimationFrame(loop);
+  })();
+}
+function stopPreview() { if (previewRaf) cancelAnimationFrame(previewRaf); previewRaf = 0; }
+
 function endGame() {
   if (!game.running) return; // guard against multiple escapes in the same frame
   game.running = false;
@@ -1675,6 +1967,14 @@ function endGame() {
   const isHigh = game.score > prevHigh;
   const newHigh = isHigh ? game.score : prevHigh;
   if (isHigh) setHigh(game.deckKey, game.mode.key, game.score);
+  // Sync the best score for this deck+mode to the cloud leaderboard after EVERY
+  // game (idempotent — the cloud keeps the max). Pushing the local best (not just
+  // a brand-new high) lets the cloud catch up to highs set before sign-in or
+  // before the leaderboard tables existed.
+  if (window.KanaSync && KanaSync.onHighScore) {
+    try { KanaSync.onHighScore(game.deckKey, game.mode.key, newHigh.toString(), Math.max(0, game.bestCombo)); } catch (e) {}
+  }
+  markGame(game.score.toString(), Math.max(0, game.bestCombo)); // stats / streak / achievements
   const missed = Object.values(game.escaped).sort((a, b) => b.count - a.count).slice(0, 5);
 
   // Feed this session into the saved-results history so it shows in Past Results.
@@ -1705,6 +2005,232 @@ function endGame() {
         return `<li><b>${m.char}</b> (${m.answer}) <span class="miss-x">×${m.count}</span>${typedHtml}</li>`;
       }).join("")
     : `<li class="none">No misses — flawless! 🎉</li>`;
+  renderEndLeaderboard();
+}
+
+// Global leaderboard shown on the end screen: every score across all decks,
+// with a coloured difficulty column and difficulty filter chips. Degrades
+// gracefully when offline / signed out / DB not yet set up.
+let lbFilter = "";    // "" = all difficulties (game mode)
+let lbSetFilter = ""; // "" = all sets (deck)
+function gameableDeckKeys() { return Object.keys(DECK_DEFS).filter(k => !DECK_DEFS[k].noGame); }
+// Shared renderer: arcade-style board with difficulty (mode) chips + a set
+// filter, into `el`. Used by both the end-of-game board and the Leaderboards page.
+function renderGlobalLeaderboard(el, opts) {
+  opts = opts || {};
+  const limit = opts.limit || 25;
+  if (!el) return;
+  const sync = window.KanaSync;
+  if (!sync || !sync.fetchGlobalLeaderboard) { el.hidden = true; return; }
+  el.hidden = false;
+  el.classList.add("lb-retro");
+  const diffs = [["", "ALL"], ["easy", "EASY"], ["medium", "MEDIUM"], ["hard", "HARD"], ["insane", "INSANE"]];
+  const setOpts = '<option value="">ALL SETS</option>' +
+    gameableDeckKeys().map(k => `<option value="${k}"${k === lbSetFilter ? " selected" : ""}>${selEsc(deckLabel(k))}</option>`).join("");
+  el.innerHTML =
+    (opts.heading ? `<div class="lb-title">${opts.heading}</div>` : "") +
+    '<div class="lb-controls">' +
+      '<div class="lb-filters">' + diffs.map(([k, lab]) =>
+        `<button class="lb-chip${k ? ` diff-${k}` : ""}${k === lbFilter ? " on" : ""}" data-diff="${k}">${lab}</button>`).join("") +
+      '</div>' +
+      '<label class="lb-setfilter"><span class="lb-set-label">SET</span><select class="lb-set">' + setOpts + '</select></label>' +
+    '</div>' +
+    '<div class="lb-body"><div class="lb-note">LOADING…</div></div>';
+  const body = el.querySelector(".lb-body");
+  el.querySelectorAll(".lb-chip").forEach(chip => chip.addEventListener("click", () => {
+    lbFilter = chip.dataset.diff;
+    el.querySelectorAll(".lb-chip").forEach(x => x.classList.toggle("on", x === chip));
+    loadGlobalBoard(body, 0, limit);
+  }));
+  const setSel = el.querySelector(".lb-set");
+  if (setSel) setSel.addEventListener("change", () => { lbSetFilter = setSel.value; loadGlobalBoard(body, 0, limit); });
+  loadGlobalBoard(body, opts.initialDelay || 0, limit);
+}
+function renderEndLeaderboard() {
+  renderGlobalLeaderboard($("endLeaderboard"), { heading: "HIGH SCORES", limit: 25, initialDelay: 700 });
+}
+// Placeholder standings so the board looks alive before real scores roll in.
+// Each fits the columns: username · set (deck) · difficulty · score · streak.
+const DUMMY_LEADERBOARD = [
+  { name: "SakuraStorm",  deck: "katakana", difficulty: "insane", score: "2480000", streak: 96 },
+  { name: "kanjiNinja",   deck: "n3",       difficulty: "hard",   score: "1920000", streak: 78 },
+  { name: "YukiReads",    deck: "hiragana", difficulty: "insane", score: "1640000", streak: 71 },
+  { name: "TanakaPlays",  deck: "n5",       difficulty: "hard",   score: "1180000", streak: 64 },
+  { name: "moshiMoshi",   deck: "n5vocab",  difficulty: "medium", score: "940000",  streak: 58 },
+  { name: "RamenLover",   deck: "katakana", difficulty: "medium", score: "720000",  streak: 49 },
+  { name: "HiraganaHero", deck: "hiragana", difficulty: "easy",   score: "560000",  streak: 120 },
+  { name: "NihongoNow",   deck: "n4",       difficulty: "hard",   score: "430000",  streak: 41 },
+  { name: "KanaKat",      deck: "n4vocab",  difficulty: "easy",   score: "280000",  streak: 88 },
+  { name: "beginnerBen",  deck: "hiragana", difficulty: "easy",   score: "95000",   streak: 33 },
+];
+function dummyLeaderboard(diff, deck, limit) {
+  return DUMMY_LEADERBOARD
+    .filter(r => (!diff || r.difficulty === diff) && (!deck || r.deck === deck))
+    .slice(0, limit || 25)
+    .map(r => Object.assign({ isYou: false, __dummy: true }, r));
+}
+// Compare two leaderboard rows by score, descending (BigInt — scores can be huge).
+function cmpScoreDesc(a, b) {
+  try { const A = BigInt(a.score || 0), B = BigInt(b.score || 0); return A > B ? -1 : A < B ? 1 : 0; }
+  catch (e) { return 0; }
+}
+function loadGlobalBoard(body, delay, limit) {
+  if (!body) return;
+  const sync = window.KanaSync;
+  body.innerHTML = '<div class="lb-note">LOADING…</div>';
+  // Wait for a just-finished game's score push to complete before fetching, so a
+  // fresh high score appears on the board immediately.
+  const ready = (sync && sync.flush) ? Promise.resolve(sync.flush()).catch(() => {}) : Promise.resolve();
+  ready.then(() => setTimeout(() => {
+    sync.fetchGlobalLeaderboard(lbFilter, lbSetFilter, limit || 25).then(real => {
+      const signedIn = !!(sync.isReady && sync.isReady());
+      const saveFailed = signedIn && sync.scoreSaved && !sync.scoreSaved();
+      // Merge real scores with the sample standings so the board always looks
+      // populated, then rank them together by score.
+      let rows = (real || []).concat(dummyLeaderboard(lbFilter, lbSetFilter, 25));
+      rows.sort(cmpScoreDesc);
+      rows = rows.slice(0, limit || 25).map((r, i) => Object.assign({}, r, { rank: i + 1 }));
+      const sampleShown = rows.some(r => r.__dummy);
+      if (!rows.length) {
+        body.innerHTML = '<div class="lb-note">NO SCORES FOR THIS SET / MODE YET.</div>';
+      } else {
+        const head = '<div class="lb-head"><span class="lb-rank">#</span>' +
+          '<span class="lb-name">PLAYER · SET</span><span class="diff-badge lb-modeh">MODE</span>' +
+          '<span class="lb-score-cell lb-scoreh">SCORE · 🔥</span></div>';
+        body.innerHTML = head + '<ol class="lb-list">' + rows.map(r => {
+          const mlabel = (MODES[r.difficulty] && MODES[r.difficulty].label) || r.difficulty;
+          return `<li class="lb-row${r.isYou ? " you" : ""}${r.__dummy ? " lb-sample" : ""}">` +
+            `<span class="lb-rank">${r.rank}</span>` +
+            `<span class="lb-name"><span class="lb-who">${selEsc(r.name)}${r.isYou ? ' <span class="lb-you">you</span>' : ""}</span>` +
+              `<span class="lb-deck">${selEsc(deckLabel(r.deck))}</span></span>` +
+            `<span class="diff-badge diff-${selEsc(r.difficulty)}">${selEsc(mlabel)}</span>` +
+            `<span class="lb-score-cell"><span class="lb-score">${abbrevScore(r.score)}</span>` +
+              `<span class="lb-streak">🔥 ${Number(r.streak) || 0}</span></span></li>`;
+        }).join("") + '</ol>';
+      }
+      if (saveFailed) {
+        const w = document.createElement("div");
+        w.className = "lb-myrank lb-warn";
+        w.textContent = "⚠ COULDN'T SAVE YOUR SCORE — THE LEADERBOARD DATABASE ISN'T SET UP YET.";
+        body.appendChild(w);
+      } else if (sampleShown) {
+        const note = document.createElement("div");
+        note.className = "lb-myrank";
+        note.textContent = "★ INCLUDES SAMPLE STANDINGS UNTIL MORE PLAYERS JOIN ★";
+        body.appendChild(note);
+      }
+      if (!signedIn) appendLbSignIn(body);
+    });
+  }, delay || 0));
+}
+function appendLbSignIn(el) {
+  const d = document.createElement("div");
+  d.className = "lb-myrank";
+  d.innerHTML = '<button id="lbSignIn" class="ghost">Sign in to post your score</button>';
+  el.appendChild(d);
+  const b = $("lbSignIn");
+  if (b) b.addEventListener("click", () => { const o = $("authOverlay"); if (o) o.classList.add("show"); });
+}
+
+// ================== Stats & Achievements ==================
+// Local activity log → daily streak, totals, and earnable badges (a "flex" wall).
+const STATS_KEY = "anpiStats";
+function loadStats() { try { return JSON.parse(localStorage.getItem(STATS_KEY)) || {}; } catch (e) { return {}; } }
+function saveStats(s) { try { localStorage.setItem(STATS_KEY, JSON.stringify(s)); } catch (e) {} }
+function dayStr(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+function todayStr() { return dayStr(new Date()); }
+function prevDay(str) { const p = str.split("-").map(Number); const dt = new Date(p[0], p[1] - 1, p[2]); dt.setDate(dt.getDate() - 1); return dayStr(dt); }
+function statsTouchToday(s) { s.days = s.days || {}; s.days[todayStr()] = true; }
+function markCard(correct) {
+  const s = loadStats();
+  statsTouchToday(s);
+  s.cardsAnswered = (s.cardsAnswered || 0) + 1;
+  if (correct) s.cardsCorrect = (s.cardsCorrect || 0) + 1;
+  saveStats(s);
+}
+function markGame(score, streak) {
+  const s = loadStats();
+  statsTouchToday(s);
+  s.gamesPlayed = (s.gamesPlayed || 0) + 1;
+  try { if (BigInt(score || 0) > BigInt(s.bestGameScore || 0)) s.bestGameScore = String(score); } catch (e) {}
+  if ((streak || 0) > (s.bestGameStreak || 0)) s.bestGameStreak = streak;
+  saveStats(s);
+}
+function currentStreak(s) {
+  s = s || loadStats(); const days = s.days || {};
+  let n = 0, d = todayStr();
+  if (!days[d]) d = prevDay(d);   // today not logged yet → streak still counts through yesterday
+  while (days[d]) { n++; d = prevDay(d); }
+  return n;
+}
+function longestStreak(s) {
+  s = s || loadStats();
+  const keys = Object.keys(s.days || {}).sort();
+  let best = 0, cur = 0, prev = null;
+  for (const k of keys) { cur = (prev && prevDay(k) === prev) ? cur + 1 : 1; if (cur > best) best = cur; prev = k; }
+  return best;
+}
+const ACHIEVEMENTS = [
+  { id: "streak3",  icon: "🔥", name: "On Fire",        desc: "3-day streak",        earned: s => Math.max(currentStreak(s), longestStreak(s)) >= 3 },
+  { id: "streak7",  icon: "🔥", name: "Week Warrior",   desc: "7-day streak",        earned: s => Math.max(currentStreak(s), longestStreak(s)) >= 7 },
+  { id: "streak30", icon: "📅", name: "Devoted",        desc: "30-day streak",       earned: s => Math.max(currentStreak(s), longestStreak(s)) >= 30 },
+  { id: "cards100", icon: "📚", name: "Getting Going",  desc: "Answer 100 cards",    earned: s => (s.cardsAnswered || 0) >= 100 },
+  { id: "cards500", icon: "📖", name: "Bookworm",       desc: "Answer 500 cards",    earned: s => (s.cardsAnswered || 0) >= 500 },
+  { id: "cards2k",  icon: "🧠", name: "Scholar",        desc: "Answer 2,000 cards",  earned: s => (s.cardsAnswered || 0) >= 2000 },
+  { id: "acc90",    icon: "🎯", name: "Sharpshooter",   desc: "90%+ over 100 cards", earned: s => (s.cardsAnswered || 0) >= 100 && (s.cardsCorrect || 0) / (s.cardsAnswered || 1) >= 0.9 },
+  { id: "games10",  icon: "🎮", name: "Gamer",          desc: "Play 10 games",       earned: s => (s.gamesPlayed || 0) >= 10 },
+  { id: "games50",  icon: "👾", name: "Arcade Regular", desc: "Play 50 games",       earned: s => (s.gamesPlayed || 0) >= 50 },
+  { id: "combo50",  icon: "⚡", name: "Combo Master",   desc: "50× game streak",     earned: s => (s.bestGameStreak || 0) >= 50 },
+  { id: "combo100", icon: "💥", name: "Unstoppable",    desc: "100× game streak",    earned: s => (s.bestGameStreak || 0) >= 100 },
+  { id: "score1m",  icon: "💎", name: "Millionaire",    desc: "Score 1M in a game",  earned: s => { try { return BigInt(s.bestGameScore || 0) >= 1000000n; } catch (e) { return false; } } },
+];
+function showStatsView() { if (game.active) backToStudy(); setMainView("stats"); renderStats(); }
+function renderStats() {
+  const wrap = $("statsBody"); if (!wrap) return;
+  const s = loadStats();
+  const cur = currentStreak(s), longest = longestStreak(s);
+  const cards = s.cardsAnswered || 0, correct = s.cardsCorrect || 0;
+  const acc = cards ? Math.round(correct / cards * 100) : 0;
+  const earnedList = ACHIEVEMENTS.filter(a => { try { return a.earned(s); } catch (e) { return false; } });
+  const tiles = [
+    ["CARDS", cards.toLocaleString()],
+    ["ACCURACY", cards ? acc + "%" : "—"],
+    ["GAMES", (s.gamesPlayed || 0).toLocaleString()],
+    ["BEST SCORE", s.bestGameScore ? abbrevScore(s.bestGameScore) : "—"],
+    ["BEST COMBO", (s.bestGameStreak || 0) ? "🔥" + s.bestGameStreak : "—"],
+    ["BADGES", earnedList.length + "/" + ACHIEVEMENTS.length],
+  ];
+  wrap.innerHTML =
+    '<div class="stats-streak"><div class="num">🔥 ' + cur + '</div><div class="lbl">DAY STREAK' +
+      (longest > cur ? ' · BEST ' + longest : '') + '</div></div>' +
+    '<div class="stat-tiles">' + tiles.map(t =>
+      '<div class="stat-tile"><div class="v">' + selEsc(t[1]) + '</div><div class="k">' + t[0] + '</div></div>').join("") + '</div>' +
+    '<div class="ach-title">★ ACHIEVEMENTS ★</div>' +
+    '<div class="ach-grid">' + ACHIEVEMENTS.map(a => {
+      const got = earnedList.indexOf(a) > -1;
+      return '<div class="ach ' + (got ? "earned" : "locked") + '" title="' + selEsc(a.desc) + '">' +
+        '<div class="ico">' + a.icon + '</div><div class="nm">' + selEsc(a.name) + '</div>' +
+        '<div class="ds">' + selEsc(got ? "✓" : a.desc) + '</div></div>';
+    }).join("") + '</div>' +
+    '<div class="ach-title">🏆 LEADERBOARD PODIUMS</div><div id="statsPodiums" class="badges-list"><div class="lb-note">…</div></div>';
+  renderStatsPodiums();
+}
+function renderStatsPodiums() {
+  const el = $("statsPodiums"); if (!el) return;
+  const sync = window.KanaSync;
+  if (!sync || !sync.isReady || !sync.isReady() || !sync.fetchMyPodiums) {
+    el.innerHTML = '<div class="lb-note">Sign in &amp; reach a leaderboard top-3 to earn podium badges.</div>';
+    return;
+  }
+  sync.fetchMyPodiums().then(rows => {
+    const podiums = rows || [];
+    if (!podiums.length) { el.innerHTML = '<div class="lb-note">No top-3 finishes yet — climb a leaderboard!</div>'; return; }
+    const medals = ["🥇", "🥈", "🥉"];
+    const mlabel = k => (MODES[k] && MODES[k].label) || k;
+    el.innerHTML = podiums.map(p =>
+      '<div class="badge-item diff-' + selEsc(p.difficulty) + '"><span class="badge-medal">' + (medals[(p.rank || 3) - 1] || "🏅") + '</span>' +
+      '<span class="badge-where">' + selEsc(deckLabel(p.deck_id)) + ' · <b>' + selEsc(mlabel(p.difficulty)) + '</b></span></div>').join("");
+  });
 }
 
 // ---------- Events ----------
@@ -1723,16 +2249,16 @@ if (window.visualViewport) {
 }
 gameInput.addEventListener("focus", () => setTimeout(layoutGameCanvas, 120)); // iOS keyboard backup
 gameInput.addEventListener("blur", () => setTimeout(layoutGameCanvas, 120));
-$("gameExit").addEventListener("click", backToStudy);
+$("gameExit").addEventListener("click", exitGameToPicker);
 $("gameExitFromMode").addEventListener("click", showDeckPicker); // difficulty → back to deck/set
 $("playAgain").addEventListener("click", () => startGame(game.mode.key));
 $("changeMode").addEventListener("click", showModeSelect);
 $("changeDeck").addEventListener("click", showDeckPicker);
-$("endToStudy").addEventListener("click", backToStudy);
+$("endToStudy").addEventListener("click", showHome);
 // Deck/set picker
 $("gameDeckSelect").addEventListener("change", updateGameSetVisibility);
 $("deckPickerNext").addEventListener("click", gamePickerContinue);
-$("deckPickerBack").addEventListener("click", backToStudy);
+$("deckPickerBack").addEventListener("click", showHome);
 
 // ---------- Game "How to play" tutorial (first visit + replay button) ----------
 const GAME_TUT_KEY = "anpiGameTutSeen";
@@ -1767,9 +2293,9 @@ deckSelect.addEventListener("change", () => {
 });
 // Set dropdown → select that subset within the current section.
 groupSelect.addEventListener("change", () => selectSet(groupSelect.value));
-$("shuffleBtn").addEventListener("click", shuffle);
-$("yesBtn").addEventListener("click", e => { e.stopPropagation(); answer(true); });
-$("noBtn").addEventListener("click",  e => { e.stopPropagation(); answer(false); });
+$("shuffleBtn").addEventListener("click", () => { if (tourActive) return; shuffle(); });
+$("yesBtn").addEventListener("click", e => { e.stopPropagation(); if (tourActive) return; answer(true); });
+$("noBtn").addEventListener("click",  e => { e.stopPropagation(); if (tourActive) return; answer(false); });
 
 // ---------- Card tap/click zones: left 25% back · center 50% flip · right 25% correct+next ----------
 function flashZone(el, type) {
@@ -1787,9 +2313,9 @@ function markCorrectAndNext() {
   advance();
   checkComplete();
 }
-$("zoneCenter").addEventListener("click", flip);
-$("zoneRight").addEventListener("click", () => { flashZone($("zoneRight"), "green"); markCorrectAndNext(); });
-$("zoneLeft").addEventListener("click",  () => { flashZone($("zoneLeft"), "neutral"); prev(); });
+$("zoneCenter").addEventListener("click", () => { flip(); }); // flip stays available (used in the tour)
+$("zoneRight").addEventListener("click", () => { if (tourActive) return; flashZone($("zoneRight"), "green"); markCorrectAndNext(); });
+$("zoneLeft").addEventListener("click",  () => { if (tourActive) return; flashZone($("zoneLeft"), "neutral"); prev(); });
 // Closing the report saves are already done — reset everything to start over.
 $("closeReport").addEventListener("click", () => { hideReport(); buildDeck(); });
 $("historyBtn").addEventListener("click", showHistory);
@@ -1846,7 +2372,13 @@ document.addEventListener("click", e => {
 });
 
 // Pronunciation: manual replay (Google Translate TTS provides one consistent voice)
-$("speakerBtn").addEventListener("click", e => { e.stopPropagation(); speakCurrentCard(); });
+$("speakerBtn").addEventListener("click", e => { e.stopPropagation(); speak(currentSpeakText()); });
+// Auto-play toggle in the settings panel; disable + note it if there's no TTS.
+(function initAudioToggle() {
+  const chk = $("autoSpeakChk");
+  if (chk) { chk.checked = autoSpeak; chk.addEventListener("change", () => setAutoSpeak(chk.checked)); }
+  updateAudioNote(); // shows the "install a JP voice" tip only when none is found
+})();
 
 // ---------- First-visit tutorial ----------
 const TUT_KEY = "kanaTutorialSeen";
@@ -1888,14 +2420,11 @@ function maybeShowTutorial() {
   if (!seen) startTutorial();
 }
 $("tutDismiss").addEventListener("click", endTutorial);
-$("tutorialReplay").addEventListener("click", () => {
-  // On mobile the sidebar overlays the card — close it so the tutorial is visible.
-  if (window.innerWidth <= 720) $("sidebar").classList.add("collapsed");
-  startTutorial();
-});
+$("tutorialReplay").addEventListener("click", () => { startTour(); });
 
 document.addEventListener("keydown", e => {
   if (e.target.tagName === "SELECT") return;
+  if (tourActive) return; // tour running → ignore study shortcuts (no card manipulation)
   // While the tutorial is showing, swallow shortcuts; Esc (or Enter/Space once
   // the "Got it" button is up) dismisses it.
   if (!$("tutorial").hidden) {
@@ -1905,7 +2434,7 @@ document.addEventListener("keydown", e => {
   }
   // The game has its own input handling — let Esc bail out, ignore study shortcuts.
   if (game.active) {
-    if (e.code === "Escape") { e.preventDefault(); backToStudy(); }
+    if (e.code === "Escape") { e.preventDefault(); exitGameToPicker(); }
     return;
   }
   // While the history overlay is open, only allow closing it.
@@ -1969,8 +2498,35 @@ function showLearnView() {
 }
 function showLearnScreen(which) {
   $("learnPlacement").hidden = which !== "placement";
+  $("learnTest").hidden = which !== "test";
   $("learnPath").hidden = which !== "path";
   $("learnLesson").hidden = which !== "lesson";
+}
+
+// ---- Placement test ----
+let testIdx = 0, testBest = null, placementNote = "";
+const TIER_RANK = { kana: 1, n5: 2, n4: 3, n3: 4 };
+const curPlacement = () => (window.CURRICULUM && CURRICULUM.placement) || [];
+function startTest() { testIdx = 0; testBest = null; renderTestQuestion(); showLearnScreen("test"); }
+function renderTestQuestion() {
+  const qs = curPlacement(), q = qs[testIdx];
+  if (!q) return finishTest();
+  $("testProg").textContent = "Question " + (testIdx + 1) + " of " + qs.length;
+  $("testQ").textContent = q.q;
+  $("testChoices").innerHTML = q.choices.map((c, i) => `<button class="test-choice" data-i="${i}">${selEsc(c)}</button>`).join("");
+  $("testChoices").querySelectorAll(".test-choice").forEach(b => b.addEventListener("click", () => answerTest(+b.dataset.i)));
+}
+function answerTest(i) {
+  const q = curPlacement()[testIdx];
+  if (q && i === q.answer && (!testBest || TIER_RANK[q.tier] > TIER_RANK[testBest])) testBest = q.tier;
+  testIdx++; renderTestQuestion();
+}
+function finishTest() {
+  const level = testBest || "zero"; // nothing correct → absolute beginner
+  learnState.level = level; saveLearnState();
+  const lv = curLevels().find(l => l.id === level);
+  placementNote = "Based on your answers, we placed you at: " + (lv ? lv.label : level) + ". You can change this anytime with “Change level”.";
+  renderLearnPath();
 }
 
 function renderLearnPlacement() {
@@ -1989,6 +2545,286 @@ function chooseLevel(id) {
   renderLearnPath();
 }
 
+// ====================== Journey map (the path as a trip up Japan) ======================
+let learnMapMode = (function () { try { return localStorage.getItem("anpiLearnView") !== "list"; } catch (e) { return true; } })();
+const journeyById = {};
+function buildJourneyIndex() { const j = (window.CURRICULUM && CURRICULUM.journey) || []; j.forEach(x => { journeyById[x.id] = x; }); }
+const REGION_TINT = {
+  "Okinawa": "#ff6b9d", "Kyūshū": "#ff9f43", "Shikoku": "#feca57", "Chūgoku": "#1dd1a1",
+  "Kansai": "#54a0ff", "Chūbu": "#a06bff", "Kantō": "#00d2d3", "Tōhoku": "#c8a2ff", "Hokkaidō": "#48dbfb",
+};
+// ---- pan / zoom (drives the SVG viewBox) ----
+let jmapView = null; // {x,y,w,h} — persists across re-renders so zoom is kept
+function jmapApplyView(svg) {
+  if (svg && jmapView) svg.setAttribute("viewBox", `${jmapView.x.toFixed(1)} ${jmapView.y.toFixed(1)} ${jmapView.w.toFixed(1)} ${jmapView.h.toFixed(1)}`);
+}
+function jmapAttachPanZoom(svg, wrap) {
+  const M = window.JAPAN_MAP; if (!M || !svg) return;
+  const MINW = M.W * 0.2, MAXW = M.W, AR = M.H / M.W;
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  function clampView(v) { v.w = clamp(v.w, MINW, MAXW); v.h = v.w * AR; v.x = clamp(v.x, 0, M.W - v.w); v.y = clamp(v.y, 0, M.H - v.h); return v; }
+  function zoomAt(factor, clientX, clientY) {
+    const r = svg.getBoundingClientRect(); if (!r.width) return; const v = jmapView;
+    const nw = clamp(v.w * factor, MINW, MAXW), nh = nw * AR;
+    const fx = v.x + (clientX - r.left) / r.width * v.w, fy = v.y + (clientY - r.top) / r.height * v.h;
+    jmapView = clampView({ x: fx - (clientX - r.left) / r.width * nw, y: fy - (clientY - r.top) / r.height * nh, w: nw, h: nh });
+    jmapApplyView(svg);
+  }
+  svg.addEventListener("wheel", e => { e.preventDefault(); zoomAt(e.deltaY > 0 ? 1.15 : 1 / 1.15, e.clientX, e.clientY); }, { passive: false });
+  const pts = new Map(); let last = null, pinchD = 0, pinchMid = null, moved = false;
+  svg.addEventListener("pointerdown", e => {
+    try { svg.setPointerCapture(e.pointerId); } catch (x) {}
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); moved = false;
+    if (pts.size === 1) { last = { x: e.clientX, y: e.clientY }; svg.classList.add("grabbing"); }
+    else if (pts.size === 2) { const a = [...pts.values()]; pinchD = Math.hypot(a[0].x - a[1].x, a[0].y - a[1].y); pinchMid = { x: (a[0].x + a[1].x) / 2, y: (a[0].y + a[1].y) / 2 }; }
+  });
+  svg.addEventListener("pointermove", e => {
+    if (!pts.has(e.pointerId)) return; pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    const r = svg.getBoundingClientRect(); if (!r.width) return; const v = jmapView;
+    if (pts.size === 1 && last) {
+      const dx = e.clientX - last.x, dy = e.clientY - last.y; if (Math.abs(dx) + Math.abs(dy) > 2) moved = true;
+      v.x -= dx / r.width * v.w; v.y -= dy / r.height * v.h; clampView(v); jmapApplyView(svg); last = { x: e.clientX, y: e.clientY };
+    } else if (pts.size === 2) {
+      const a = [...pts.values()]; const d = Math.hypot(a[0].x - a[1].x, a[0].y - a[1].y); const mid = { x: (a[0].x + a[1].x) / 2, y: (a[0].y + a[1].y) / 2 };
+      if (pinchD > 0 && d > 0) zoomAt(pinchD / d, mid.x, mid.y);
+      if (pinchMid) { const v2 = jmapView; v2.x -= (mid.x - pinchMid.x) / r.width * v2.w; v2.y -= (mid.y - pinchMid.y) / r.height * v2.h; clampView(v2); jmapApplyView(svg); }
+      pinchD = d; pinchMid = mid; moved = true;
+    }
+  });
+  function up(e) { pts.delete(e.pointerId); if (pts.size < 2) { pinchD = 0; pinchMid = null; } if (pts.size === 1) { const a = [...pts.values()][0]; last = { x: a.x, y: a.y }; } if (pts.size === 0) svg.classList.remove("grabbing"); }
+  svg.addEventListener("pointerup", up); svg.addEventListener("pointercancel", up); svg.addEventListener("lostpointercapture", up);
+  // swallow the click that ends a drag so it doesn't open a lesson
+  svg.addEventListener("click", e => { if (moved) { e.stopPropagation(); moved = false; } }, true);
+  if (wrap) wrap.querySelectorAll(".jmap-zbtn").forEach(b => b.addEventListener("click", () => { const r = svg.getBoundingClientRect(); zoomAt(b.dataset.z === "in" ? 1 / 1.45 : 1.45, r.left + r.width / 2, r.top + r.height / 2); }));
+}
+// Approximate [lng, lat] pin for each lesson, spread across the whole country.
+const JOURNEY_XY = {
+  scripts: [123.78, 24.06], "hiragana-basic": [124.16, 24.34], "hiragana-dakuten": [125.28, 24.80],
+  "hiragana-yoon": [127.30, 26.20], "kana-extras": [127.68, 26.21], katakana: [127.88, 26.69],
+  pronunciation: [129.50, 28.38], "kanji-readings": [130.50, 30.36], "names-titles": [130.65, 31.25],
+  rendaku: [130.66, 31.59], "how-to-study": [130.87, 31.92], "pitch-accent": [131.42, 31.91],
+  "n5-kanji": [131.47, 31.74], "n5-numbers": [130.71, 32.80], "n5-vocab": [131.10, 32.88],
+  "n5-particles": [129.87, 32.75], "n5-grammar": [129.72, 33.18], "n5-phrases": [130.30, 33.32],
+  "verb-groups": [130.40, 33.59], adjectives: [130.52, 33.51], kosoado: [130.88, 33.88],
+  counters: [131.50, 33.28], "time-dates": [131.36, 33.26], "big-numbers": [131.80, 33.12],
+  comparisons: [133.53, 33.56], "family-terms": [133.02, 32.72], adverbs: [132.77, 33.84],
+  restaurant: [132.55, 33.51], shopping: [134.55, 34.07], directions: [134.61, 34.23],
+  weather: [134.05, 34.34], food: [133.82, 34.18], "hobbies-routine": [133.93, 34.66],
+  "n4-kanji": [133.77, 34.59], "n4-vocab": [132.46, 34.39], "n4-teform": [132.32, 34.30],
+  "n4-grammar": [133.20, 34.41], "giving-receiving": [132.22, 34.17], transitivity: [131.40, 34.41],
+  "potential-volitional": [134.23, 35.54], quoting: [133.05, 35.47], "time-clauses": [132.69, 35.40],
+  "permission-obligation": [134.69, 34.84], doctor: [135.20, 34.69], admin: [135.50, 34.69],
+  "phone-emergency": [135.84, 34.69], technology: [135.77, 35.01], "work-school": [135.68, 35.01],
+  emotions: [135.81, 34.88], travel: [135.58, 34.21], "common-mistakes": [135.89, 33.67],
+  "numbers-life": [136.72, 34.46], "n3-kanji": [136.91, 35.18], "n3-vocab": [136.94, 35.39],
+  "n3-grammar": [136.91, 36.26], "keigo-levels": [137.25, 36.15], "passive-causative": [136.66, 36.56],
+  nominalization: [137.10, 37.30], onomatopoeia: [137.62, 36.58], conjunctions: [136.36, 36.05],
+  "reading-strategy": [137.97, 36.24], dialects: [138.19, 36.66], nature: [137.64, 36.25],
+  "particle-combos": [138.73, 35.36], relationships: [138.52, 35.01], health: [139.03, 35.23],
+  "n2-kanji": [139.64, 35.44], "n2-vocab": [139.70, 35.69], "n2-grammar": [139.80, 35.71],
+  "written-style": [139.60, 36.75], "sentence-particles": [138.60, 36.62], "near-synonyms": [140.45, 36.38],
+  "formal-writing": [139.93, 37.49], "n1-kanji": [140.87, 38.27], "n1-vocab": [141.07, 38.37],
+  "casual-speech": [140.43, 38.31], loanwords: [140.56, 39.59], aizuchi: [141.11, 38.99],
+  proverbs: [140.46, 40.60], "academic-vocab": [140.73, 41.77], "reading-genres": [141.35, 43.06],
+  "advanced-kanji": [141.00, 43.19], "classical-grammar": [142.38, 43.34], "n1-grammar": [141.93, 45.42],
+  "home-objects": [129.97, 33.45], conditionals: [130.94, 33.96], leisure: [135.87, 35.00],
+  certainty: [139.02, 37.90], news: [140.12, 35.61],
+  "greetings-intro": [132.56, 33.22], colors: [131.77, 34.46], "change-becoming": [135.19, 34.23],
+  "cause-reason": [138.63, 36.35], idioms: [139.84, 38.91],
+  "annual-events": [131.31, 32.71], clarifying: [134.18, 34.74], "apolog-thanks": [135.37, 34.46],
+  opinions: [138.57, 35.66], "science-tech": [140.10, 36.08],
+  "music-pop": [135.36, 34.81], "eating-out": [137.39, 34.77], hypotheticals: [136.99, 36.85],
+  business: [137.73, 34.71], ceremonies: [143.20, 42.92],
+  transportation: [137.16, 35.08], "how-to": [136.92, 35.50], quantity: [139.49, 35.92],
+  "service-keigo": [141.49, 40.51], rhetoric: [144.38, 42.98],
+};
+
+// smooth "bendy" curve through points (Catmull-Rom → cubic Bézier)
+function jmapSpline(pts) {
+  if (!pts || pts.length < 2) return pts && pts.length ? `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}` : "";
+  let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+    const c1x = p1[0] + (p2[0] - p0[0]) / 5, c1y = p1[1] + (p2[1] - p0[1]) / 5;
+    const c2x = p2[0] - (p3[0] - p1[0]) / 5, c2y = p2[1] - (p3[1] - p1[1]) / 5;
+    d += ` C ${c1x.toFixed(1)} ${c1y.toFixed(1)} ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+  return d;
+}
+function renderLearnMapSVG(units, recId, startI) {
+  buildJourneyIndex();
+  const wrap = $("learnMap"); if (!wrap) return;
+  const M = window.JAPAN_MAP;
+  if (!M) { wrap.innerHTML = ""; return; }
+  const pr = M.proj;
+  const proj = (lng, lat) => [(lng - pr.minLng) * pr.kx * pr.S, (pr.maxLat - lat) * pr.S];
+  const land = M.paths.map(d => `<path d="${d}"/>`).join("");
+
+  let dots = "";
+  const ordered = []; let recOrderIdx = -1;   // projected points in journey order
+  units.forEach((u, i) => {
+    const c = JOURNEY_XY[u.id]; if (!c) return;
+    const xy = proj(c[0], c[1]);
+    ordered.push(xy); if (u.id === recId) recOrderIdx = ordered.length - 1;
+    const j = journeyById[u.id] || {}, region = j.region || "";
+    const done = !!learnState.done[u.id];
+    const isNext = u.id === recId;
+    const optional = i < startI && !done;
+    const status = done ? "done" : isNext ? "next" : optional ? "opt" : "todo";
+    const tint = REGION_TINT[region] || "#8a93c9";
+    const r = isNext ? 11 : done ? 8.5 : 7;
+    dots += `<g class="jdot ${status}" data-unit="${u.id}" style="--rc:${tint}" transform="translate(${xy[0].toFixed(1)} ${xy[1].toFixed(1)})">
+      ${isNext ? '<circle class="jdot-pulse" r="22"/>' : ""}
+      <circle class="jdot-c" r="${r}"/>
+      <circle class="jdot-hit" r="20" fill="transparent"/>
+      <title>${selEsc(j.place || "")}${j.pref ? " (" + selEsc(j.pref) + ")" : ""} — ${selEsc(u.title)}</title>
+    </g>`;
+  });
+  // the winding "adventure trail" through every stop, in order
+  const fullRoute = jmapSpline(ordered);
+  const litRoute = recOrderIdx > 0 ? jmapSpline(ordered.slice(0, recOrderIdx + 1)) : "";
+  wrap.style.height = "";
+  wrap.innerHTML = `<svg class="jmap-svg2" viewBox="${M.viewBox}" preserveAspectRatio="xMidYMid meet">
+    <g class="jmap-land">${land}</g>
+    <path class="jroute" d="${fullRoute}" vector-effect="non-scaling-stroke" />
+    ${litRoute ? `<path class="jroute lit" d="${litRoute}" vector-effect="non-scaling-stroke" />` : ""}
+    <g class="jmap-dots">${dots}</g>
+  </svg>
+  <div class="jmap-zoom"><button class="jmap-zbtn" data-z="in" aria-label="Zoom in">+</button><button class="jmap-zbtn" data-z="out" aria-label="Zoom out">−</button></div>`;
+  const svgEl = wrap.querySelector(".jmap-svg2");
+  if (!jmapView) jmapView = { x: 0, y: 0, w: M.W, h: M.H };
+  jmapAttachPanZoom(svgEl, wrap);
+  jmapApplyView(svgEl);
+  wrap.querySelectorAll(".jdot").forEach(g => g.addEventListener("click", () => openLesson(g.dataset.unit)));
+}
+// ===================== MapLibre satellite journey map =====================
+let glMap = null, glHere = null, glIntroPlayed = false, glRO = null;
+// Catmull-Rom densified spline through [lng,lat] points → smooth bendy trail
+function geoSpline(pts, seg) {
+  seg = seg || 18;
+  if (!pts || pts.length < 2) return pts ? pts.slice() : [];
+  const out = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+    for (let t = 0; t < seg; t++) {
+      const s = t / seg, s2 = s * s, s3 = s2 * s;
+      const x = 0.5 * ((2 * p1[0]) + (-p0[0] + p2[0]) * s + (2 * p0[0] - 5 * p1[0] + 4 * p2[0] - p3[0]) * s2 + (-p0[0] + 3 * p1[0] - 3 * p2[0] + p3[0]) * s3);
+      const y = 0.5 * ((2 * p1[1]) + (-p0[1] + p2[1]) * s + (2 * p0[1] - 5 * p1[1] + 4 * p2[1] - p3[1]) * s2 + (-p0[1] + 3 * p1[1] - 3 * p2[1] + p3[1]) * s3);
+      out.push([x, y]);
+    }
+  }
+  out.push(pts[pts.length - 1]);
+  return out;
+}
+// gather ordered [lng,lat] stops + dot descriptors for the current units/progress
+function glBuildData(units, recId, startI) {
+  buildJourneyIndex();
+  const ordered = []; let recIdx = -1, curLngLat = null;
+  const dots = [];
+  units.forEach((u, i) => {
+    const c = JOURNEY_XY[u.id]; if (!c) return;
+    ordered.push(c);
+    const j = journeyById[u.id] || {}, region = j.region || "";
+    const done = !!learnState.done[u.id];
+    const isNext = u.id === recId;
+    const optional = i < startI && !done;
+    const status = done ? "done" : isNext ? "next" : optional ? "opt" : "todo";
+    if (isNext) { recIdx = ordered.length - 1; curLngLat = c; }
+    const tint = REGION_TINT[region] || "#8a93c9";
+    const color = done ? tint : isNext ? "#ffd76a" : optional ? "#5b6486" : "#7e88b8";
+    const r = isNext ? 9 : done ? 7 : 6;
+    const op = isNext ? 1 : done ? 0.96 : optional ? 0.55 : 0.8;
+    dots.push({ id: u.id, lat: c[1], lng: c[0], color, r, op, status, label: (j.place || u.title) + (j.pref ? " · " + j.pref : "") });
+  });
+  const full = geoSpline(ordered);
+  const lit = recIdx > 0 ? geoSpline(ordered.slice(0, recIdx + 1)) : [];
+  return { dots, full, lit, curLngLat, ordered };
+}
+function glBounds(ordered) {
+  let m = [999, 999], M = [-999, -999];
+  ordered.forEach(c => { m[0] = Math.min(m[0], c[0]); m[1] = Math.min(m[1], c[1]); M[0] = Math.max(M[0], c[0]); M[1] = Math.max(M[1], c[1]); });
+  if (ordered.length < 2) return [[24, 122], [46, 146]];        // Leaflet wants [lat,lng]
+  return [[m[1] - 0.6, m[0] - 0.6], [M[1] + 0.6, M[0] + 0.6]];
+}
+function toLatLngs(pts) { return pts.map(p => [p[1], p[0]]); }   // [lng,lat] → Leaflet [lat,lng]
+function glSetHere(map, cur) {
+  if (!cur) { if (glHere) { map.removeLayer(glHere); glHere = null; } return; }
+  const ll = [cur[1], cur[0]];
+  if (!glHere) {
+    const icon = L.divIcon({ className: "jgl-here-wrap", iconSize: [0, 0],
+      html: '<div class="jgl-here"><span class="jgl-ping"></span><span class="jgl-pin">📍</span></div>' });
+    glHere = L.marker(ll, { icon, interactive: false, keyboard: false, zIndexOffset: 1000 }).addTo(map);
+  } else glHere.setLatLng(ll);
+}
+let glOverlay = null;
+function glDrawOverlay(map, data) {
+  if (glOverlay) { map.removeLayer(glOverlay); glOverlay = null; }
+  glOverlay = L.layerGroup();
+  if (data.full.length > 1)
+    L.polyline(toLatLngs(data.full), { color: "#dbe3ff", weight: 2, opacity: 0.5, dashArray: "1 7", lineCap: "round" }).addTo(glOverlay);
+  if (data.lit.length > 1)
+    L.polyline(toLatLngs(data.lit), { color: "#ffd76a", weight: 3.8, opacity: 0.95, lineCap: "round", lineJoin: "round" }).addTo(glOverlay);
+  data.dots.forEach(d => {
+    const mk = L.circleMarker([d.lat, d.lng], { radius: d.r, color: "#0a0f24", weight: 1.5, fillColor: d.color, fillOpacity: d.op });
+    mk.bindTooltip(d.label, { direction: "top", offset: [0, -2], className: "jgl-tip" });
+    mk.on("click", () => openLesson(d.id));
+    mk.addTo(glOverlay);
+  });
+  glOverlay.addTo(map);
+  glSetHere(map, data.curLngLat);
+}
+// Leaflet satellite map (img tiles — no WebGL, works everywhere)
+function renderLearnMapGL(units, recId, startI) {
+  const wrap = $("learnMap"); if (!wrap) return;
+  const data = glBuildData(units, recId, startI);
+  // build the map only once; afterwards just refresh the overlay + nudge the camera
+  if (glMap && document.getElementById("jglMap")) {
+    glDrawOverlay(glMap, data);
+    setTimeout(() => { try { glMap.invalidateSize(); } catch (e) {} }, 60);
+    if (data.curLngLat) glMap.flyTo([data.curLngLat[1], data.curLngLat[0]], Math.max(glMap.getZoom(), 8), { duration: 1.2 });
+    return;
+  }
+  wrap.innerHTML = '<div class="jgl" id="jglMap"></div><div class="jmap-sea" id="jglSea"></div>'
+    + '<div class="jgl-attr">Imagery © Esri</div>'
+    + '<div class="jmap-zoom"><button class="jmap-zbtn" data-z="in" aria-label="Zoom in">+</button><button class="jmap-zbtn" data-z="out" aria-label="Zoom out">−</button></div>';
+  glMap = L.map("jglMap", { zoomControl: false, attributionControl: false, minZoom: 4, maxZoom: 18, zoomSnap: 0.25 });
+  wrap.querySelectorAll(".jmap-zbtn").forEach(b => b.addEventListener("click", () => { if (b.dataset.z === "in") glMap.zoomIn(); else glMap.zoomOut(); }));
+  L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    { maxZoom: 18 }).addTo(glMap);
+  L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+    { maxZoom: 18, opacity: 0.9 }).addTo(glMap);
+  glMap.fitBounds(glBounds(data.ordered), { padding: [28, 28] });
+  glDrawOverlay(glMap, data);
+  // keep tiles matched to the container (handles hidden→visible + layout changes)
+  if (window.ResizeObserver) {
+    if (glRO) { try { glRO.disconnect(); } catch (e) {} }
+    glRO = new ResizeObserver(() => { if (glMap) { try { glMap.invalidateSize(); } catch (e) {} } });
+    glRO.observe(wrap);
+  }
+  [80, 300, 700].forEach(t => setTimeout(() => { if (glMap) { try { glMap.invalidateSize(); } catch (e) {} } }, t));
+  // ---- cinematic intro: surrounding seas fade away, then slow zoom to your stop ----
+  if (!glIntroPlayed) {
+    glIntroPlayed = true;
+    const sea = document.getElementById("jglSea");
+    setTimeout(() => { if (sea) sea.classList.add("gone"); }, 1500);
+    setTimeout(() => { if (data.curLngLat) glMap.flyTo([data.curLngLat[1], data.curLngLat[0]], 9, { duration: 2.4 }); }, 2300);
+    setTimeout(() => { if (sea && sea.parentNode) sea.parentNode.removeChild(sea); }, 4400);
+  } else { const sea = document.getElementById("jglSea"); if (sea) sea.remove(); }
+}
+function renderLearnMap(units, recId, startI) {
+  const wrap = $("learnMap"); if (!wrap) return;
+  if (window.L && L.map) { try { renderLearnMapGL(units, recId, startI); return; } catch (e) { /* fall through to SVG */ } }
+  renderLearnMapSVG(units, recId, startI);
+}
+function applyLearnView() {
+  const map = $("learnMap"), list = $("learnUnits"), tog = $("learnViewToggle");
+  if (!map || !list) return;
+  map.hidden = !learnMapMode;
+  list.hidden = learnMapMode;
+  if (tog) tog.textContent = learnMapMode ? "☰ List" : "🗾 Map";
+  if (learnMapMode && glMap) requestAnimationFrame(() => { try { glMap.invalidateSize(); } catch (e) {} });
+}
+
 function renderLearnPath() {
   const units = curUnits();
   const total = units.length;
@@ -1997,6 +2833,8 @@ function renderLearnPath() {
   const startI = startIndexForLevel(learnState.level);
   $("learnProgressBar").style.width = (total ? Math.round(doneN / total * 100) : 0) + "%";
   $("learnProgressLabel").textContent = `${doneN} of ${total} lessons complete`;
+  const pl = $("learnPlaced");
+  if (pl) { if (placementNote) { pl.textContent = "✓ " + placementNote; pl.hidden = false; placementNote = ""; } else pl.hidden = true; }
   let html = "", lastStage = null;
   units.forEach((u, i) => {
     if (u.stage !== lastStage) { html += `<div class="learn-stage-h">${selEsc(u.stage)}</div>`; lastStage = u.stage; }
@@ -2012,7 +2850,15 @@ function renderLearnPath() {
   });
   $("learnUnits").innerHTML = html;
   $("learnUnits").querySelectorAll(".learn-unit").forEach(b => b.addEventListener("click", () => openLesson(b.dataset.unit)));
-  showLearnScreen("path");
+  // Progress label doubles as a "you are here" when a journey exists
+  buildJourneyIndex();
+  const cur = recId && journeyById[recId];
+  $("learnProgressLabel").textContent = cur
+    ? `📍 ${cur.place}, ${cur.pref} · ${doneN} of ${total} stops`
+    : `${doneN} of ${total} lessons complete`;
+  showLearnScreen("path");   // make #learnMap visible (sized) BEFORE MapLibre inits its canvas
+  renderLearnMap(units, recId, startI);
+  applyLearnView();
 }
 
 function openLesson(id) {
@@ -2030,6 +2876,7 @@ function openLesson(id) {
   const done = !!learnState.done[id];
   $("lessonComplete").textContent = done ? "Completed ✓" : "Mark complete ✓";
   $("lessonComplete").classList.toggle("is-done", done);
+  $("lessonNext").classList.remove("shine-once"); // glimmer only after a fresh completion
   showLearnScreen("lesson");
   $("learnView").scrollTop = 0;
 }
@@ -2041,7 +2888,11 @@ function runPractice(p) {
 function completeLesson() {
   if (!currentLessonId) return;
   learnState.done[currentLessonId] = true; saveLearnState();
-  gotoNextLesson();
+  // Stay on the lesson: just mark the button green and glimmer "Next lesson"
+  // so the user chooses when to move on.
+  const cb = $("lessonComplete");
+  cb.textContent = "Completed ✓"; cb.classList.add("is-done");
+  const nb = $("lessonNext"); if (nb) nb.classList.add("shine-once");
 }
 function gotoNextLesson() {
   const units = curUnits();
@@ -2051,11 +2902,335 @@ function gotoNextLesson() {
 
 $("learnNav").addEventListener("click", () => { showLearnView(); if (window.innerWidth <= 720) $("sidebar").classList.add("collapsed"); });
 $("learnChangeLevel").addEventListener("click", renderLearnPlacement);
+$("learnViewToggle").addEventListener("click", () => {
+  learnMapMode = !learnMapMode;
+  try { localStorage.setItem("anpiLearnView", learnMapMode ? "map" : "list"); } catch (e) {}
+  applyLearnView();
+});
+$("learnTestStart").addEventListener("click", startTest);
+$("testBack").addEventListener("click", renderLearnPlacement);
 $("lessonBack").addEventListener("click", renderLearnPath);
 $("lessonComplete").addEventListener("click", completeLesson);
 $("lessonNext").addEventListener("click", gotoNextLesson);
 
+// ---------- Interactive feature tour (spotlight walkthrough) ----------
+const SB_FC = ".tree > details:nth-of-type(1)";        // Flashcards section
+const SB_GAME = ".tree > details:nth-of-type(2)";      // Game section
+const SB_FC_JP = SB_FC + " .jp-group";                 // Flashcards › Japanese group
+const SB_FC_N5 = SB_FC_JP + " > .group > .cat:nth-of-type(1)";          // › N5 level
+const SB_FC_KANA = SB_FC_N5 + " > .group > .sub:nth-of-type(1)";        // › Kana group
+const SB_HIRA = '.deck[data-deck="hiragana"]:not([data-game])';        // the Hiragana deck button
+const SB_GAME_JP = SB_GAME + " .jp-group";
+
+const TOUR_STEPS = [
+  // ---- Phase 1: open the menu, drill the hierarchy, open Hiragana (all clicks) ----
+  { sel: "#sidebarToggle", click: true, before: closeNav, do: openNav,
+    title: "Open the menu",
+    text: "Everything starts in the side menu. 👆 Tap the ☰ button to open it." },
+  { sel: SB_FC + " > summary", click: true, before: openNav, do: () => openSel(SB_FC),
+    title: "Flashcards",
+    text: "📚 Flashcards holds all your study decks. 👆 Open it." },
+  { sel: SB_FC_JP + " > summary", click: true, before: () => openSel(SB_FC), do: () => openSel(SB_FC_JP),
+    title: "Grouped by language",
+    text: "Inside, everything Japanese sits under “Japanese” (room for other languages later). 👆 Open it." },
+  { sel: SB_FC_N5 + " > summary", click: true, before: () => { openSel(SB_FC); openSel(SB_FC_JP); }, do: () => openSel(SB_FC_N5),
+    title: "Split by level",
+    text: "Decks are organized by JLPT level — N5 (beginner) up to N1 (advanced). 👆 Open N5." },
+  { sel: SB_FC_KANA + " > summary", click: true, before: () => { openSel(SB_FC); openSel(SB_FC_JP); openSel(SB_FC_N5); }, do: () => openSel(SB_FC_KANA),
+    title: "A level's contents",
+    text: "Each level breaks into Kana, Kanji, Vocabulary and more. Kana — the phonetic alphabets — is step one. 👆 Open Kana." },
+  { sel: SB_HIRA, pad: 6, click: true, before: () => { openSel(SB_FC); openSel(SB_FC_JP); openSel(SB_FC_N5); openSel(SB_FC_KANA); }, do: () => selectSet("hiragana"),
+    title: "Open Hiragana",
+    text: "Hiragana is the very first deck to learn. 👆 Open it!" },
+
+  // ---- Phase 2: the flashcard (deck now loaded) ----
+  { sel: "#cardStage", click: true, before: navForCard, do: () => { if (!flipped) flip(); },
+    title: "Your first card",
+    text: "Your Hiragana deck is open! The big character is what you're learning. 👆 Tap the card's center to flip it." },
+  { sel: "#cardStage", before: () => { navForCard(); ensureFlipped(); },
+    title: "The back of the card",
+    text: "The flip side gives you everything: the reading (romaji), the same sound in the other script, a short note, and an animated stroke order showing how to write it." },
+  { sel: "#cardStage", padB: 26, before: () => { navForCard(); playCardDemoLoop(); },
+    title: "Card controls",
+    text: "Watch the arrows: tap the center to flip · the right edge to mark it correct & advance · the left edge to go back. (Arrow keys work too.)" },
+
+  // ---- Phase 2b: the info above the card ----
+  { sels: ["#progress", "#completed", "#score"], pad: 6, before: navForCard,
+    title: "Track your progress",
+    text: "Above the card you can see which card you're on, how many you've completed, and your running score for this session." },
+  { sel: "#shuffleBtn", before: navForCard,
+    title: "Shuffle the deck",
+    text: "Hit Shuffle to randomize the card order — great for making sure you actually know them, not just their position." },
+  { sel: "#historyBtn", before: navForCard,
+    title: "Past Results",
+    text: "Finish a deck and it's logged here — review your previous sessions and scores anytime. (Saving these across devices? That's what an account is for — coming up at the end.)" },
+
+  // ---- Phase 3: the card-back panel (checkboxes + drag + voiced marks) ----
+  { sel: "#fieldPanel", before: () => { navForCard(); ensureFlipped(); openPanel(); },
+    title: "Tune the card display",
+    text: "This panel tailors what you see. Tick a box to show or hide a back field, and drag the ⠿ handles to reorder them — whatever's on top shows biggest. The Display options change how voiced marks — ゛(dakuten) and ゜(handakuten), which alter a sound like か→が or は→ぱ — look on the kana itself, so they also affect the character on the front (size & colour). New terms feel confusing at first; that's normal. Note: these options are specific to Japanese and would differ for other languages." },
+  { sel: "#cardStage", before: () => { navForCard(); ensureFlipped(); },
+    title: "See it on the card",
+    text: "Now glance at the card back — it shows exactly the fields you enabled, in the order you set. Tweak the panel and the card updates instantly." },
+
+  // ---- Phase 4: the Learn path (user opens it, then we walk through it) ----
+  { sel: "#learnNav", click: true, before: openNav, do: () => showLearnView(),
+    title: "The guided Learn path",
+    text: "Feeling lost? The Learn path teaches every concept from zero. 👆 Open it." },
+  { sel: "#learnTestStart", before: () => { navForCard(); renderLearnPlacement(); },
+    title: "1 · Auto-placement (coming soon)",
+    text: "Right at the top, a quick placement quiz will pick the perfect starting level for you. It's coming soon — for now, choose your level below." },
+  { sel: "#learnLevels", before: () => { navForCard(); renderLearnPlacement(); },
+    title: "2 · Place yourself",
+    text: "Tell us where you're at — absolute beginner up to advanced. Your path starts at the right spot, and nothing is ever locked, so you can change it anytime." },
+  { sel: "#learnUnits", before: () => { navForCard(); demoLearnPath(); },
+    title: "3 · Follow the path",
+    text: "You then work through an ordered path: lessons grouped by stage (Foundations, N5, N4…). Your progress bar fills as you go and a ➜ marks your recommended next step." },
+  { sel: ".learn-unit", pad: 6, before: () => { navForCard(); demoLearnPath(); },
+    title: "4 · Inside a lesson",
+    text: "Each lesson explains the concept in plain language, then links straight to the matching flashcard deck and game. Finish it and mark it complete to advance." },
+
+  // ---- Phase 5: account & leaderboards ----
+  { sel: "#accountBtn", click: true, before: () => closeNav(), do: () => { const b = $("accountBtn"); if (b) b.click(); },
+    title: "Make it yours",
+    text: "Almost done! Tap the account button to set up a free account. 👆" },
+  { sel: ".auth-modal", before: () => { const a = $("authOverlay"); if (a) a.classList.add("show"); },
+    title: "Account & leaderboards",
+    text: "Sign up (or sign in) with just an email — or keep using Anpi as a guest. Signing in saves your progress, reports and high scores and syncs them across devices, and global leaderboards are on the way so you can compete for top scores.  And that's the tour! You now know the whole app — the decks, the flashcards and their options, the game, and the guided Learn path. Close this and you'll land back on the home page; open the ☰ menu anytime to dive in. 頑張って — good luck, and have fun learning Japanese!" },
+];
+const TOUR_KEY = "anpiTourSeen";
+let tourIdx = -1, tourEls = null, tourActive = false, tourDir = 1;
+
+function buildTourDom() {
+  if (tourEls) return;
+  const ov = document.createElement("div"); ov.className = "tour-overlay";
+  const spot = document.createElement("div"); spot.className = "tour-spot";
+  const tip = document.createElement("div"); tip.className = "tour-tip";
+  tip.innerHTML = '<div class="tour-step"></div><h3></h3><p></p>' +
+    '<div class="tour-foot"><button class="tour-back">← Back</button><div class="tour-dots"></div><button class="tour-skip">Skip tour</button></div>' +
+    '<div class="tour-hint"></div>';
+  ov.appendChild(spot); ov.appendChild(tip); document.body.appendChild(ov);
+  tourEls = { ov, spot, tip,
+    step: tip.querySelector(".tour-step"), h: tip.querySelector("h3"), p: tip.querySelector("p"),
+    dots: tip.querySelector(".tour-dots"),
+    back: tip.querySelector(".tour-back"), skip: tip.querySelector(".tour-skip"),
+    hint: tip.querySelector(".tour-hint"), clickEl: null, clickFn: null };
+  tourEls.back.addEventListener("click", e => { e.stopPropagation(); tourBack(); });
+  tourEls.skip.addEventListener("click", e => { e.stopPropagation(); endTour(); });
+  // Backdrop click advances only on DESCRIPTION steps; action steps require
+  // clicking the highlighted spot (handled per-step in showTourStep).
+  ov.addEventListener("click", e => { const s = TOUR_STEPS[tourIdx]; if (e.target === ov && !(s && s.click)) tourNext(); });
+  // Keep the spotlight glued to its target when anything scrolls or resizes
+  // (capture=true catches scrolls from nested scrollers like the sidebar).
+  window.addEventListener("resize", positionTour);
+  window.addEventListener("scroll", positionTour, true);
+  // Lock the keyboard while the tour runs so stray keys (space, arrows…) can't
+  // manipulate the page. Esc skips the tour.
+  window.addEventListener("keydown", tourKeyGuard, true);
+  window.addEventListener("keyup", tourKeyGuard, true);
+}
+function tourKeyGuard(e) {
+  if (!tourActive) return;
+  if (e.type === "keydown") {
+    if (e.key === "Escape" || e.key === "Esc") { e.preventDefault(); endTour(); return; }
+    if (e.key === "ArrowLeft") { e.preventDefault(); e.stopPropagation(); tourBack(); return; } // step back (PC)
+  }
+  e.preventDefault(); e.stopPropagation();
+}
+function tourBack() { if (tourIdx > 0) { tourDir = -1; tourIdx--; showTourStep(); } }
+function startTour() {
+  tourActive = true; // freezes card manipulation/advancing while the tour runs
+  stopTourNudge();   // hide the highlight as soon as the tour is launched
+  setMainView("home"); // stay on the home page; the study view only appears once
+                       // the user opens Hiragana (selectSet switches it for them)
+  closeNav(); // step 1 is "open the menu" — start collapsed so there's something to open
+  buildTourDom();
+  tourEls.ov.classList.add("show");
+  tourIdx = 0; showTourStep();
+}
+function openSel(sel) { const e = document.querySelector(sel); if (e && "open" in e) e.open = true; }
+// Loop the existing tap-tutorial arrows over the card to demo the zones.
+let cardDemoTimers = [];
+function playCardDemoLoop() {
+  stopCardDemoLoop();
+  const tut = $("tutorial"); if (!tut) return;
+  tut.hidden = false; $("tutDismiss").hidden = true;
+  const steps = [
+    { cls: "step1", text: "Center → flip the card" },
+    { cls: "step2", text: "Right edge → mark correct & advance" },
+    { cls: "step3", text: "Left edge → go back" },
+  ];
+  let i = 0;
+  (function cycle() {
+    tut.classList.remove("step1", "step2", "step3");
+    tut.classList.add(steps[i].cls);
+    $("tutText").textContent = steps[i].text;
+    i = (i + 1) % steps.length;
+    cardDemoTimers.push(setTimeout(cycle, 1600));
+  })();
+}
+function stopCardDemoLoop() {
+  cardDemoTimers.forEach(clearTimeout); cardDemoTimers = [];
+  const tut = $("tutorial"); if (tut) { tut.hidden = true; tut.classList.remove("step1", "step2", "step3"); }
+}
+function openNav()  { $("sidebar").classList.remove("collapsed"); }
+function closeNav() { $("sidebar").classList.add("collapsed"); }
+// On phones the sidebar overlays the card, so hide it once we're studying the card.
+function navForCard() { if (window.innerWidth <= 720) closeNav(); }
+function ensureFlipped() { try { if (!flipped && deck.length) flip(); } catch (e) {} }
+function openPanel() { const p = $("fieldPanel"); if (p) p.classList.remove("collapsed"); }
+// Render the Learn path for the tour without committing a level (restores after).
+function demoLearnPath() {
+  if (!window.CURRICULUM) return;
+  const saved = learnState.level;
+  if (!saved || saved === "explore") learnState.level = "zero";
+  renderLearnPath();
+  learnState.level = saved;
+}
+function showTourStep() {
+  const s = TOUR_STEPS[tourIdx];
+  if (!s) return endTour();
+  stopCardDemoLoop(); // stop the card-zone demo unless this step restarts it
+  if (s.before) { try { s.before(); } catch (e) {} } // e.g. expand sidebar sections
+  // A step may highlight one element (sel) or several at once (sels → union rect).
+  const sels = s.sels || [s.sel];
+  const targets = sels.map(x => document.querySelector(x)).filter(t => {
+    if (!t) return false; const r = t.getBoundingClientRect(); return r.width > 0 || r.height > 0;
+  });
+  if (!targets.length) { // skip missing/hidden targets in the direction we're moving
+    tourIdx += tourDir;
+    if (tourIdx < 0) { tourIdx = 0; tourDir = 1; }      // can't go before the first step
+    else if (tourIdx >= TOUR_STEPS.length) return endTour();
+    return showTourStep();
+  }
+  // Bring the target into view: sidebar items centred in the sidebar; other
+  // off-screen targets nudged in with minimal movement.
+  const t0 = targets[0];
+  try {
+    if (t0.closest && t0.closest("#sidebar")) t0.scrollIntoView({ block: "center", inline: "nearest" });
+    else { const rr = t0.getBoundingClientRect(); if (rr.top < 8 || rr.bottom > window.innerHeight - 8) t0.scrollIntoView({ block: "nearest", inline: "nearest" }); }
+  } catch (e) {}
+  tourEls.targets = targets; tourEls.curStep = s;
+  tourEls.step.textContent = "Step " + (tourIdx + 1) + " of " + TOUR_STEPS.length;
+  tourEls.h.textContent = s.title;
+  tourEls.p.textContent = s.text;
+  tourEls.back.style.display = tourIdx === 0 ? "none" : "";
+  tourEls.dots.innerHTML = TOUR_STEPS.map((_, i) => '<span class="' + (i === tourIdx ? "on" : "") + '"></span>').join("");
+  // No Next button. Action steps advance when you click the highlighted element
+  // (performing the real action); description steps advance on a tap anywhere on
+  // the dimmed backdrop.
+  clearTourClick();
+  const isClick = !!s.click;
+  // The overlay always blocks the page; only the highlighted spot is interactive
+  // on action steps, and clicking it performs the step's exact action (s.do).
+  tourEls.spot.style.pointerEvents = isClick ? "auto" : "none";
+  tourEls.spot.style.cursor = isClick ? "pointer" : "";
+  tourEls.hint.textContent = isClick ? "👆 Click the highlighted item"
+    : (tourIdx === TOUR_STEPS.length - 1 ? "Tap anywhere to finish" : "Tap anywhere to continue →");
+  if (isClick) {
+    const fn = e => { e.stopPropagation(); if (s.do) { try { s.do(); } catch (err) {} } clearTourClick(); setTimeout(tourNext, s.clickDelay || 320); };
+    tourEls.spot.addEventListener("click", fn);
+    tourEls.clickEl = tourEls.spot; tourEls.clickFn = fn;
+  }
+  positionTour();
+  // A step's `before` may open the sidebar or scroll a target into view, which
+  // animates — so the first positionTour can read a mid-transition rect (the
+  // spotlight lands in the wrong place until the user scrolls). Re-position over
+  // the next ~0.45s to track the element to its settled position.
+  reflowTour();
+}
+// Re-run positionTour a few times so the spotlight follows elements that are
+// still animating into place (e.g. the sliding sidebar on mobile).
+let reflowTimers = [];
+function reflowTour() {
+  reflowTimers.forEach(clearTimeout); reflowTimers = [];
+  requestAnimationFrame(() => positionTour());
+  [60, 160, 300, 450].forEach(d => reflowTimers.push(setTimeout(() => positionTour(), d)));
+}
+function clearTourClick() {
+  if (tourEls && tourEls.clickEl && tourEls.clickFn) tourEls.clickEl.removeEventListener("click", tourEls.clickFn);
+  if (tourEls) { tourEls.clickEl = null; tourEls.clickFn = null; }
+}
+// `instant` (set when called from a scroll/resize event) tracks the target with
+// no transition so the spotlight stays glued during scroll instead of lagging.
+function positionTour(instant) {
+  if (!tourEls || !tourEls.ov.classList.contains("show") || !tourEls.targets || !tourEls.targets.length) return;
+  const s = tourEls.curStep;
+  // Union of all highlighted targets' rects.
+  let L = Infinity, T = Infinity, R = -Infinity, B = -Infinity;
+  tourEls.targets.forEach(t => { const b = t.getBoundingClientRect(); L = Math.min(L, b.left); T = Math.min(T, b.top); R = Math.max(R, b.right); B = Math.max(B, b.bottom); });
+  const r = { left: L, top: T, right: R, width: R - L, height: B - T };
+  const pad = s.pad != null ? s.pad : 8;
+  const padB = s.padB != null ? s.padB : pad; // optional extra room below (e.g. card-zone demo)
+  const x = r.left - pad, y = r.top - pad, w = r.width + pad * 2, hh = r.height + pad + padB;
+  tourEls.spot.style.transition = instant ? "none" : "";
+  Object.assign(tourEls.spot.style, { left: x + "px", top: y + "px", width: w + "px", height: hh + "px" });
+  const tip = tourEls.tip, tw = tip.offsetWidth, th = tip.offsetHeight;
+  const vw = window.innerWidth, vh = window.innerHeight;
+  if (vw <= 600) { // phone: pin the tooltip to whichever edge is away from the target
+    const mid = r.top + r.height / 2;
+    tip.style.left = Math.max(8, (vw - tw) / 2) + "px";
+    tip.style.top = (mid < vh * 0.5 ? vh - th - 12 : 12) + "px";
+    return;
+  }
+  // Desktop: for sidebar targets, keep the tooltip clear of the nav by placing it
+  // just to the right of the sidebar (centre-left of the screen).
+  const sb = $("sidebar");
+  if (sb && tourEls.targets[0].closest && tourEls.targets[0].closest("#sidebar")) {
+    const sr = sb.getBoundingClientRect();
+    const txS = Math.max(8, Math.min(sr.right + 16, vw - tw - 8));
+    const tyS = Math.max(8, Math.min(vh - th - 8, r.top - pad));
+    tip.style.left = txS + "px"; tip.style.top = tyS + "px";
+    return;
+  }
+  let tx, ty;
+  if (y + hh + 12 + th <= vh - 8) ty = y + hh + 12;          // below
+  else if (y - th - 12 >= 8) ty = y - th - 12;               // above
+  else {                                                      // beside (tall targets)
+    ty = Math.max(8, Math.min(vh - th - 8, r.top + r.height / 2 - th / 2));
+    tx = (r.right + tw + 16 <= vw) ? r.right + 12 : Math.max(8, r.left - tw - 12);
+  }
+  if (tx == null) tx = Math.max(8, Math.min(vw - tw - 8, r.left + r.width / 2 - tw / 2));
+  // Final safety clamp: never let the tooltip spill past any viewport edge.
+  tx = Math.max(8, Math.min(tx, vw - tw - 8));
+  ty = Math.max(8, Math.min(ty, vh - th - 8));
+  tip.style.left = tx + "px"; tip.style.top = ty + "px";
+}
+function tourNext() { tourDir = 1; tourIdx++; tourIdx >= TOUR_STEPS.length ? endTour() : showTourStep(); }
+function endTour() {
+  clearTourClick();
+  stopCardDemoLoop();
+  tourActive = false;
+  if (tourEls) { tourEls.ov.classList.remove("show"); tourEls.ov.style.pointerEvents = ""; }
+  const auth = $("authOverlay"); if (auth) auth.classList.remove("show"); // close any opened modal
+  try { localStorage.setItem(TOUR_KEY, "1"); } catch (e) {}
+  stopTourNudge();     // finishing or skipping permanently retires the highlight
+  closeNav();          // fully collapse the nav
+  setMainView("home"); // land back on the home page
+}
+// One-time shine over the button box, shown once for visitors who've never run
+// the tour (finishing or skipping it permanently retires the highlight).
+function tourBox() { return $("homeTour"); }
+function stopTourNudge() { const box = tourBox(); if (box) box.classList.remove("shine-once"); }
+function maybeNudgeTour() {
+  let seen = false; try { seen = localStorage.getItem(TOUR_KEY) === "1"; } catch (e) {}
+  const box = tourBox(); if (!box || seen) return;
+  box.classList.add("shine-once"); // loops until the user starts/finishes/skips the tour
+}
+
+// Home page navigation — the home landing IS the welcome screen now.
+$("sideBrand").addEventListener("click", () => { showHome(); if (window.innerWidth <= 720) closeNav(); });
+$("homeLearn").addEventListener("click", () => showLearnView());
+$("homeStudy").addEventListener("click", () => selectSet("hiragana"));
+$("homeGame").addEventListener("click", () => launchGame());
+$("homeLeaderboard").addEventListener("click", () => showLeaderboardView());
+$("homeStats").addEventListener("click", () => showStatsView());
+$("homeTour").addEventListener("click", () => startTour());
+$("lbBackHome").addEventListener("click", () => showHome());
+$("statsBackHome").addEventListener("click", () => showHome());
+
 applySidebarState();
 applyFieldPanelState();
-initSelection();      // builds the universal deck/set model, then restores the last selection
-maybeShowTutorial();  // first-visit guided overlay (once, via localStorage)
+setMainView("home");  // the site always opens on the home landing page
+initSelection();      // preloads the deck/set model in the background (stays on home)
+maybeNudgeTour();      // shine the "Take the tour" button until the user takes/skips it

@@ -1,0 +1,11 @@
+# wrangler / Cloudflare local cache
+.wrangler/
+
+# large source GeoJSON used only to regenerate lib/japan-map.js (don't commit ~13MB)
+data/_japan_raw.geojson
+
+# misc
+node_modules/
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,224 @@
+// Auto-generated fallback for file:// (when fetch is blocked). Source: n4-verbs-taform.json
+window.DECKS=window.DECKS||{};
+window.DECKS["n4-verbs-taform"]=[
+  {
+    "word": "書いた",
+    "reading": "かいた",
+    "romaji": "kaita",
+    "meaning": "wrote → 書いた",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "友達に手紙を書いた。",
+    "exampleReading": "ともだちにてがみをかいた。",
+    "exampleMeaning": "I wrote a letter to my friend.",
+    "level": "N4"
+  },
+  {
+    "word": "行った",
+    "reading": "いった",
+    "romaji": "itta",
+    "meaning": "went → 行った (irregular!)",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "去年、日本へ行った。",
+    "exampleReading": "きょねん、にほんへいった。",
+    "exampleMeaning": "I went to Japan last year.",
+    "level": "N4"
+  },
+  {
+    "word": "話した",
+    "reading": "はなした",
+    "romaji": "hanashita",
+    "meaning": "spoke → 話した",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "先生と進路について話した。",
+    "exampleReading": "せんせいとしんろについてはなした。",
+    "exampleMeaning": "I talked with my teacher about my future path.",
+    "level": "N4"
+  },
+  {
+    "word": "泳いだ",
+    "reading": "およいだ",
+    "romaji": "oyoida",
+    "meaning": "swam → 泳いだ",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "昨日、プールで泳いだ。",
+    "exampleReading": "きのう、プールでおよいだ。",
+    "exampleMeaning": "I swam in the pool yesterday.",
+    "level": "N4"
+  },
+  {
+    "word": "待った",
+    "reading": "まった",
+    "romaji": "matta",
+    "meaning": "waited → 待った",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "一時間も待った。",
+    "exampleReading": "いちじかんもまった。",
+    "exampleMeaning": "I waited a whole hour.",
+    "level": "N4"
+  },
+  {
+    "word": "飲んだ",
+    "reading": "のんだ",
+    "romaji": "nonda",
+    "meaning": "drank → 飲んだ",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "冷たい水を飲んだ。",
+    "exampleReading": "つめたいみずをのんだ。",
+    "exampleMeaning": "I drank some cold water.",
+    "level": "N4"
+  },
+  {
+    "word": "読んだ",
+    "reading": "よんだ",
+    "romaji": "yonda",
+    "meaning": "read → 読んだ",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "その小説をもう読んだ。",
+    "exampleReading": "そのしょうせつをもうよんだ。",
+    "exampleMeaning": "I've already read that novel.",
+    "level": "N4"
+  },
+  {
+    "word": "遊んだ",
+    "reading": "あそんだ",
+    "romaji": "asonda",
+    "meaning": "played → 遊んだ",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "子供と公園で遊んだ。",
+    "exampleReading": "こどもとこうえんであそんだ。",
+    "exampleMeaning": "I played with the kids at the park.",
+    "level": "N4"
+  },
+  {
+    "word": "買った",
+    "reading": "かった",
+    "romaji": "katta",
+    "meaning": "bought → 買った",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "新しい靴を買った。",
+    "exampleReading": "あたらしいくつをかった。",
+    "exampleMeaning": "I bought new shoes.",
+    "level": "N4"
+  },
+  {
+    "word": "帰った",
+    "reading": "かえった",
+    "romaji": "kaetta",
+    "meaning": "returned → 帰った",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "夜遅く家に帰った。",
+    "exampleReading": "よるおそくいえにかえった。",
+    "exampleMeaning": "I got home late at night.",
+    "level": "N4"
+  },
+  {
+    "word": "作った",
+    "reading": "つくった",
+    "romaji": "tsukutta",
+    "meaning": "made → 作った",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "母が夕飯を作った。",
+    "exampleReading": "ははがゆうはんをつくった。",
+    "exampleMeaning": "My mother made dinner.",
+    "level": "N4"
+  },
+  {
+    "word": "持った",
+    "reading": "もった",
+    "romaji": "motta",
+    "meaning": "held → 持った",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "重い荷物を持った。",
+    "exampleReading": "おもいにもつをもった。",
+    "exampleMeaning": "I carried heavy luggage.",
+    "level": "N4"
+  },
+  {
+    "word": "呼んだ",
+    "reading": "よんだ",
+    "romaji": "yonda",
+    "meaning": "called → 呼んだ",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "救急車を呼んだ。",
+    "exampleReading": "きゅうきゅうしゃをよんだ。",
+    "exampleMeaning": "I called an ambulance.",
+    "level": "N4"
+  },
+  {
+    "word": "急いだ",
+    "reading": "いそいだ",
+    "romaji": "isoida",
+    "meaning": "hurried → 急いだ",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "遅れそうで急いだ。",
+    "exampleReading": "おくれそうでいそいだ。",
+    "exampleMeaning": "I hurried because I was going to be late.",
+    "level": "N4"
+  },
+  {
+    "word": "聞いた",
+    "reading": "きいた",
+    "romaji": "kiita",
+    "meaning": "heard → 聞いた",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "そのニュースを聞いた。",
+    "exampleReading": "そのニュースをきいた。",
+    "exampleMeaning": "I heard that news.",
+    "level": "N4"
+  },
+  {
+    "word": "食べた",
+    "reading": "たべた",
+    "romaji": "tabeta",
+    "meaning": "ate → 食べた",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "朝ごはんをもう食べた。",
+    "exampleReading": "あさごはんをもうたべた。",
+    "exampleMeaning": "I've already eaten breakfast.",
+    "level": "N4"
+  },
+  {
+    "word": "見た",
+    "reading": "みた",
+    "romaji": "mita",
+    "meaning": "saw → 見た",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "面白い夢を見た。",
+    "exampleReading": "おもしろいゆめをみた。",
+    "exampleMeaning": "I had an interesting dream.",
+    "level": "N4"
+  },
+  {
+    "word": "起きた",
+    "reading": "おきた",
+    "romaji": "okita",
+    "meaning": "got up → 起きた",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "今朝は早く起きた。",
+    "exampleReading": "けさははやくおきた。",
+    "exampleMeaning": "I got up early this morning.",
+    "level": "N4"
+  },
+  {
+    "word": "した",
+    "reading": "した",
+    "romaji": "shita",
+    "meaning": "did → した",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "昨日は買い物をした。",
+    "exampleReading": "きのうはかいものをした。",
+    "exampleMeaning": "I went shopping yesterday.",
+    "level": "N4"
+  },
+  {
+    "word": "来た",
+    "reading": "きた",
+    "romaji": "kita",
+    "meaning": "came → 来た (きた)",
+    "partOfSpeech": "Verb (ta-form / plain past)",
+    "exampleSentence": "友達が家に来た。",
+    "exampleReading": "ともだちがいえにきた。",
+    "exampleMeaning": "A friend came to my house.",
+    "level": "N4"
+  }
+];
