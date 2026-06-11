@@ -1,22 +1,34 @@
 # Wave log
 
-The lead's running record of what's in flight — **read this first each session** to know current state.
-One row per dispatched agent task. Update when you dispatch, review, gather, and deploy.
+The lead's running record of what's in flight — **read this + CLAUDE.md + .agents/ first each session** to
+reload state. One row per dispatched agent task; update on dispatch / review / gather / deploy.
 
 | Date | Lane | Branch (wt/*) | Task | Status | Merged→main | Deployed |
 |---|---|---|---|---|---|---|
-| 2026-06-11 | — (lead) | main | Set up satellite Leaflet map, badges scaffold, CLAUDE.md, `.agents/` control center | done | n/a | ✅ anpi.pages.dev |
+| 2026-06-11 | — (lead) | main | Leaflet/Esri satellite map, badges scaffold, CLAUDE.md, `.agents/` control center, committed clean main (767837d) | done | n/a | ✅ anpi.pages.dev |
+| 2026-06-11 | — (lead) | main | Wave-1 kit: BADGE-SPEC, filled PROMPTS, skill-based quality gates | done | n/a | n/a (docs) |
 
-Status values: `dispatched` → `in-review` → `gathered` → `deployed` (or `blocked` / `abandoned`).
+## Wave 1 (planned — not yet dispatched)
+Pilot FIRST with lessons to prove the loop, then fan out.
+| Lane | Branch | Task (see .agents/PROMPTS.md for full brief) | Status |
+|---|---|---|---|
+| 📚 lessons | wt/lessons | +4 lessons (N4 aspect-aux, N4 weather idioms, N2 debate, N1 kotowaza v2) | ready — PILOT |
+| 🎮 game | wt/game | pause-on-blur + per-deck best score on picker | ready (after pilot) |
+| 🏅 badges | wt/badges | build BADGE-SPEC (streak/lessons/stage/region/game/meta) | ready (after pilot) |
+| 🔒 security | wt/security | rate-limit /api/tts + tighten Supabase RLS | ready (after pilot) |
+
+Status values: `ready` → `dispatched` → `in-review` → `gathered` → `deployed` (or `blocked`/`abandoned`).
 
 ## Current state of `main` (keep this 1-liner fresh)
-- Live at https://anpi.pages.dev. Learn path = Leaflet/Esri satellite map (cinematic sea→zoom intro,
-  feathered edges). Badge system = scaffold only (`lib/badges.js`, no UI yet). 109 lessons. No lane agents
-  dispatched yet.
+- Live at https://anpi.pages.dev. Learn = Leaflet/Esri satellite map (cinematic intro, feathered edges).
+  Badges = scaffold only. 109 lessons. No lane agents dispatched yet. Pending lead decision: "Anpi Learning"
+  rename URL scope.
 
-## Deploy checklist (lead runs this before every deploy)
-1. On `main`, working tree clean after Gather (or intended changes only).
-2. `node --check app.js && node --check lib/badges.js` (+ any edited build/lib JS).
-3. Curriculum sanity if lessons changed: units count + every unit has journey + JOURNEY_XY.
-4. `npx.cmd wrangler pages deploy . --project-name anpi --commit-dirty=true`
-5. Log the deployment URL + what shipped here; update the "Current state" line above.
+## Lead deploy checklist (run before every deploy)
+1. On `main`, tree clean after ⇊ Gather (or intended changes only).
+2. Review the gathered diff: **/code-review** (and **/security-review** if functions/ or SQL changed).
+3. Validate: `node --check app.js && node --check lib/badges.js` (+ any edited build/lib JS).
+4. If lessons changed: units count + every unit has journey + JOURNEY_XY; if game/UI changed: **/verify** or
+   **/run** a quick smoke test (incl. mobile layout).
+5. `npx.cmd wrangler pages deploy . --project-name anpi --commit-dirty=true`
+6. Log the deployment URL + what shipped; refresh the "Current state" line above.
