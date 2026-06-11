@@ -837,6 +837,8 @@
           </select>
         </label>
       </div>
+      <!-- Your personal best for the selected deck (max across difficulties) -->
+      <div id="deckBest" class="deck-best" hidden></div>
       <!-- Live preview of the game canvas with the ship idling, ready to launch -->
       <canvas id="gamePreview" width="460" height="230"></canvas>
       <div class="picker-actions">
@@ -866,6 +868,8 @@
       </div>
       <canvas id="gameCanvas" width="460" height="540"></canvas>
       <div id="milestone" class="milestone"></div>
+      <!-- Shown while the game is auto-paused (tab/window lost focus) -->
+      <div id="gamePause" class="game-pause" hidden><span>⏸ Paused</span><small>Resumes when you return</small></div>
       <input id="gameInput" type="text" autocomplete="off" autocorrect="off"
              autocapitalize="off" spellcheck="false" placeholder="type the romaji…" />
       <div class="game-tip">Type a falling term's romaji — it fires the instant it matches. No Enter needed.</div>
