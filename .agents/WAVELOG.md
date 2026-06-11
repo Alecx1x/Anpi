@@ -8,24 +8,26 @@ reload state. One row per dispatched agent task; update on dispatch / review / g
 | 2026-06-11 | — (lead) | main | Leaflet/Esri satellite map, badges scaffold, CLAUDE.md, `.agents/` control center, committed clean main (767837d) | done | n/a | ✅ anpi.pages.dev |
 | 2026-06-11 | — (lead) | main | Wave-1 kit: BADGE-SPEC, filled PROMPTS, skill-based quality gates | done | n/a | n/a (docs) |
 | 2026-06-11 | 📚 lessons | wt/lessons | +4 Learn units (N4 aspect-aux, N4 season-nature, N2 debate, N1 kotowaza v2) — ff-merge d32b495, 113/113 units, all wired+band-placed | **deployed** | ✅ b298ed7→d32b495 | ✅ anpi-learning.pages.dev (972f2c42, 2026-06-11) |
+| 2026-06-11 | 🎮🏅🔒 wave-1 | wt/game, wt/badges, wt/security | game pause-on-blur + per-deck best; badges wall (Option-2 hook, supersedes legacy ACHIEVEMENTS); /api/tts per-IP rate-limit + least-privilege RLS/grants | **deployed** | ✅ Gather → main 16eeab4 | ✅ anpi-learning.pages.dev (11d2bf2e, 2026-06-11) + SQL run in Supabase by user |
 
-## Wave 1 (planned — not yet dispatched)
-Pilot FIRST with lessons to prove the loop, then fan out.
-| Lane | Branch | Task (see .agents/PROMPTS.md for full brief) | Status |
+## Wave 1 — DONE (all 4 lanes shipped 2026-06-11)
+| Lane | Branch | Task | Status |
 |---|---|---|---|
-| 📚 lessons | wt/lessons | +4 lessons (N4 aspect-aux, N4 weather idioms, N2 debate, N1 kotowaza v2) | ✅ deployed (loop proven end-to-end) — wt/lessons now == main; user can close that tab |
-| 🎮 game | wt/game | pause-on-blur + per-deck best score on picker | ready (after pilot) |
-| 🏅 badges | wt/badges | build BADGE-SPEC (streak/lessons/stage/region/game/meta) | ready (after pilot) |
-| 🔒 security | wt/security | rate-limit /api/tts + tighten Supabase RLS | ready (after pilot) |
+| 📚 lessons | wt/lessons | +4 lessons (pilot) | ✅ deployed (loop proven end-to-end) |
+| 🎮 game | wt/game | pause-on-blur + per-deck best score on picker | ✅ deployed |
+| 🏅 badges | wt/badges | badge wall (Option-2 renderStats hook; full superset of old 12 ACHIEVEMENTS) | ✅ deployed |
+| 🔒 security | wt/security | rate-limit /api/tts + per-command RLS least-privilege + revoke default PUBLIC grants | ✅ deployed (SQL run in Supabase) |
 
 Status values: `ready` → `dispatched` → `in-review` → `gathered` → `deployed` (or `blocked`/`abandoned`).
 
 ## Current state of `main` (keep this 1-liner fresh)
-- **Renamed to "Anpi Learning"; new URL https://anpi-learning.pages.dev** (old anpi.pages.dev retired).
-  Learn = Leaflet/Esri satellite map (cinematic intro, feathered edges). Badges = scaffold only. **113 lessons**
-  (lessons pilot shipped 2026-06-11, HEAD d32b495). Lessons lane = done; game/badges/security = ready to
-  fan out. USER TODO on the new Pages project: set `GOOGLE_TTS_KEY` (TTS) + add the new domain to Supabase
-  Auth Site-URL/redirect allow-list (sign-in).
+- **"Anpi Learning" @ https://anpi-learning.pages.dev**, HEAD `16eeab4`. Learn = Leaflet/Esri satellite map.
+  **113 lessons.** Wave-1 LIVE: real **badge wall** (lib/badges.js, supersedes legacy ACHIEVEMENTS via a
+  guarded Badges.renderInto hook in renderStats), game **auto-pause on blur** + **per-deck best** on picker,
+  **/api/tts per-IP rate-limit**, and **hardened Supabase RLS/grants** (SQL was run in the project on
+  2026-06-11). USER TODO on the Pages project: set `GOOGLE_TTS_KEY` (TTS still 503 until then) + add the
+  domain to Supabase Auth Site-URL/redirect allow-list (sign-in). TB 🚀 Deploy button still targets old
+  `anpi` — must change to `--project-name=anpi-learning` before using it.
 
 ## Lead deploy checklist (run before every deploy)
 1. On `main`, tree clean after ⇊ Gather (or intended changes only).
