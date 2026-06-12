@@ -1,0 +1,62 @@
+# Cloudflare Pages _headers - site-wide HTTP response headers.
+# Honored automatically by Pages (including Direct Upload deploys); this file is
+# consumed by Pages and never served as a public asset. It has NO effect on the
+# app running from file:// - it only hardens the deployed anpi-learning.pages.dev.
+#
+# Goal: low-risk, defense-in-depth hardening that does not change app behavior.
+# Every allowed origin below is one the app actually loads from today (see the
+# notes per directive). If you add a new CDN / API / tile host, add it here too
+# or the browser will block it.
+
+/*
+  # Stop browsers from MIME-sniffing a response into a different type
+  # (e.g. treating a data file as executable script).
+  X-Content-Type-Options: nosniff
+
+  # Don't leak full URLs (which can carry deck/lesson context) to third parties;
+  # send only the origin on cross-site navigations, nothing on downgrade.
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Clickjacking protection. frame-ancestors (in the CSP below) is the modern
+  # form; X-Frame-Options covers older browsers. The app is never meant to be
+  # embedded in an <iframe>.
+  X-Frame-Options: DENY
+
+  # Disable powerful browser features the app does not use, so a future bug or
+  # injected content can't silently request them.
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()
+
+  # Force HTTPS for a year. pages.dev is HTTPS-only already; no 'preload' so this
+  # stays reversible.
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+  # Content Security Policy - the main XSS hardening. script-src is locked to
+  # self + the two CDNs the app loads, with NO 'unsafe-inline'/'unsafe-eval'
+  # (there are no inline scripts or eval in the app), so injected <script> or
+  # inline handlers won't run. Per-directive allow-list and why:
+  #   default-src 'self'        : everything not listed falls back to same-origin.
+  #   script-src                : app.js + lib/*.js (self); supabase-js (jsDelivr);
+  #                               Leaflet (unpkg). Dynamic deck .js fallbacks are
+  #                               injected with a same-origin src, so 'self' covers them.
+  #   style-src 'unsafe-inline' : required - index.html and generated markup use
+  #                               inline style="" attributes, and Leaflet sets inline
+  #                               styles. unpkg = leaflet.css. (Scripts stay strict.)
+  #   img-src                   : self + data:/blob: + Esri satellite/label tiles
+  #                               (server.arcgisonline.com) + Leaflet marker images (unpkg).
+  #   connect-src               : self (deck JSON) + the Supabase project host
+  #                               (REST/auth over https, realtime over wss) +
+  #                               kanjiapi.dev (live kanji-deck fallback fetch) +
+  #                               jsDelivr (KanjiVG stroke-order SVG fetch in lib/kanji.js).
+  #   media-src 'self'          : the /api/tts pronunciation audio (same-origin proxy).
+  #   object-src 'none'         : no plugins/embeds.
+  #   base-uri / form-action 'self' : block <base> hijack and off-site form posts.
+  #   frame-ancestors 'none'    : no embedding (clickjacking).
+  #
+  # SHIPPED AS REPORT-ONLY FIRST (does NOT block anything; violations only log to
+  # the browser console). Rationale: this app is live and the deploy/verify loop
+  # is the lead's, not this agent's, so an origin we failed to enumerate would
+  # otherwise break real users. Verify a deploy shows ZERO "Content-Security-
+  # Policy" violation entries in the console across map/sign-in/decks/stroke-order,
+  # THEN promote by renaming the header below to `Content-Security-Policy` to
+  # enforce. All the other headers above already enforce (they carry no breakage risk).
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' data: blob: https://server.arcgisonline.com https://unpkg.com; media-src 'self'; connect-src 'self' https://sgmsiythssuwgzwcyjti.supabase.co wss://sgmsiythssuwgzwcyjti.supabase.co https://kanjiapi.dev https://cdn.jsdelivr.net; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
