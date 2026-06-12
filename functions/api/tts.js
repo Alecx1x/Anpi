@@ -21,6 +21,11 @@ const RL_WINDOW_MS = 60000; // fixed 1-minute window
 const RL_MAX = 60;          // max uncached requests per IP per window
 const rlHits = new Map();   // ip -> { count, reset }
 
+// Upstream-body sanity ceiling. A 200-char translate_tts clip is tens of KB;
+// this caps a misbehaving/oversized upstream response so we never buffer, cache
+// or serve a large body to the client.
+const MAX_AUDIO_BYTES = 2 * 1024 * 1024; // 2 MB
+
 function rateLimit(ip) {
   const now = Date.now();
   let e = rlHits.get(ip);
@@ -80,9 +85,23 @@ export async function onRequestGet(context) {
       console.error("translate_tts " + gres.status);
       return new Response("tts upstream error", { status: 502 });
     }
+    // Only accept an actual audio body. On error/throttle translate_tts can
+    // answer 200 with an HTML page — without this it would be cached + served
+    // to every visitor as audio/mpeg (cache poisoning of the shared edge cache).
+    const ctype = gres.headers.get("Content-Type") || "";
+    if (!/^audio\//i.test(ctype)) {
+      console.error("translate_tts non-audio content-type: " + ctype);
+      return new Response("tts upstream error", { status: 502 });
+    }
+    // Reject an oversized body early via Content-Length when present.
+    const clen = parseInt(gres.headers.get("Content-Length") || "", 10);
+    if (Number.isFinite(clen) && clen > MAX_AUDIO_BYTES) {
+      console.error("translate_tts oversized body (content-length): " + clen);
+      return new Response("tts upstream error", { status: 502 });
+    }
     const bytes = await gres.arrayBuffer();
-    if (!bytes || bytes.byteLength < 200) {
-      console.error("translate_tts tiny/empty body: " + (bytes ? bytes.byteLength : 0));
+    if (!bytes || bytes.byteLength < 200 || bytes.byteLength > MAX_AUDIO_BYTES) {
+      console.error("translate_tts bad body size: " + (bytes ? bytes.byteLength : 0));
       return new Response("tts upstream error", { status: 502 });
     }
 

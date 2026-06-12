@@ -1,7 +1,7 @@
 -- ============================================================================
--- Kana Flashcards — Supabase schema, RLS policies, and profile trigger.
+-- Kana Flashcards -- Supabase schema, RLS policies, and profile trigger.
 -- Run this ONCE in your project's SQL editor:
---   Supabase Dashboard → SQL Editor → New query → paste → Run.
+--   Supabase Dashboard -> SQL Editor -> New query -> paste -> Run.
 -- Safe to re-run (uses IF NOT EXISTS / drop-and-recreate for policies).
 -- ============================================================================
 
@@ -54,7 +54,7 @@ create index if not exists reports_user_date_idx     on public.reports     (user
 
 -- ---------- Row Level Security ----------------------------------------------
 -- Least privilege: every policy is scoped to the `authenticated` role and to
--- the caller's OWN rows only. `anon` (signed-out) gets NO direct table access —
+-- the caller's OWN rows only. `anon` (signed-out) gets NO direct table access --
 -- public leaderboards are served exclusively through the SECURITY DEFINER
 -- functions in supabase-leaderboard.sql, which expose only display_name+score
 -- (never emails). We also grant ONLY the commands the app actually issues
@@ -91,7 +91,7 @@ create policy "profiles: insert own" on public.profiles
 create policy "profiles: update own" on public.profiles
   for update to authenticated using (auth.uid() = id) with check (auth.uid() = id);
 
--- progress: per-card study counts — read/insert/update your own rows.
+-- progress: per-card study counts -- read/insert/update your own rows.
 create policy "progress: select own" on public.progress
   for select to authenticated using (auth.uid() = user_id);
 create policy "progress: insert own" on public.progress
@@ -107,11 +107,28 @@ create policy "high_scores: insert own" on public.high_scores
 create policy "high_scores: update own" on public.high_scores
   for update to authenticated using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
--- reports: session history — insert + read your own (the app never edits them).
+-- reports: session history -- insert + read your own (the app never edits them).
 create policy "reports: select own" on public.reports
   for select to authenticated using (auth.uid() = user_id);
 create policy "reports: insert own" on public.reports
   for insert to authenticated with check (auth.uid() = user_id);
+
+-- ---------- Table-level grants (defense in depth) ---------------------------
+-- RLS already blocks everything below, but Supabase grants broad table
+-- privileges to anon/authenticated by default. We tighten the raw SQL grants so
+-- they match the policies above (least privilege at two layers):
+--   * anon does NOT touch these tables directly at all -- signed-out visitors
+--     only read leaderboards through the SECURITY DEFINER functions, which run
+--     as their owner and so need no anon table grant.
+--   * authenticated never deletes anything (no DELETE policy exists), and never
+--     updates reports (insert + select only).
+-- Re-runnable: revoke/grant are idempotent.
+revoke all on public.profiles, public.progress, public.high_scores, public.reports from anon;
+
+revoke delete on public.profiles    from authenticated;
+revoke delete on public.progress    from authenticated;
+revoke delete on public.high_scores from authenticated;
+revoke delete, update on public.reports from authenticated;
 
 -- ---------- Auto-create a profile row on sign-up ----------------------------
 -- So every new auth user immediately has a matching profiles row (used as the

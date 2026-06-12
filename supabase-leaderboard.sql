@@ -1,6 +1,6 @@
 -- ============================================================================
--- Anpi — Global leaderboards add-on.
--- Run ONCE in Supabase → SQL Editor (after supabase-schema.sql). Safe to re-run.
+-- Anpi -- Global leaderboards add-on.
+-- Run ONCE in Supabase -> SQL Editor (after supabase-schema.sql). Safe to re-run.
 -- ============================================================================
 
 -- A PUBLIC display name. The existing profiles.username defaults to the user's
@@ -13,7 +13,7 @@ alter table public.high_scores add column if not exists best_streak int default 
 
 -- ---------- Leaderboard: top scores for a deck + difficulty -----------------
 -- SECURITY DEFINER so it can read EVERY user's high_scores (bypassing the
--- per-user RLS) while exposing ONLY a display name + score — never emails.
+-- per-user RLS) while exposing ONLY a display name + score -- never emails.
 -- Granted to anon as well so signed-out visitors can still view leaderboards.
 -- Scores are stored as text (they can exceed bigint), so we cast to numeric for
 -- correct ordering.
@@ -58,7 +58,7 @@ $func$;
 
 -- Least privilege: Postgres grants EXECUTE to PUBLIC by default, so revoke that
 -- first and re-grant ONLY to the intended roles. get_my_rank is per-caller
--- (uses auth.uid()) so it stays authenticated-only — never anon.
+-- (uses auth.uid()) so it stays authenticated-only -- never anon.
 revoke execute on function public.get_leaderboard(text, text, int) from public;
 revoke execute on function public.get_my_rank(text, text)          from public;
 grant  execute on function public.get_leaderboard(text, text, int) to anon, authenticated;
@@ -89,7 +89,7 @@ $func$;
 
 -- ---------- Podiums: the caller's top-3 finishes (for profile badges) --------
 -- For every deck + difficulty the user has a score in, their rank within that
--- group; returns only the ones where they're 1st–3rd.
+-- group; returns only the ones where they're 1st-3rd.
 create or replace function public.get_my_podiums()
 returns table (deck_id text, difficulty text, rank bigint, score text)
 language sql
@@ -109,7 +109,7 @@ as $func$
 $func$;
 
 -- Same least-privilege treatment: drop the default PUBLIC execute, re-grant to
--- the intended roles only. get_my_podiums is per-caller → authenticated-only.
+-- the intended roles only. get_my_podiums is per-caller -> authenticated-only.
 revoke execute on function public.get_global_leaderboard(text, text, int) from public;
 revoke execute on function public.get_my_podiums()                        from public;
 grant  execute on function public.get_global_leaderboard(text, text, int) to anon, authenticated;
