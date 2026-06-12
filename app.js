@@ -2916,6 +2916,7 @@ const JOURNEY_XY = {
   debate: [141.15, 39.70], "kotowaza-vol2": [142.36, 43.77],
   "wa-ga": [136.27, 35.38], "explanatory-no": [136.76, 35.42],
   "wake-grammar": [140.10, 39.72],
+  "te-iru": [137.13, 35.33], tokoro: [139.47, 35.80],
 };
 
 // smooth "bendy" curve through points (Catmull-Rom → cubic Bézier)
