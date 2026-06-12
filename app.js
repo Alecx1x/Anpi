@@ -1232,6 +1232,7 @@ const game = {
   escaped:{}, spawnCooldown:0, lastTs:0, raf:0, paused:false,
   freezeT:0, soloT:0, specialCooldown:0,        // special-effect timers (freeze / solo) + spacing
   killTimes:[], killstreakShown:0,              // rapid-kill (killstreak) tracking
+  bag:[], lastTermChar:null,                    // shuffled-bag term selection (even distribution)
 };
 
 // ----- Special asteroids (extensible registry) ---------------------------
@@ -1695,6 +1696,7 @@ function startGame(modeKey) {
   game.spawnCooldown = 0; game.lastTs = 0;
   game.freezeT = 0; game.soloT = 0; game.specialCooldown = 0; // clear special-asteroid effects
   game.killTimes = []; game.killstreakShown = 0;
+  resetTermBag();                              // fresh shuffled bag for even term distribution
   stopSoloMusic(); gameAudioCtx();             // unlock/warm audio on this click (user gesture)
   game.active = true; game.running = true;
   clearPause();
@@ -1744,11 +1746,40 @@ function chooseSpawnX(r) {
   return bestDist >= 2 * r + 8 ? best : null;
 }
 
+// ---- Even term distribution: a shuffled "bag" of the whole pool ----------
+// Instead of independent Math.random() picks (which clump and repeat terms),
+// draw from a shuffled queue of the ENTIRE pool, refilling + reshuffling when it
+// empties. Over a game every term appears a roughly equal number of times, and a
+// seam guard stops the same term landing twice in a row across a refill.
+function shuffleTermBag() {
+  const bag = game.pool.slice();
+  for (let i = bag.length - 1; i > 0; i--) {          // Fisher-Yates shuffle
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = bag[i]; bag[i] = bag[j]; bag[j] = tmp;
+  }
+  // Seam guard: if the next term out repeats the last one drawn, swap it deeper
+  // so no term shows back-to-back across the bag boundary (skip for 1-term pools).
+  if (bag.length > 1 && game.lastTermChar != null && bag[0].char === game.lastTermChar) {
+    const k = 1 + Math.floor(Math.random() * (bag.length - 1));
+    const tmp = bag[0]; bag[0] = bag[k]; bag[k] = tmp;
+  }
+  game.bag = bag;
+}
+// Reset the bag for a fresh run (next draw lazily reshuffles from the new pool).
+function resetTermBag() { game.bag = []; game.lastTermChar = null; }
+function drawTerm() {
+  if (!game.bag.length) shuffleTermBag();
+  const t = game.bag.shift();              // next from the shuffled queue
+  if (t) game.lastTermChar = t.char;
+  return t;
+}
+
 function spawnAsteroid() {
   const r = 33;
   const x = chooseSpawnX(r);
   if (x === null) return false;            // top too crowded — skip this tick
-  const t = game.pool[Math.floor(Math.random() * game.pool.length)];
+  const t = drawTerm();
+  if (!t) return false;                    // empty pool safety (never expected)
   const a = { x, y: -r, r, char: t.char, answers: t.answers, hue: 200 + Math.random() * 130 };
   const sp = rollSpecialKey();
   if (sp) {
