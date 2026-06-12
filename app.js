@@ -1230,34 +1230,52 @@ const game = {
   asteroids:[], pops:[], beams:[], shipX:0, shipFlash:0, shipFlashBad:0,
   lives:0, score:0n, combo:0, bestCombo:0, milestoneMult:1, lifeMilestones:{}, destroyed:0, hits:0, misses:0,
   escaped:{}, spawnCooldown:0, lastTs:0, raf:0, paused:false,
-  freezeT:0, specialCooldown:0, // special-asteroid state (freeze timer + spacing)
+  freezeT:0, soloT:0, specialCooldown:0,        // special-effect timers (freeze / solo) + spacing
+  killTimes:[], killstreakShown:0,              // rapid-kill (killstreak) tracking
+  bag:[], lastTermChar:null,                    // shuffled-bag term selection (even distribution)
 };
 
 // ----- Special asteroids (extensible registry) ---------------------------
 // Occasionally a "special" asteroid falls instead of a plain term. A special
 // still carries a real term (so typing / scoring / lives stay unchanged) and
 // layers a telegraphed effect on top. This is a REGISTRY keyed by type: adding
-// a new kind (bonus multiplier, clear-screen, …) means adding ONE entry here
-// with a `drawBody` (its distinct look) + lifecycle hooks (`onSpawn` / optional
-// `onDestroy`) — the spawn / update / draw dispatch below stays untouched.
-// `weight` sets relative spawn odds among specials.
+// a new kind means adding ONE entry here with a `drawBody` (its distinct look)
+// + lifecycle hooks (`onSpawn` / `onDestroy`) + optional `scoreMult` — the
+// spawn / update / draw dispatch below stays untouched. `weight` = spawn odds.
 const FREEZE_DURATION = 5;        // seconds the freeze effect lasts (~5s)
+const SOLO_DURATION = 6;          // seconds the fireball "guitar solo" lasts
 const SPECIAL_CHANCE = 0.06;      // chance an eligible spawn becomes a special
 const SPECIAL_MIN_GAP = 18;       // min seconds between specials (keeps them rare)
 const SPECIAL_MIN_DESTROYED = 5;  // no specials in the very first moments of a run
+const KILLSTREAK_WINDOW_MS = 3000; // rolling window for the "rapid kills" killstreak
+const KILLSTREAK_MIN = 5;          // destroys-within-window needed to be a killstreak
 
 const SPECIAL_TYPES = {
-  // FROZEN: on appearing it stalls every OTHER asteroid AND new spawns for
-  // ~5s, giving the player a breather; the icy asteroid itself keeps falling
-  // (it's the one live target) and is typed/scored like any other.
+  // FROZEN: SHOOTING it stalls every other asteroid AND halts new spawns for
+  // ~5s — a breather you earn by destroying it (the effect fires on destroy).
+  // Awards 2× base on destroy (scoreMult).
   frozen: {
     key: "frozen",
     weight: 1,
+    scoreMult: 2,
     drawBody(a) { drawFrozenBody(a); },           // distinct icy look (telegraph)
-    onSpawn(a) {
-      a.isFreezeSource = true;
+    onDestroy(a) {
       game.freezeT = FREEZE_DURATION;
       showMilestone("❄ Frozen! Everything stalls");
+    },
+  },
+  // FIREBALL: SHOOTING it kicks off a Guitar-Hero-style SOLO — the screen lights
+  // up, asteroids fall 1.5× faster, an upbeat riff plays, and every asteroid
+  // cleared during the window earns a flat clear bonus. Awards 2× base itself.
+  fireball: {
+    key: "fireball",
+    weight: 1,
+    scoreMult: 2,
+    drawBody(a) { drawFireballBody(a); },          // fiery look (telegraph)
+    onDestroy(a) {
+      game.soloT = SOLO_DURATION;
+      startSoloMusic(game.soloT);
+      showMilestone("🎸 SOLO! ×1.5 speed — shred it!");
     },
   },
 };
@@ -1276,6 +1294,67 @@ function rollSpecialKey() {
   if (Math.random() >= SPECIAL_CHANCE) return null;
   return pickSpecialKey();
 }
+
+// ----- Game audio (Web Audio API) ----------------------------------------
+// A self-contained synthesized "guitar solo" riff for the fireball SOLO — no
+// asset needed (works from file://). Created lazily on a user gesture (startGame
+// click) so autoplay policies don't block it; degrades to silence if unavailable.
+// SWAP-IN POINT: to use a real backing track instead, replace startSoloMusic with
+// an <audio>/buffer player keyed off the same start/stop calls.
+let _audioCtx = null;
+function gameAudioCtx() {
+  try {
+    if (!_audioCtx) { const AC = window.AudioContext || window.webkitAudioContext; if (AC) _audioCtx = new AC(); }
+    if (_audioCtx && _audioCtx.state === "suspended") _audioCtx.resume();
+  } catch (e) { _audioCtx = null; }
+  return _audioCtx;
+}
+let _soloAudio = null; // { stop() } for the currently-playing solo, or null
+function startSoloMusic(durationSec) {
+  const ac = gameAudioCtx();
+  if (!ac) return;                 // no audio support → silent, game unaffected
+  stopSoloMusic();
+  const t0 = ac.currentTime + 0.03;
+  const master = ac.createGain();
+  master.gain.setValueAtTime(0.16, t0);
+  master.gain.setValueAtTime(0.16, t0 + durationSec - 0.18);
+  master.gain.linearRampToValueAtTime(0.0001, t0 + durationSec); // fade out the tail
+  master.connect(ac.destination);
+  const oscs = [];
+  const note = (freq, ts, dur, type, peak) => {
+    const o = ac.createOscillator(); o.type = type; o.frequency.value = freq;
+    const g = ac.createGain();
+    g.gain.setValueAtTime(0.0001, ts);
+    g.gain.linearRampToValueAtTime(peak, ts + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, ts + dur);
+    o.connect(g); g.connect(master);
+    o.start(ts); o.stop(ts + dur + 0.02);
+    oscs.push(o);
+  };
+  // Driving E-minor-pentatonic lead (square) + a triangle bass pulse on the beat.
+  const lead = [659.25, 783.99, 987.77, 880.0, 987.77, 783.99, 659.25, 587.33];
+  const step = 0.135;
+  for (let i = 0; i < Math.floor(durationSec / step); i++) {
+    note(lead[i % lead.length] * (i % 16 < 8 ? 1 : 1.5), t0 + i * step, step * 0.95, "square", 0.9);
+  }
+  const bass = [164.81, 164.81, 196.0, 146.83];
+  const bstep = step * 4;
+  for (let i = 0; i < Math.floor(durationSec / bstep); i++) {
+    note(bass[i % bass.length], t0 + i * bstep, bstep * 0.85, "triangle", 0.6);
+  }
+  _soloAudio = {
+    stop() {
+      try {
+        master.gain.cancelScheduledValues(ac.currentTime);
+        master.gain.setValueAtTime(0.0001, ac.currentTime);
+      } catch (e) {}
+      for (const o of oscs) { try { o.stop(); } catch (e) {} }
+    },
+  };
+}
+function stopSoloMusic() { if (_soloAudio) { _soloAudio.stop(); _soloAudio = null; } }
+// Monotonic clock for the killstreak window (browser perf clock; safe fallback).
+function perfNow() { return (window.performance && performance.now) ? performance.now() : 0; }
 
 const canvas = $("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -1615,7 +1694,10 @@ function startGame(modeKey) {
   game.asteroids = []; game.pops = []; game.beams = []; game.escaped = {};
   game.shipX = canvas.width / 2; game.shipFlash = 0; game.shipFlashBad = 0;
   game.spawnCooldown = 0; game.lastTs = 0;
-  game.freezeT = 0; game.specialCooldown = 0; // clear any special-asteroid effect
+  game.freezeT = 0; game.soloT = 0; game.specialCooldown = 0; // clear special-asteroid effects
+  game.killTimes = []; game.killstreakShown = 0;
+  resetTermBag();                              // fresh shuffled bag for even term distribution
+  stopSoloMusic(); gameAudioCtx();             // unlock/warm audio on this click (user gesture)
   game.active = true; game.running = true;
   clearPause();
   $("modeSelect").hidden = true;
@@ -1664,17 +1746,47 @@ function chooseSpawnX(r) {
   return bestDist >= 2 * r + 8 ? best : null;
 }
 
+// ---- Even term distribution: a shuffled "bag" of the whole pool ----------
+// Instead of independent Math.random() picks (which clump and repeat terms),
+// draw from a shuffled queue of the ENTIRE pool, refilling + reshuffling when it
+// empties. Over a game every term appears a roughly equal number of times, and a
+// seam guard stops the same term landing twice in a row across a refill.
+function shuffleTermBag() {
+  const bag = game.pool.slice();
+  for (let i = bag.length - 1; i > 0; i--) {          // Fisher-Yates shuffle
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = bag[i]; bag[i] = bag[j]; bag[j] = tmp;
+  }
+  // Seam guard: if the next term out repeats the last one drawn, swap it deeper
+  // so no term shows back-to-back across the bag boundary (skip for 1-term pools).
+  if (bag.length > 1 && game.lastTermChar != null && bag[0].char === game.lastTermChar) {
+    const k = 1 + Math.floor(Math.random() * (bag.length - 1));
+    const tmp = bag[0]; bag[0] = bag[k]; bag[k] = tmp;
+  }
+  game.bag = bag;
+}
+// Reset the bag for a fresh run (next draw lazily reshuffles from the new pool).
+function resetTermBag() { game.bag = []; game.lastTermChar = null; }
+function drawTerm() {
+  if (!game.bag.length) shuffleTermBag();
+  const t = game.bag.shift();              // next from the shuffled queue
+  if (t) game.lastTermChar = t.char;
+  return t;
+}
+
 function spawnAsteroid() {
   const r = 33;
   const x = chooseSpawnX(r);
   if (x === null) return false;            // top too crowded — skip this tick
-  const t = game.pool[Math.floor(Math.random() * game.pool.length)];
+  const t = drawTerm();
+  if (!t) return false;                    // empty pool safety (never expected)
   const a = { x, y: -r, r, char: t.char, answers: t.answers, hue: 200 + Math.random() * 130 };
   const sp = rollSpecialKey();
   if (sp) {
     a.special = sp;
     game.specialCooldown = SPECIAL_MIN_GAP;   // space the next special out
-    SPECIAL_TYPES[sp].onSpawn(a);             // fire its effect as it enters
+    const def = SPECIAL_TYPES[sp];
+    if (def.onSpawn) def.onSpawn(a);          // optional on-enter hook (effects fire on destroy)
   }
   game.asteroids.push(a);
   return true;
@@ -1714,9 +1826,31 @@ function resolveHit(a) {
     showMilestone("🔥 " + game.combo + "x Streak!" + (gainedLife ? "  ❤️ +1" : ""));
   }
   // points = base(200) × difficulty × streak-tier × milestone — all integers, BigInt-safe.
-  const pts = BASE_POINTS * BigInt(game.mode.pts) * BigInt(streakTier(game.combo)) * BigInt(game.milestoneMult);
+  // Specials (frozen / fireball) award DOUBLE the base via their scoreMult.
+  const sType = a.special && SPECIAL_TYPES[a.special];
+  const sMult = (sType && sType.scoreMult) || 1;
+  let pts = BASE_POINTS * BigInt(game.mode.pts) * BigInt(streakTier(game.combo)) * BigInt(game.milestoneMult) * BigInt(sMult);
+  // Guitar-Hero SOLO: every asteroid cleared during the window earns a flat clear bonus.
+  if (game.soloT > 0) pts += BASE_POINTS * BigInt(game.mode.pts);
   game.score += pts;
+  // Killstreak: 5+ destroys within ~3s → a small (~0.2×) bonus per kill + a popup.
+  const now = perfNow();
+  game.killTimes.push(now);
+  while (game.killTimes.length && now - game.killTimes[0] > KILLSTREAK_WINDOW_MS) game.killTimes.shift();
+  const ks = game.killTimes.length;
+  if (ks >= KILLSTREAK_MIN) {
+    const ksBonus = pts / 5n;                 // ≈ 0.2× of this kill's points
+    game.score += ksBonus;
+    if (ks > game.killstreakShown) {          // announce only as the streak grows
+      game.killstreakShown = ks;
+      showMilestone("⚡ Killstreak ×" + ks + "  +" + abbrevScore(ksBonus));
+    }
+  } else {
+    game.killstreakShown = 0;
+  }
   updateHud();
+  // Fire the special's on-destroy effect (freeze / solo) AFTER this kill is scored.
+  if (sType && sType.onDestroy) sType.onDestroy(a);
 }
 
 // Brief celebration overlay over the canvas (fades in fast, out ~1.5s).
@@ -1812,6 +1946,7 @@ function pauseGame() {
   game.running = false;
   game.paused = true;
   cancelAnimationFrame(game.raf);
+  stopSoloMusic();                      // silence the solo riff while paused (timer is frozen too)
   const ov = $("gamePause"); if (ov) ov.hidden = false;
 }
 function resumeGame() {
@@ -1819,14 +1954,17 @@ function resumeGame() {
   game.paused = false;
   game.running = true;
   game.lastTs = 0;                      // reset clock so the gap isn't applied as one huge dt
+  game.killTimes = [];                  // drop stale kill timestamps so no false killstreak on return
   const ov = $("gamePause"); if (ov) ov.hidden = true;
+  if (game.soloT > 0) startSoloMusic(game.soloT); // resume the riff for the remaining solo time
   layoutGameCanvas();                   // re-fit in case the viewport changed (rotation) while paused
   cancelAnimationFrame(game.raf);
   game.raf = requestAnimationFrame(gameLoop);
   try { gameInput.focus(); } catch (e) {}
 }
 // Clear any paused state + overlay (called when a round starts or the player leaves play).
-function clearPause() { game.paused = false; const ov = $("gamePause"); if (ov) ov.hidden = true; }
+// Also silences the solo riff so music never outlives a round on any exit path.
+function clearPause() { game.paused = false; stopSoloMusic(); const ov = $("gamePause"); if (ov) ov.hidden = true; }
 
 function gameLoop(ts) {
   if (!game.running) return;
@@ -1840,13 +1978,16 @@ function gameLoop(ts) {
 }
 
 function update(dt) {
-  const spd = currentSpeed();
   const shipY = canvas.height - 46;
   if (game.specialCooldown > 0) game.specialCooldown -= dt;
-  // FROZEN effect: while active, OTHER asteroids stop falling and no new
-  // asteroids spawn (the freeze source keeps descending as the live target).
+  // FROZEN effect (triggered by destroying a frozen asteroid): while active, ALL
+  // asteroids stop falling and no new asteroids spawn — a ~5s breather.
   const frozen = game.freezeT > 0;
   if (frozen) game.freezeT = Math.max(0, game.freezeT - dt);
+  // SOLO effect (triggered by destroying a fireball): asteroids fall 1.5× faster
+  // (unless also frozen). The riff stops the moment the window closes.
+  if (game.soloT > 0) { game.soloT = Math.max(0, game.soloT - dt); if (game.soloT === 0) stopSoloMusic(); }
+  const spd = currentSpeed() * ((game.soloT > 0 && !frozen) ? 1.5 : 1);
   game.spawnCooldown -= dt;
   if (!frozen && game.asteroids.length < maxConcurrent() && game.spawnCooldown <= 0) {
     const spawned = spawnAsteroid();
@@ -1856,7 +1997,7 @@ function update(dt) {
   for (let i = game.asteroids.length - 1; i >= 0; i--) {
     const a = game.asteroids[i];
     if (a.dying) continue;   // locked by an in-flight bolt: frozen, can't escape
-    if (frozen && !a.isFreezeSource) continue; // stalled by the freeze effect
+    if (frozen) continue;    // every asteroid is stalled while the freeze is active
     a.y += spd * dt;
     if (a.y + a.r >= shipY) {
       game.asteroids.splice(i, 1);
@@ -1900,6 +2041,7 @@ function draw() {
   for (const b of game.beams) drawBeam(b);
   for (const p of game.pops) drawPop(p);
   if (game.freezeT > 0) drawFreezeOverlay(); // icy vignette while the freeze is active
+  if (game.soloT > 0) drawSoloOverlay();     // fiery solo overlay while a solo is active
 }
 
 function drawBeam(b) {
@@ -2033,6 +2175,77 @@ function drawFreezeOverlay() {
   ctx.fillRect(bx, by, bw, 4);
   ctx.fillStyle = "rgba(150,220,255,0.95)";
   ctx.fillRect(bx, by, bw * (game.freezeT / FREEZE_DURATION), 4);
+  ctx.restore();
+}
+
+// Fiery body for the FIREBALL special: warm ember core (white char stays legible)
+// inside a glowing orange rim with flickering flame tongues — clearly telegraphed.
+function drawFireballBody(a) {
+  const flick = 0.5 + 0.5 * Math.sin(perfNow() * 0.02 + a.x); // per-asteroid flame flicker
+  ctx.save();
+  ctx.shadowColor = "rgba(255,150,40,0.95)";
+  ctx.shadowBlur = 22 + flick * 8;
+  const g = ctx.createRadialGradient(a.x - 6, a.y - 8, 4, a.x, a.y, a.r);
+  g.addColorStop(0, "#c0421a");
+  g.addColorStop(1, "#5a1404");
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+  ctx.lineWidth = 3;                                   // glowing ember rim
+  ctx.strokeStyle = "rgba(255,176,80,0.9)";
+  ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.stroke();
+  ctx.save();                                          // flame tongues around the top
+  ctx.fillStyle = "rgba(255,196,90,0.85)";
+  ctx.shadowColor = "rgba(255,120,20,0.9)"; ctx.shadowBlur = 8;
+  for (let i = 0; i < 7; i++) {
+    const ang = -Math.PI / 2 + (i - 3) * 0.42;
+    const len = a.r * (0.28 + 0.22 * (0.5 + 0.5 * Math.sin(perfNow() * 0.018 + i * 1.7)));
+    const bx = a.x + Math.cos(ang) * a.r, by = a.y + Math.sin(ang) * a.r;
+    const tipx = a.x + Math.cos(ang) * (a.r + len), tipy = a.y + Math.sin(ang) * (a.r + len);
+    const px = Math.cos(ang + Math.PI / 2) * a.r * 0.16, py = Math.sin(ang + Math.PI / 2) * a.r * 0.16;
+    ctx.beginPath();
+    ctx.moveTo(bx + px, by + py); ctx.lineTo(tipx, tipy); ctx.lineTo(bx - px, by - py);
+    ctx.closePath(); ctx.fill();
+  }
+  ctx.restore();
+}
+
+// Energetic "guitar solo" overlay while a fireball solo is active: a pulsing fiery
+// vignette, scrolling note streaks, a "🎸 SOLO ×1.5" label and remaining-time bar.
+function drawSoloOverlay() {
+  const w = canvas.width, h = canvas.height;
+  const t = perfNow() * 0.001;
+  const pulse = 0.12 + 0.06 * (0.5 + 0.5 * Math.sin(t * 8)); // throb with the beat
+  ctx.save();
+  const grd = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.32, w / 2, h / 2, Math.max(w, h) * 0.64);
+  grd.addColorStop(0, "rgba(255,140,40,0)");
+  grd.addColorStop(1, "rgba(255,110,30," + pulse.toFixed(3) + ")");
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = "rgba(255,180,70," + (0.45 + pulse).toFixed(3) + ")";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(1.5, 1.5, w - 3, h - 3);
+  // scrolling diagonal "solo" streaks down the sides (guitar-hero flavour)
+  ctx.globalAlpha = 0.5;
+  ctx.lineWidth = 2;
+  for (let i = 0; i < 6; i++) {
+    const phase = ((t * 220 + i * 80) % (h + 80)) - 40;
+    const hue = 24 + (i % 3) * 14;
+    ctx.strokeStyle = "hsla(" + hue + ",95%,60%,0.6)";
+    for (const sx of [10, w - 10]) {
+      ctx.beginPath(); ctx.moveTo(sx, phase); ctx.lineTo(sx, phase + 26); ctx.stroke();
+    }
+  }
+  ctx.globalAlpha = 0.95;
+  ctx.font = "bold 15px -apple-system, 'Segoe UI', sans-serif";
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  ctx.fillStyle = "rgba(255,222,150,0.97)";
+  ctx.fillText("🎸 SOLO ×1.5", w / 2, 8);
+  const bw = 100, bx = w / 2 - bw / 2, by = 30;
+  ctx.fillStyle = "rgba(255,255,255,0.18)";
+  ctx.fillRect(bx, by, bw, 4);
+  ctx.fillStyle = "rgba(255,150,50,0.97)";
+  ctx.fillRect(bx, by, bw * (game.soloT / SOLO_DURATION), 4);
   ctx.restore();
 }
 
