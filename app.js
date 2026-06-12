@@ -255,6 +255,84 @@ const KANJI_GROUPS = {};        // level -> { cats:{name:[chars]}, rads:{char:{m
 let TOP_DECKS = [];             // [{ key,label,type,sets:[...] }]
 let SET_BY_ID = {};             // selKey -> { topKey, set }
 
+// ============================================================
+// === Spaced Repetition (SRS) study mode — OPTIONAL, default OFF
+// Owner: Lessons lane (wave-3 study-flow feature). Self-contained.
+// When OFF, nothing here runs: both the ordering hook and the grade-recorder
+// return immediately on `!srsOn`, so the OFF path does ZERO extra work and ZERO
+// localStorage writes — byte-for-byte identical to before this feature.
+//   anpiSRS       — "1"/"0", the on/off preference (default off)
+//   anpiSRSsched  — per-deck, per-card Leitner schedule {deckKey:{cardId:{...}}}
+// Scheme: Leitner boxes 1..5. A right answer promotes a card (box+1, max 5);
+// a wrong answer resets it to box 1. When ON, the working deck is ordered
+// weakest-box-first so the cards you miss resurface sooner; ties broken by
+// least-recently-seen. A simple, well-known scheme — no exotic tuning.
+// ============================================================
+const SRS_KEY = "anpiSRS", SRS_SCHED_KEY = "anpiSRSsched";
+let srsOn = false;
+try { srsOn = localStorage.getItem(SRS_KEY) === "1"; } catch (e) {}
+
+function srsNow() { try { return Date.now(); } catch (e) { return 0; } }
+// Deck identity used to namespace a card's schedule (mirrors the saved-result deck id).
+function srsDeckKey() { return deckType === "kana" ? deckSelect.value : currentDeckId; }
+// Stable per-card id, independent of which kana script is shown on the front.
+function srsCardId(e) {
+  if (!e) return "";
+  if (deckType === "kanji") return "k:" + (e.character || "");
+  if (deckType === "vocab") return "v:" + (e.word || "");
+  return "a:" + (e.h || e.k || e.r || "");
+}
+function loadSrsSched() {
+  try { return JSON.parse(localStorage.getItem(SRS_SCHED_KEY) || "{}") || {}; }
+  catch (e) { return {}; }
+}
+function saveSrsSched(all) {
+  try { localStorage.setItem(SRS_SCHED_KEY, JSON.stringify(all)); } catch (e) {}
+}
+// Record one graded answer into the Leitner schedule, driven by the existing
+// right/wrong signals of the study UI. Only runs when SRS is ON, so the OFF path
+// performs ZERO extra work and ZERO localStorage writes — byte-for-byte as today.
+function srsGrade(entry, correct) {
+  if (!srsOn) return;
+  try {
+    if (!entry) return;
+    const cid = srsCardId(entry); if (!cid || cid.length <= 2) return; // skip cards with no usable id
+    const all = loadSrsSched();
+    const dk = srsDeckKey();
+    const d = all[dk] || (all[dk] = {});
+    const c = d[cid] || (d[cid] = { b: 1, r: 0, w: 0, n: 0, t: 0 });
+    if (correct) { c.b = Math.min(5, (c.b || 1) + 1); c.r = (c.r || 0) + 1; }
+    else { c.b = 1; c.w = (c.w || 0) + 1; }
+    c.n = (c.n || 0) + 1; c.t = srsNow();
+    saveSrsSched(all);
+  } catch (e) {}
+}
+// Reorder the live `deck` in place so weak cards come first. NO-OP when SRS is
+// off — this is the ONLY place SRS touches study order, which is what keeps the
+// OFF path identical to today's behaviour.
+function srsMaybeOrder() {
+  if (!srsOn || deck.length < 2) return;
+  try {
+    const d = loadSrsSched()[srsDeckKey()] || {};
+    deck.sort((x, y) => {
+      const cx = d[srsCardId(x)], cy = d[srsCardId(y)];
+      const bx = cx ? cx.b : 1, by = cy ? cy.b : 1; // unseen ~ box 1 (due soon)
+      if (bx !== by) return bx - by;                // lower box (weaker) first
+      return (cx ? cx.t : 0) - (cy ? cy.t : 0);     // then least-recently-seen
+    });
+  } catch (e) {}
+}
+// Flip the preference at any time. Re-deals the current deck so the new order
+// (or, when turning OFF, today's natural order) takes effect immediately —
+// mirroring how Shuffle re-deals and resets the run.
+function setSrs(on) {
+  srsOn = !!on;
+  try { localStorage.setItem(SRS_KEY, srsOn ? "1" : "0"); } catch (e) {}
+  const chk = $("srsChk"); if (chk) chk.checked = srsOn;
+  if (cards.length) buildDeck(); // buildDeck() applies srsMaybeOrder() and resets the run
+}
+// ===================== end SRS region (init wired in the Events section) =====
+
 function buildDeck() {
   if (deckType === "kana") {
     const group = activeKanaGroup;
@@ -269,6 +347,7 @@ function buildDeck() {
     deck = cards.slice();
   }
   syncSidebar();
+  srsMaybeOrder();                  // SRS: weakest-first ordering when enabled (no-op when off)
   results = deck.map(() => null);
   frontTime = deck.map(() => 0);
   frontStart = null;
@@ -502,7 +581,7 @@ function next() {
   pauseFrontTimer(); // bank this card's front time before leaving
   // Moving on counts as correct whether or not it was flipped — but only if it
   // hasn't already been scored (e.g. via a Yes/No answer).
-  if (results[index] === null) results[index] = true;
+  if (results[index] === null) { results[index] = true; srsGrade(deck[index], true); }
   advance();
   checkComplete();
 }
@@ -517,6 +596,7 @@ function prev() {
 function answer(correct) {
   if (deck.length === 0 || !flipped) return;
   results[index] = correct;
+  srsGrade(deck[index], correct); // SRS: record right/wrong for scheduling (writes its own key only)
   markCard(correct); // stats / streak / achievements
   advance();
   checkComplete();
@@ -537,6 +617,7 @@ function shuffle() {
     const j = Math.floor(Math.random() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
   }
+  srsMaybeOrder();                // SRS on: keep weak-first (shuffle just randomizes within a box); off: pure shuffle
   results = deck.map(() => null); // reset score on shuffle
   frontTime = deck.map(() => 0);  // reset time spent on shuffle
   frontStart = null;
@@ -2497,6 +2578,7 @@ function markCorrectAndNext() {
   if (deck.length === 0) return;
   pauseFrontTimer();
   results[index] = true;
+  srsGrade(deck[index], true); // SRS: right-swipe counts as a correct review
   advance();
   checkComplete();
 }
@@ -2565,6 +2647,12 @@ $("speakerBtn").addEventListener("click", e => { e.stopPropagation(); speak(curr
   const chk = $("autoSpeakChk");
   if (chk) { chk.checked = autoSpeak; chk.addEventListener("change", () => setAutoSpeak(chk.checked)); }
   updateAudioNote(); // shows the "install a JP voice" tip only when none is found
+})();
+
+// Spaced-repetition study-mode toggle (settings panel). Default OFF; persists to anpiSRS.
+(function initSrsToggle() {
+  const chk = $("srsChk");
+  if (chk) { chk.checked = srsOn; chk.addEventListener("change", () => setSrs(chk.checked)); }
 })();
 
 // ---------- First-visit tutorial ----------

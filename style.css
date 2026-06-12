@@ -48,6 +48,9 @@
   .fp-select { width: 100%; }
   .fp-checkline { display: flex; align-items: center; gap: 8px; font-size: .82rem; color: var(--text); cursor: pointer; }
   .fp-checkline input { cursor: pointer; }
+  /* SRS recommendation blurb (wave-3, Lessons lane) — muted help text with a soft accent edge. */
+  .fp-rec { border-left: 2px solid var(--accent2); padding-left: 8px; margin-top: 6px; line-height: 1.45; }
+  .fp-rec b { color: var(--text); }
   .fp-legend { display: flex; flex-direction: column; gap: 5px; margin: 8px 0 0 2px; font-size: .74rem; color: var(--muted); }
   .fp-legend > span { display: flex; align-items: center; gap: 7px; }
   .dia-key { width: 13px; height: 13px; border-radius: 50%; display: inline-block; flex: 0 0 auto; }
