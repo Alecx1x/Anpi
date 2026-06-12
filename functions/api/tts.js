@@ -1,28 +1,24 @@
 // Cloudflare Pages Function — GET /api/tts?q=<text>
-// Synthesizes Japanese speech via Google Cloud Text-to-Speech and returns MP3,
-// so the app speaks Japanese without the visitor installing any voice.
+// Synthesizes Japanese speech and returns MP3 so the app speaks Japanese without
+// the visitor installing a local voice.
 //
-// Requires an environment variable on the Pages project:
-//   Cloudflare dashboard → Pages → anpi → Settings → Variables and Secrets →
-//   Add → name: GOOGLE_TTS_KEY → value: <your Google Cloud API key> → Secret → Save.
-//
-// Responses are edge-cached per (text) so repeated terms don't re-bill the API.
+// Source: Google Translate's free `translate_tts` endpoint (no API key, no
+// account). Calling it from the BROWSER rate-limits a single IP after a few
+// dozen plays — which is exactly the wall we hit before. Proxying it here fixes
+// that two ways: (1) requests come from Cloudflare's rotating edge IPs, not one
+// device, and (2) every result is edge-cached per (text), so repeated terms are
+// served from cache and never re-hit Google. No env var / secret required.
 //
 // Abuse protection: a best-effort per-IP rate limit (below) blunts a single
-// client hammering uncached terms and burning the Google TTS key/quota, and
-// upstream errors are never echoed verbatim to the client (they could disclose
-// project/quota details). The Google key lives only in env and never leaves the
-// edge — only audio bytes are returned to the browser.
+// client hammering uncached terms; upstream errors are never echoed verbatim.
 
 // --- Best-effort per-IP rate limiting ---------------------------------------
 // Cloudflare runs many isolates per colo, so this in-memory counter is a SOFT
-// throttle (scoped per-isolate / per-colo, reset on isolate recycle) layered on
-// top of the edge cache. It exists to slow a single IP that floods *uncached*
-// terms — the only requests that actually bill Google. For a hard, global cap,
-// add a Cloudflare WAF rate-limiting rule on the /api/tts path in the dashboard
-// (that can't be expressed in code from a Direct-Upload Pages project).
+// throttle (per-isolate / per-colo, reset on isolate recycle) layered on top of
+// the edge cache. It slows a single IP that floods *uncached* terms. For a hard
+// global cap, add a Cloudflare WAF rate-limiting rule on the /api/tts path.
 const RL_WINDOW_MS = 60000; // fixed 1-minute window
-const RL_MAX = 20;          // max billable (uncached) requests per IP per window
+const RL_MAX = 60;          // max uncached requests per IP per window
 const rlHits = new Map();   // ip -> { count, reset }
 
 function rateLimit(ip) {
@@ -49,13 +45,11 @@ export async function onRequestGet(context) {
   const text = (url.searchParams.get("q") || "").trim().slice(0, 200);
 
   if (!text) return new Response("missing q", { status: 400 });
-  const key = env.GOOGLE_TTS_KEY;
-  if (!key) return new Response("GOOGLE_TTS_KEY not configured", { status: 503 });
 
   const cache = caches.default;
   const cacheKey = new Request(url.toString());
   // Cache hits cost nothing, so serve them WITHOUT consuming the rate-limit
-  // budget — only uncached (billable) requests below are throttled.
+  // budget — only uncached requests below are throttled.
   const cached = await cache.match(cacheKey);
   if (cached) return cached;
 
@@ -69,28 +63,29 @@ export async function onRequestGet(context) {
     });
   }
 
+  // translate_tts caps at ~200 chars per call; `text` is already sliced to 200.
+  const src = "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ja&q=" +
+    encodeURIComponent(text);
+
   try {
-    const gres = await fetch("https://texttospeech.googleapis.com/v1/text:synthesize?key=" + key, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        input: { text },
-        voice: { languageCode: "ja-JP", name: "ja-JP-Neural2-B" },
-        audioConfig: { audioEncoding: "MP3", speakingRate: 0.95 },
-      }),
+    const gres = await fetch(src, {
+      headers: {
+        // translate_tts rejects requests with no/standard fetch UA.
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+        "Referer": "https://translate.google.com/",
+      },
     });
     if (!gres.ok) {
-      // Log upstream detail to the edge (visible in Cloudflare logs) but never
-      // return it — the body can disclose project/quota internals to the client.
-      const errTxt = await gres.text();
-      console.error("google tts " + gres.status + ": " + errTxt.slice(0, 400));
+      // Log upstream detail to the edge but never return it to the client.
+      console.error("translate_tts " + gres.status);
       return new Response("tts upstream error", { status: 502 });
     }
-    const j = await gres.json();
-    const b64 = j && j.audioContent;
-    if (!b64) return new Response("tts upstream error", { status: 502 });
+    const bytes = await gres.arrayBuffer();
+    if (!bytes || bytes.byteLength < 200) {
+      console.error("translate_tts tiny/empty body: " + (bytes ? bytes.byteLength : 0));
+      return new Response("tts upstream error", { status: 502 });
+    }
 
-    const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
     const resp = new Response(bytes, {
       headers: {
         "Content-Type": "audio/mpeg",

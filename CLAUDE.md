@@ -49,8 +49,9 @@ npx.cmd wrangler pages deploy . --project-name anpi-learning --commit-dirty=true
   (`window.JAPAN_MAP`, simplified prefecture outline for the SVG fallback map), `kanji.js`,
   `supabase-sync.js`.
 - `data/` — generated deck JSON (vocab schema) + per-deck `.js` fallbacks (so decks load on `file://`).
-- `functions/` — Cloudflare Pages Functions. `functions/api/tts.js` = `GET /api/tts?q=` proxy to Google
-  Cloud TTS (needs Pages env var `GOOGLE_TTS_KEY`).
+- `functions/` — Cloudflare Pages Functions. `functions/api/tts.js` = `GET /api/tts?q=` proxy to the FREE
+  Google Translate `translate_tts` endpoint (no API key / account). Edge-cached + per-IP throttled so it
+  doesn't hit the per-IP rate-limit the browser does. **Do NOT reintroduce the paid Google Cloud TTS key.**
 - `build-*.js` — Node generators that (re)write decks into `data/`. See "Content" below.
 - `supabase-schema.sql` / `supabase-leaderboard.sql` — DB setup, run by the user in the Supabase SQL editor.
 
@@ -160,6 +161,8 @@ The lead's control center is **`.agents/`** (a dotfolder — in git, excluded fr
   `git add -A; git commit -m @'...'@` — run the here-string commit as its own call.
 - Leaflet map must init with a non-zero-size container — `renderLearnPath` shows the screen BEFORE building
   the map, and a `ResizeObserver` calls `invalidateSize`. If the map ever looks blank, suspect size/timing.
-- TTS: Cloudflare Workers AI MeloTTS returns silent Japanese audio — dead end; we use Google Cloud TTS.
+- TTS history: Workers AI MeloTTS = silent (dead end); paid Google Cloud TTS = needs a key (removed). We
+  use the FREE Google Translate `translate_tts`, proxied server-side (`functions/api/tts.js`) + edge-cached
+  so it dodges the per-IP browser rate-limit. No key needed — don't add one back.
 - Supabase: email confirmation is OFF; avoid `$$` dollar-quoting in SQL handed to the user (use `$func$`).
 - Headless screenshots in a sandbox can't load CDN/tiles — verify map visuals on the live site / real browser.

@@ -25,9 +25,12 @@ Status values: `ready` → `dispatched` → `in-review` → `gathered` → `depl
   **113 lessons.** Wave-1 LIVE: real **badge wall** (lib/badges.js, supersedes legacy ACHIEVEMENTS via a
   guarded Badges.renderInto hook in renderStats), game **auto-pause on blur** + **per-deck best** on picker,
   **/api/tts per-IP rate-limit**, and **hardened Supabase RLS/grants** (SQL was run in the project on
-  2026-06-11). USER TODO on the Pages project: set `GOOGLE_TTS_KEY` (TTS still 503 until then) + add the
-  domain to Supabase Auth Site-URL/redirect allow-list (sign-in). TB 🚀 Deploy button still targets old
-  `anpi` — must change to `--project-name=anpi-learning` before using it.
+  2026-06-11). **TTS now uses the FREE Google Translate `translate_tts` proxy — no key needed** (the paid
+  Google Cloud TTS key requirement was removed 2026-06-12; audio verified 200 on live). **Old duplicate
+  `anpi` Pages project DELETED 2026-06-12 — `anpi-learning` is the sole URL.** Remaining USER TODO: add
+  `https://anpi-learning.pages.dev` to Supabase Auth Site-URL/redirect allow-list (sign-in). TB 🚀 Deploy
+  button still targets old `anpi` — must change to `--project-name=anpi-learning` before using it (or it
+  will error now that `anpi` is gone).
 
 ## Lead deploy checklist (run before every deploy)
 1. On `main`, tree clean after ⇊ Gather (or intended changes only).
