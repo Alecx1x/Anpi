@@ -1230,7 +1230,52 @@ const game = {
   asteroids:[], pops:[], beams:[], shipX:0, shipFlash:0, shipFlashBad:0,
   lives:0, score:0n, combo:0, bestCombo:0, milestoneMult:1, lifeMilestones:{}, destroyed:0, hits:0, misses:0,
   escaped:{}, spawnCooldown:0, lastTs:0, raf:0, paused:false,
+  freezeT:0, specialCooldown:0, // special-asteroid state (freeze timer + spacing)
 };
+
+// ----- Special asteroids (extensible registry) ---------------------------
+// Occasionally a "special" asteroid falls instead of a plain term. A special
+// still carries a real term (so typing / scoring / lives stay unchanged) and
+// layers a telegraphed effect on top. This is a REGISTRY keyed by type: adding
+// a new kind (bonus multiplier, clear-screen, …) means adding ONE entry here
+// with a `drawBody` (its distinct look) + lifecycle hooks (`onSpawn` / optional
+// `onDestroy`) — the spawn / update / draw dispatch below stays untouched.
+// `weight` sets relative spawn odds among specials.
+const FREEZE_DURATION = 5;        // seconds the freeze effect lasts (~5s)
+const SPECIAL_CHANCE = 0.06;      // chance an eligible spawn becomes a special
+const SPECIAL_MIN_GAP = 18;       // min seconds between specials (keeps them rare)
+const SPECIAL_MIN_DESTROYED = 5;  // no specials in the very first moments of a run
+
+const SPECIAL_TYPES = {
+  // FROZEN: on appearing it stalls every OTHER asteroid AND new spawns for
+  // ~5s, giving the player a breather; the icy asteroid itself keeps falling
+  // (it's the one live target) and is typed/scored like any other.
+  frozen: {
+    key: "frozen",
+    weight: 1,
+    drawBody(a) { drawFrozenBody(a); },           // distinct icy look (telegraph)
+    onSpawn(a) {
+      a.isFreezeSource = true;
+      game.freezeT = FREEZE_DURATION;
+      showMilestone("❄ Frozen! Everything stalls");
+    },
+  },
+};
+const SPECIAL_KEYS = Object.keys(SPECIAL_TYPES);
+// Weighted pick from the registry (trivial with one type; ready for more).
+function pickSpecialKey() {
+  let total = 0; for (const k of SPECIAL_KEYS) total += (SPECIAL_TYPES[k].weight || 1);
+  let r = Math.random() * total;
+  for (const k of SPECIAL_KEYS) { r -= (SPECIAL_TYPES[k].weight || 1); if (r <= 0) return k; }
+  return SPECIAL_KEYS[0];
+}
+// Should this spawn be a special? Occasional, spaced out, and not too early.
+function rollSpecialKey() {
+  if (game.specialCooldown > 0) return null;
+  if (game.destroyed < SPECIAL_MIN_DESTROYED) return null;
+  if (Math.random() >= SPECIAL_CHANCE) return null;
+  return pickSpecialKey();
+}
 
 const canvas = $("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -1570,6 +1615,7 @@ function startGame(modeKey) {
   game.asteroids = []; game.pops = []; game.beams = []; game.escaped = {};
   game.shipX = canvas.width / 2; game.shipFlash = 0; game.shipFlashBad = 0;
   game.spawnCooldown = 0; game.lastTs = 0;
+  game.freezeT = 0; game.specialCooldown = 0; // clear any special-asteroid effect
   game.active = true; game.running = true;
   clearPause();
   $("modeSelect").hidden = true;
@@ -1623,7 +1669,14 @@ function spawnAsteroid() {
   const x = chooseSpawnX(r);
   if (x === null) return false;            // top too crowded — skip this tick
   const t = game.pool[Math.floor(Math.random() * game.pool.length)];
-  game.asteroids.push({ x, y: -r, r, char: t.char, answers: t.answers, hue: 200 + Math.random() * 130 });
+  const a = { x, y: -r, r, char: t.char, answers: t.answers, hue: 200 + Math.random() * 130 };
+  const sp = rollSpecialKey();
+  if (sp) {
+    a.special = sp;
+    game.specialCooldown = SPECIAL_MIN_GAP;   // space the next special out
+    SPECIAL_TYPES[sp].onSpawn(a);             // fire its effect as it enters
+  }
+  game.asteroids.push(a);
   return true;
 }
 
@@ -1789,8 +1842,13 @@ function gameLoop(ts) {
 function update(dt) {
   const spd = currentSpeed();
   const shipY = canvas.height - 46;
+  if (game.specialCooldown > 0) game.specialCooldown -= dt;
+  // FROZEN effect: while active, OTHER asteroids stop falling and no new
+  // asteroids spawn (the freeze source keeps descending as the live target).
+  const frozen = game.freezeT > 0;
+  if (frozen) game.freezeT = Math.max(0, game.freezeT - dt);
   game.spawnCooldown -= dt;
-  if (game.asteroids.length < maxConcurrent() && game.spawnCooldown <= 0) {
+  if (!frozen && game.asteroids.length < maxConcurrent() && game.spawnCooldown <= 0) {
     const spawned = spawnAsteroid();
     // Full gap after a successful spawn; short retry if we held off (crowded top).
     game.spawnCooldown = spawned ? 0.9 : 0.25;
@@ -1798,6 +1856,7 @@ function update(dt) {
   for (let i = game.asteroids.length - 1; i >= 0; i--) {
     const a = game.asteroids[i];
     if (a.dying) continue;   // locked by an in-flight bolt: frozen, can't escape
+    if (frozen && !a.isFreezeSource) continue; // stalled by the freeze effect
     a.y += spd * dt;
     if (a.y + a.r >= shipY) {
       game.asteroids.splice(i, 1);
@@ -1840,6 +1899,7 @@ function draw() {
   for (const a of game.asteroids) drawAsteroid(a);
   for (const b of game.beams) drawBeam(b);
   for (const p of game.pops) drawPop(p);
+  if (game.freezeT > 0) drawFreezeOverlay(); // icy vignette while the freeze is active
 }
 
 function drawBeam(b) {
@@ -1900,6 +1960,14 @@ function drawDiacriticBadge(cx, cy, s, isHandakuten, color) {
 }
 
 function drawAsteroid(a) {
+  // Body: a special type draws its own distinct look; otherwise the normal rock.
+  const sp = a.special && SPECIAL_TYPES[a.special];
+  if (sp && sp.drawBody) sp.drawBody(a); else drawAsteroidBody(a);
+  drawAsteroidText(a); // shared char / diacritic rendering on top
+}
+
+// The normal hue-based asteroid body (gradient rock + faint rim).
+function drawAsteroidBody(a) {
   ctx.save();
   ctx.shadowColor = `hsla(${a.hue},85%,65%,0.9)`;
   ctx.shadowBlur = 16;
@@ -1912,6 +1980,64 @@ function drawAsteroid(a) {
   ctx.lineWidth = 2;
   ctx.strokeStyle = `hsla(${a.hue},70%,72%,0.5)`;
   ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.stroke();
+}
+
+// Icy body for the FROZEN special: dark blue core (keeps the white char legible)
+// inside a bright frost rim + snowflake glints, so it's unmistakable on sight.
+function drawFrozenBody(a) {
+  ctx.save();
+  ctx.shadowColor = "rgba(150,225,255,0.95)";
+  ctx.shadowBlur = 20;
+  const g = ctx.createRadialGradient(a.x - 8, a.y - 8, 4, a.x, a.y, a.r);
+  g.addColorStop(0, "#2f6488");
+  g.addColorStop(1, "#0e2f47");
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+  ctx.lineWidth = 3;                                   // bright frosty rim
+  ctx.strokeStyle = "rgba(214,243,255,0.9)";
+  ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.stroke();
+  ctx.save();                                          // crystalline snowflake glints
+  ctx.strokeStyle = "rgba(230,248,255,0.75)";
+  ctx.lineWidth = 1.6; ctx.lineCap = "round";
+  for (let i = 0; i < 6; i++) {
+    const ang = i * Math.PI / 3 + 0.4;
+    ctx.beginPath();
+    ctx.moveTo(a.x + Math.cos(ang) * a.r * 0.34, a.y + Math.sin(ang) * a.r * 0.34);
+    ctx.lineTo(a.x + Math.cos(ang) * a.r * 0.74, a.y + Math.sin(ang) * a.r * 0.74);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// A subtle icy vignette + "❄ FROZEN" label and a remaining-time bar, shown while
+// the freeze effect is active so the stalled field is clearly explained.
+function drawFreezeOverlay() {
+  const w = canvas.width, h = canvas.height;
+  ctx.save();
+  const grd = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.35, w / 2, h / 2, Math.max(w, h) * 0.62);
+  grd.addColorStop(0, "rgba(140,210,255,0)");
+  grd.addColorStop(1, "rgba(150,220,255,0.16)");
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = "rgba(210,240,255,0.5)";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(1, 1, w - 2, h - 2);
+  ctx.globalAlpha = 0.92;
+  ctx.font = "bold 14px -apple-system, 'Segoe UI', sans-serif";
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  ctx.fillStyle = "rgba(225,245,255,0.95)";
+  ctx.fillText("❄ FROZEN", w / 2, 8);
+  const bw = 90, bx = w / 2 - bw / 2, by = 28;
+  ctx.fillStyle = "rgba(255,255,255,0.18)";
+  ctx.fillRect(bx, by, bw, 4);
+  ctx.fillStyle = "rgba(150,220,255,0.95)";
+  ctx.fillRect(bx, by, bw * (game.freezeT / FREEZE_DURATION), 4);
+  ctx.restore();
+}
+
+// Shared char / diacritic text, drawn on top of whatever body was rendered.
+function drawAsteroidText(a) {
   ctx.font = "bold 30px -apple-system, 'Segoe UI', sans-serif";
   ctx.textAlign = "center"; ctx.textBaseline = "middle";
   const info = diacriticInfo(a.char); // handles single kana AND combos (じゃ, ぴゃ…)
