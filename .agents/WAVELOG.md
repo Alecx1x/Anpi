@@ -18,13 +18,21 @@ reload state. One row per dispatched agent task; update on dispatch / review / g
 | 🏅 badges | wt/badges | badge wall (Option-2 renderStats hook; full superset of old 12 ACHIEVEMENTS) | ✅ deployed |
 | 🔒 security | wt/security | rate-limit /api/tts + per-command RLS least-privilege + revoke default PUBLIC grants | ✅ deployed (SQL run in Supabase) |
 
-## Wave 2 — DISPATCHED 2026-06-12 (all 4 lanes, worktrees ff'd to main 6e8c091)
+## Wave 2 — DEPLOYED 2026-06-12 (all 4 lanes; gather → main e9cc1e4; deploy cd1f6d22)
 | Lane | Branch | Task | Status |
 |---|---|---|---|
-| 📚 lessons | wt/lessons | small batch of high-value crucial-Japanese units (no filler) + journey/JOURNEY_XY | dispatched |
-| 🎮 game | wt/game | extensible special-asteroid system; first type = FROZEN (stalls all asteroids + pauses spawns ~5s) | dispatched |
-| 🏅 badges | wt/badges | expand catalogue to LEARNING badges (lesson/stage/journey milestones + flashcard-set/deck mastery) | dispatched |
-| 🔒 security | wt/security | keep hardening: tts.js abuse/SSRF/rate-limit, RLS least-privilege gaps, supabase-sync path (keep free translate_tts, no key) | dispatched |
+| 📚 lessons | wt/lessons | +3 crucial core-grammar units (は/が, のだ/んです, わけ family) — 116 units, journey+XY band-placed | ✅ deployed |
+| 🎮 game | wt/game | extensible special-asteroid registry; FROZEN type (stalls all asteroids + halts spawns ~5s, icy visuals + timer) | ✅ deployed |
+| 🏅 badges | wt/badges | new Flashcards category — study volume (100→10k), 90% accuracy, deck mastery (reads real kanaFlashcardResults) | ✅ deployed |
+| 🔒 security | wt/security | tts.js cache-poison guard (content-type+size); fixed signup redirect anpi→anpi-learning; ASCII-clean SQL + table-grant least-privilege | ✅ deployed (SQL needs user re-run for new revokes) |
+
+## Wave 3 — DISPATCHED 2026-06-12 (worktrees ff'd to main e9cc1e4)
+| Lane | Branch | Task | Status |
+|---|---|---|---|
+| 🎮 game | wt/game | freeze-on-DESTROY fix; shuffled-bag term selection (no back-to-back repeats, equal freq); FIREBALL special → guitar-solo mode (faster fall + Web Audio 8-bit music + all points ×2) ~5s; killstreak popup + ~0.2× bonus; frozen+fireball = 2× base score | dispatched |
+| 📚 lessons | wt/lessons | OPTIONAL spaced-repetition toggle (default OFF, recommend+explain on page); Leitner/SM-2-lite on existing per-card history; OFF = today's behavior unchanged; new keys anpiSRS/anpiSRSsched | dispatched |
+| 🏅 badges | wt/badges | UX polish (reassigned): expand site tour/onboarding + replay; readability/accessibility settings (larger text, high-contrast, reduced-motion) | dispatched |
+| 🔒 security | wt/security | _headers file (CSP careful re: Leaflet/Esri/Supabase + inline scripts; report-only if unsure + low-risk headers); audit supabase-sync writes | dispatched |
 
 Status values: `ready` → `dispatched` → `in-review` → `gathered` → `deployed` (or `blocked`/`abandoned`).
 
