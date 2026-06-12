@@ -633,6 +633,7 @@
         <button id="homeLeaderboard">🏆 Leaderboards</button>
         <button id="homeStats">🏅 My Stats</button>
         <button id="homeTour" class="ghost">✨ Take the tour</button>
+        <button id="homeSettings" class="ghost">⚙ Settings &amp; Accessibility</button>
       </div>
     </div>
   </div>
@@ -983,6 +984,43 @@
         <li><b>🔥 Build a streak.</b> Consecutive hits multiply your score. Each streak milestone (5, 10, 25, 50, 100) doubles points and earns a life — once each, up to your mode's max.</li>
       </ul>
       <button id="gameTutClose" class="primary">Got it! 🎮</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Settings & Accessibility panel (Wave-3 UX lane — self-contained).
+       Toggles set legibility classes on <html> (see app.js a11y region)
+       and persist in localStorage. Kept as one block for clean merges.
+       ============================================================ -->
+  <div class="settings-overlay" id="settingsOverlay">
+    <div class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="settings-head">
+        <h2 id="settingsTitle">⚙ Settings &amp; Accessibility</h2>
+        <button class="ghost settings-close" id="settingsClose" aria-label="Close settings">✕</button>
+      </div>
+
+      <section class="settings-group">
+        <h3>👁 Readability</h3>
+        <label class="settings-row" for="optLargeText">
+          <span><b>Larger text</b><small>Increase text size across the whole app</small></span>
+          <input type="checkbox" id="optLargeText" class="settings-switch">
+        </label>
+        <label class="settings-row" for="optContrast">
+          <span><b>High contrast</b><small>Brighter text and stronger outlines</small></span>
+          <input type="checkbox" id="optContrast" class="settings-switch">
+        </label>
+        <label class="settings-row" for="optReduceMotion">
+          <span><b>Reduce motion</b><small>Minimize animations and transitions</small></span>
+          <input type="checkbox" id="optReduceMotion" class="settings-switch">
+        </label>
+        <p class="settings-note">Reduce motion also follows your device's system setting automatically.</p>
+      </section>
+
+      <section class="settings-group">
+        <h3>🧭 Getting around</h3>
+        <button id="settingsReplayTour" class="primary settings-replay">✨ Replay the guided tour</button>
+        <p class="settings-note">A spotlight walkthrough of flashcards, the typing game, the Learn map, stats &amp; badges, and sign-in.</p>
+      </section>
     </div>
   </div>
 
