@@ -3176,10 +3176,18 @@ const TOUR_STEPS = [
     text: "Tell us where you're at — absolute beginner up to advanced. Your path starts at the right spot, and nothing is ever locked, so you can change it anytime." },
   { sel: "#learnUnits", before: () => { navForCard(); demoLearnPath(); },
     title: "3 · Follow the path",
-    text: "You then work through an ordered path: lessons grouped by stage (Foundations, N5, N4…). Your progress bar fills as you go and a ➜ marks your recommended next step." },
+    text: "You then work through an ordered path laid over a real satellite map of Japan — every lesson is a pin, and a glowing trail threads them from Okinawa in the south up to Hokkaidō in the north. Lessons are grouped by stage (Foundations, N5, N4…); your progress lights up the trail and a ➜ marks your recommended next step." },
   { sel: ".learn-unit", pad: 6, before: () => { navForCard(); demoLearnPath(); },
     title: "4 · Inside a lesson",
     text: "Each lesson explains the concept in plain language, then links straight to the matching flashcard deck and game. Finish it and mark it complete to advance." },
+
+  // ---- Phase 4b: the typing game + stats/badges (Wave-3 UX) ----
+  { sel: "#homeGame", before: () => { closeNav(); setMainView("home"); },
+    title: "Play the typing game",
+    text: "Want a fast, fun way to drill? 🎮 The typing game flies kana and vocab at you Space-Invaders style — type the romaji to blast them. Pick any deck, build streaks for bonus points, and chase the global leaderboards." },
+  { sel: "#homeStats", before: () => { closeNav(); setMainView("home"); },
+    title: "Stats & badges",
+    text: "🏅 My Stats tracks your day streak, cards answered, accuracy and best game scores — plus a wall of badges you unlock as you study, play and travel north across the map. Something to show for every session." },
 
   // ---- Phase 5: account & leaderboards ----
   { sel: "#accountBtn", click: true, before: () => closeNav(), do: () => { const b = $("accountBtn"); if (b) b.click(); },
@@ -3425,3 +3433,58 @@ applyFieldPanelState();
 setMainView("home");  // the site always opens on the home landing page
 initSelection();      // preloads the deck/set model in the background (stays on home)
 maybeNudgeTour();      // shine the "Take the tour" button until the user takes/skips it
+
+/* ============================================================
+ *  UX POLISH — Accessibility settings + tour replay (Wave-3 lane)
+ *  ------------------------------------------------------------
+ *  Self-contained block. Toggles three legibility classes on <html>
+ *  (:root) — larger text (root font bump → all rem text scales), high
+ *  contrast (overrides shared CSS tokens), and reduce-motion — each
+ *  persisted under its own localStorage key and restored on load. Also
+ *  wires the Settings & Accessibility panel and its "replay tour" button.
+ *  Touches nothing in the game or leaderboard regions.
+ * ============================================================ */
+(function () {
+  const root = document.documentElement;
+  const A11Y = [
+    { key: "anpiA11yLargeText",    cls: "a11y-large",         el: "optLargeText" },
+    { key: "anpiA11yContrast",     cls: "a11y-contrast",      el: "optContrast" },
+    { key: "anpiA11yReduceMotion", cls: "a11y-reduce-motion", el: "optReduceMotion" },
+  ];
+  function apply(opt, on) {
+    root.classList.toggle(opt.cls, !!on);
+    const box = document.getElementById(opt.el);
+    if (box) box.checked = !!on;
+  }
+  // Restore saved prefs and wire each toggle.
+  A11Y.forEach(opt => {
+    let on = false;
+    try { on = localStorage.getItem(opt.key) === "1"; } catch (e) {}
+    apply(opt, on);
+    const box = document.getElementById(opt.el);
+    if (box) box.addEventListener("change", () => {
+      apply(opt, box.checked);
+      try { localStorage.setItem(opt.key, box.checked ? "1" : "0"); } catch (e) {}
+    });
+  });
+
+  // Settings panel open / close.
+  const ov = document.getElementById("settingsOverlay");
+  function openSettings()  { if (ov) ov.classList.add("show"); }
+  function closeSettings() { if (ov) ov.classList.remove("show"); }
+  const openBtn = document.getElementById("homeSettings");
+  if (openBtn) openBtn.addEventListener("click", openSettings);
+  const closeBtn = document.getElementById("settingsClose");
+  if (closeBtn) closeBtn.addEventListener("click", closeSettings);
+  if (ov) ov.addEventListener("click", e => { if (e.target === ov) closeSettings(); });
+  document.addEventListener("keydown", e => {
+    if ((e.key === "Escape" || e.key === "Esc") && ov && ov.classList.contains("show")) closeSettings();
+  });
+
+  // Replay the guided tour from Settings.
+  const replay = document.getElementById("settingsReplayTour");
+  if (replay) replay.addEventListener("click", () => {
+    closeSettings();
+    if (typeof startTour === "function") startTour();
+  });
+})();

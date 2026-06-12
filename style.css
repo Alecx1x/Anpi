@@ -1179,3 +1179,79 @@
   .bw-badge, .bw-toast { transition: none; }
   .bw-badge.is-earned:hover { transform: none; }
 }
+
+/* ============================================================
+   UX POLISH / ACCESSIBILITY — Wave-3 lane (global legibility only).
+   Self-contained; does NOT touch game styles or other agents' blocks.
+   Legibility classes live on :root (<html>) so the ~all-rem text scales
+   proportionally and the shared design tokens can be overridden in one spot.
+   ============================================================ */
+
+/* --- Larger text: bump the root font size; ~all sizes are rem so they scale
+   together while px-based layout widths stay put (no broken frames). --- */
+:root.a11y-large { font-size: 18px; }
+
+/* --- High contrast: override the shared CSS custom properties once. --- */
+:root.a11y-contrast {
+  --text: #ffffff;
+  --muted: #e7ecff;
+  --bg: #00000a;
+  --card-bg: #0b1024;
+  --card-back: #141a36;
+}
+:root.a11y-contrast body { background: #00000a; }
+:root.a11y-contrast button,
+:root.a11y-contrast .deck,
+:root.a11y-contrast .stat-tile,
+:root.a11y-contrast .bw-badge { border: 1px solid #ffffff66; }
+:root.a11y-contrast .home-desc,
+:root.a11y-contrast a { color: var(--text); }
+/* A visible keyboard focus ring helps everyone, and is vital in contrast mode. */
+:root.a11y-contrast :focus-visible { outline: 3px solid #ffe14d; outline-offset: 2px; }
+
+/* --- Reduce motion: explicit toggle, plus honor the OS-level setting. --- */
+:root.a11y-reduce-motion *,
+:root.a11y-reduce-motion *::before,
+:root.a11y-reduce-motion *::after {
+  animation-duration: .001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: .001ms !important;
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --- Settings & Accessibility panel --- */
+.settings-overlay {
+  position: fixed; inset: 0; z-index: 9000; display: none;
+  align-items: center; justify-content: center; padding: 20px;
+  background: rgba(6, 8, 18, .72); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+}
+.settings-overlay.show { display: flex; }
+.settings-modal {
+  width: min(540px, calc(100vw - 40px)); max-height: 88vh; overflow-y: auto;
+  background: var(--card-bg); border: 1px solid #ffffff1f; border-radius: 16px;
+  padding: 22px 22px 26px; box-shadow: 0 24px 70px rgba(0, 0, 0, .6);
+}
+.settings-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.settings-head h2 { font-size: 1.15rem; margin: 0; }
+.settings-close { font-size: 1rem; line-height: 1; padding: 6px 10px; }
+.settings-group { margin-top: 18px; }
+.settings-group h3 { font-size: .9rem; color: var(--muted); margin: 0 0 6px; text-transform: uppercase; letter-spacing: .04em; }
+.settings-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 12px 4px; border-top: 1px solid #ffffff12; cursor: pointer;
+}
+.settings-group .settings-row:first-of-type { border-top: none; }
+.settings-row > span { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.settings-row b { font-size: 1.02rem; }
+.settings-row small { font-size: .82rem; color: var(--muted); }
+.settings-switch { width: 22px; height: 22px; flex: 0 0 auto; cursor: pointer; accent-color: var(--accent2); }
+.settings-replay { width: 100%; font-size: 1rem; padding: 12px; }
+.settings-note { font-size: .82rem; color: var(--muted); margin: 10px 2px 0; line-height: 1.45; }
