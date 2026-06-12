@@ -11,6 +11,25 @@ alter table public.profiles add column if not exists display_name text;
 -- Best combo/streak achieved on the run that set each high score.
 alter table public.high_scores add column if not exists best_streak int default 0;
 
+-- Integrity guard: every leaderboard function sorts by score::numeric across ALL
+-- users, so one non-numeric score row would error that query for everyone (the
+-- anon RLS only limits WHICH rows a client writes, not their CONTENT). Enforce
+-- digits-only at the DB so even a client calling the REST API directly cannot
+-- insert a value that breaks the cast. NOT VALID skips re-checking legacy rows
+-- (all existing scores are already numeric strings) while enforcing every future
+-- insert/update. Wrapped so the script stays safely re-runnable.
+do $func$
+begin
+  if not exists (
+    select 1 from pg_constraint where conname = 'high_scores_score_numeric_chk'
+  ) then
+    alter table public.high_scores
+      add constraint high_scores_score_numeric_chk
+      check (score ~ '^[0-9]{1,30}$') not valid;
+  end if;
+end
+$func$;
+
 -- ---------- Leaderboard: top scores for a deck + difficulty -----------------
 -- SECURITY DEFINER so it can read EVERY user's high_scores (bypassing the
 -- per-user RLS) while exposing ONLY a display name + score -- never emails.
