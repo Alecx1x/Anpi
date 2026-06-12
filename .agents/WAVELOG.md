@@ -18,6 +18,14 @@ reload state. One row per dispatched agent task; update on dispatch / review / g
 | 🏅 badges | wt/badges | badge wall (Option-2 renderStats hook; full superset of old 12 ACHIEVEMENTS) | ✅ deployed |
 | 🔒 security | wt/security | rate-limit /api/tts + per-command RLS least-privilege + revoke default PUBLIC grants | ✅ deployed (SQL run in Supabase) |
 
+## Wave 2 — DISPATCHED 2026-06-12 (all 4 lanes, worktrees ff'd to main 6e8c091)
+| Lane | Branch | Task | Status |
+|---|---|---|---|
+| 📚 lessons | wt/lessons | small batch of high-value crucial-Japanese units (no filler) + journey/JOURNEY_XY | dispatched |
+| 🎮 game | wt/game | extensible special-asteroid system; first type = FROZEN (stalls all asteroids + pauses spawns ~5s) | dispatched |
+| 🏅 badges | wt/badges | expand catalogue to LEARNING badges (lesson/stage/journey milestones + flashcard-set/deck mastery) | dispatched |
+| 🔒 security | wt/security | keep hardening: tts.js abuse/SSRF/rate-limit, RLS least-privilege gaps, supabase-sync path (keep free translate_tts, no key) | dispatched |
+
 Status values: `ready` → `dispatched` → `in-review` → `gathered` → `deployed` (or `blocked`/`abandoned`).
 
 ## Current state of `main` (keep this 1-liner fresh)
