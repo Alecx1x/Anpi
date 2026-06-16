@@ -1399,7 +1399,7 @@ document.getElementById("kj").addEventListener("click", function () {
 });
 // ---- Kanji Road XP + daily limit (each lesson = +15 XP, max 3 lessons/day; tweak the two constants) ----
 var KR_XP_PER = 15;        // XP per completed Kanji Road lesson
-var KR_DAILY_LIMIT = 3;    // max NEW lessons that can be completed per day
+var KR_DAILY_LIMIT = 5;    // max NEW lessons that can be completed per day (the daily GOAL stays at 3)
 function krToday() { var d = new Date(); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
 function krAwarded() { try { return JSON.parse(localStorage.getItem("anpiKRAwarded") || "{}") || {}; } catch (e) { return {}; } }
 function krDailyCount() {   // {date,count} — number of new lessons completed today (resets each day)

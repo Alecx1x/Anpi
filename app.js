@@ -387,6 +387,14 @@ function capReadings(str, n, sep) {
   const parts = String(str).split(sep);
   return parts.length > n ? parts.slice(0, n).join(sep) + "…" : str;
 }
+// The single meaning relevant to the set being studied — the PRIMARY gloss only, not the whole
+// dictionary list. Distinct glosses are ";"-separated for vocab and ","-separated for kanji; we
+// take just the first. Grammar/phrase decks store an explanatory sentence (no ";"), so it's left
+// whole. Matches the front sub-label (cardSub) so front and back agree.
+function primaryGloss(str) {
+  const t = String(str).trim();
+  return (deckType === "kanji" ? t.split(",")[0] : t.split(";")[0]).trim();
+}
 
 // The display content for a single field on the current card, or null if empty.
 // (The "stroke" field is the animation, handled separately by maybeRenderStroke.)
@@ -401,7 +409,7 @@ function fieldValue(key, e) {
       return other ? `${label}: <b>${other}</b>` : null;
     }
     case "class":       return deckType === "kana" ? (e.note || null) : null;
-    case "meaning":     return e.meaning ? capReadings(e.meaning, 4, ", ") : null;
+    case "meaning":     return e.meaning ? primaryGloss(e.meaning) : null;
     case "onyomi":      return e.onyomi ? `<span class="bf-lbl">On</span> ${capReadings(e.onyomi, 6)}` : null;
     case "kunyomi":     return e.kunyomi ? `<span class="bf-lbl">Kun</span> ${capReadings(e.kunyomi, 6)}` : null;
     case "strokecount": return (e.strokeCount != null) ? `Strokes: ${e.strokeCount}` : null;
@@ -675,6 +683,7 @@ function showReport() {
   };
   const n = saveResult(record);
   try { missionFlashcards((pct || 0) / 100); } catch (e) {}   // daily mission: score on a flashcard set (up to 50 XP)
+  try { bumpGoal("flash", 1); } catch (e) {}                  // daily goal: finish 1 flashcard set
   $("savedNote").textContent = n
     ? `✓ Saved as session #${n}. Closing will reset the deck to start over.`
     : `⚠ Couldn't save (storage unavailable). Closing will reset the deck.`;
@@ -2446,6 +2455,7 @@ function endGame() {
   }
   markGame(game.score.toString(), Math.max(0, game.bestCombo)); // stats / streak / achievements
   try { missionGame(game.score); } catch (e) {}   // daily mission: play Kana Invader (up to 50 XP)
+  try { bumpGoal("game", 1); } catch (e) {}        // daily goal: play 1 game
   const missed = Object.values(game.escaped).sort((a, b) => b.count - a.count).slice(0, 5);
 
   // Feed this session into the saved-results history so it shows in Past Results.
@@ -2985,13 +2995,13 @@ document.addEventListener("keydown", e => {
 //  this renderer.
 // =====================================================================
 const LEARN_KEY = "anpiLearn";
-let learnState = { level: null, done: {}, xp: 0, awarded: {}, owned: {}, daily: {} };
+let learnState = { level: null, done: {}, xp: 0, awarded: {}, owned: {}, daily: {}, goals: {} };
 let currentLessonId = null;
 function loadLearnState() {
   try {
     const s = JSON.parse(localStorage.getItem(LEARN_KEY) || "{}");
-    learnState = { level: s.level || null, done: s.done || {}, xp: s.xp || 0, awarded: s.awarded || {}, owned: s.owned || {}, daily: s.daily || {} };
-  } catch (e) { learnState = { level: null, done: {}, xp: 0, awarded: {}, owned: {}, daily: {} }; }
+    learnState = { level: s.level || null, done: s.done || {}, xp: s.xp || 0, awarded: s.awarded || {}, owned: s.owned || {}, daily: s.daily || {}, goals: s.goals || {} };
+  } catch (e) { learnState = { level: null, done: {}, xp: 0, awarded: {}, owned: {}, daily: {}, goals: {} }; }
 }
 function saveLearnState() {
   try { localStorage.setItem(LEARN_KEY, JSON.stringify(learnState)); } catch (e) {}
@@ -3024,7 +3034,66 @@ function reconcileKanjiRoad() {
     if (k.date !== todayKey()) return;
     const d = getDaily(), target = Math.min(DAILY.kanjiCount, k.count || 0);
     if (target > d.kanji) { awardXP((target - d.kanji) * DAILY.kanjiEach); d.kanji = target; saveLearnState(); }
+    bumpGoal("kanji", k.count || 0, true);   // daily-goal counter tracks the real lessons-done count
   } catch (e) {}
+}
+
+// ===== Daily goals + consecutive-day streak bonus =====
+const DAILY_GOALS = [
+  { key: "flash", ic: "🎴", label: "Finish 1 flashcard set", target: 1 },
+  { key: "game",  ic: "👾", label: "Play 1 game",            target: 1 },
+  { key: "kanji", ic: "🗾", label: "Complete 3 Kanji Road lessons", target: 3 }
+];
+const STREAK_BONUS = [50, 100, 200, 300, 500, 750, 1000];   // XP for each consecutive day all goals are met (caps at 1000)
+function yesterdayKey() { const d = new Date(); d.setDate(d.getDate() - 1); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
+function getGoals() {
+  const g = learnState.goals || {};
+  if (g.date !== todayKey()) {   // new day: reset today's progress, keep streak + lastComplete
+    learnState.goals = { date: todayKey(), flash: 0, game: 0, kanji: 0, streak: g.streak || 0, lastComplete: g.lastComplete || "" };
+  }
+  return learnState.goals;
+}
+// Record progress on a goal. set=true → store an absolute value (kanji count); else increment.
+function bumpGoal(key, val, set) {
+  const g = getGoals();
+  g[key] = set ? Math.max(g[key] || 0, val) : (g[key] || 0) + (val || 1);
+  saveLearnState();
+  checkGoalsComplete();
+}
+function goalsAllDone() { const g = getGoals(); return DAILY_GOALS.every(go => (g[go.key] || 0) >= go.target); }
+// Award the streak bonus the first time all goals are completed in a day.
+function checkGoalsComplete() {
+  const g = getGoals();
+  if (!goalsAllDone() || g.lastComplete === todayKey()) return 0;
+  g.streak = (g.lastComplete === yesterdayKey()) ? (g.streak || 0) + 1 : 1;   // consecutive → grow, else restart
+  g.lastComplete = todayKey();
+  const bonus = STREAK_BONUS[Math.min(g.streak - 1, STREAK_BONUS.length - 1)];
+  awardXP(bonus); saveLearnState();
+  try { showDailyGoalToast(bonus, g.streak); } catch (e) {}
+  return bonus;
+}
+function renderDailyGoals() {
+  const el = document.getElementById("dailyGoals"); if (!el) return;
+  const g = getGoals(), allDone = goalsAllDone(), doneToday = g.lastComplete === todayKey();
+  const prospective = doneToday ? g.streak : (g.lastComplete === yesterdayKey() ? (g.streak || 0) + 1 : 1);
+  const bonus = STREAK_BONUS[Math.min(prospective - 1, STREAK_BONUS.length - 1)];
+  let html = '<div class="dg-h">⭐ Daily goals <span>resets daily</span></div>';
+  html += DAILY_GOALS.map(go => {
+    const have = Math.min(g[go.key] || 0, go.target), met = have >= go.target;
+    return '<div class="dg-row' + (met ? " done" : "") + '"><span class="dg-ic">' + (met ? "✅" : go.ic) + '</span>' +
+      '<span class="dg-txt">' + go.label + '</span><span class="dg-ct">' + have + '/' + go.target + '</span></div>';
+  }).join("");
+  html += '<div class="dg-foot">' + (doneToday
+    ? '✓ All done today — <b>+' + bonus + ' XP</b> claimed · <span class="dg-streak">🔥 ' + g.streak + '-day streak</span>'
+    : 'Finish all 3 today for <b>+' + bonus + ' XP</b>' + (g.streak ? ' · <span class="dg-streak">🔥 ' + g.streak + '-day streak</span>' : '')) + '</div>';
+  el.innerHTML = html;
+}
+function showDailyGoalToast(bonus, streak) {
+  let t = document.getElementById("goalToast");
+  if (!t) { t = document.createElement("div"); t.id = "goalToast"; document.body.appendChild(t); }
+  t.innerHTML = "🎉 Daily goals complete! <b>+" + bonus + " XP</b> · " + streak + "-day streak 🔥";
+  t.classList.add("show");
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 4000);
 }
 // After cloud sign-in merges the learn state, reload it and refresh the path view
 // if it's on screen (so completed lessons / level appear without a manual reload).
@@ -4025,6 +4094,13 @@ applyFieldPanelState();
 setMainView("home");  // the site always opens on the home landing page
 initSelection();      // preloads the deck/set model in the background (stays on home)
 maybeNudgeTour();      // shine the "Take the tour" button until the user takes/skips it
+// When the profile/account modal opens, refresh + show the daily goals (and award any earned streak).
+(function () {
+  const ov = document.getElementById("authOverlay");
+  if (ov) new MutationObserver(function () {
+    if (ov.classList.contains("show")) { loadLearnState(); reconcileKanjiRoad(); checkGoalsComplete(); renderDailyGoals(); }
+  }).observe(ov, { attributes: true, attributeFilter: ["class"] });
+})();
 
 /* ============================================================
  *  UX POLISH — Accessibility settings + tour replay (Wave-3 lane)

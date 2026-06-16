@@ -83,8 +83,54 @@
   #shop .ct-item .ct-em { font-size: 1.5rem; } #shop .ct-item .ct-sub { color: #b8b0d8; }
   #shop .ct-item:hover { border-color: #b98bff; }
   #shop .ct-item.eqd { border-color: #5cf2f6; background: #5cf2f612; box-shadow: 0 0 0 1px #5cf2f622; } #shop .ct-item.eqd .ct-sub { color: #5cf2f6; }
-  #shop .ct-locked { width: 50px; height: 50px; border: 1px dashed #ffffff30; color: #6f779c; font-size: .95rem; background: #14182b; }
+  #shop .ct-locked { width: 62px; height: 62px; border: 1px dashed #ffffff30; color: #6f779c; background: #14182b; opacity: .82; }
+  #shop .ct-locked .ct-em { font-size: 1.4rem; filter: grayscale(.45); } #shop .ct-locked .ct-sub { color: #6f779c; font-size: .55rem; }
+  /* owned items as rows, each with its colour-customizer branch */
+  #shop .ct-itemcol { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+  #shop .ct-itemrow { display: flex; align-items: center; gap: 12px; }
+  #shop .ct-cust { display: flex; align-items: center; }
+  #shop .ct-custbuy { background: #2a1f47; border: 1px solid #b98bff66; color: #e7ddff; border-radius: 999px;
+    padding: 7px 13px; font: 700 .74rem system-ui; cursor: pointer; white-space: nowrap; }
+  #shop .ct-custbuy:hover { border-color: #b98bff; } #shop .ct-custbuy.cant { opacity: .5; cursor: not-allowed; }
+  #shop .ct-sw-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  #shop .ct-sw-lbl { font-size: .85rem; margin-right: 2px; }
+  #shop .ct-sw { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #ffffff22; cursor: pointer; padding: 0; }
+  #shop .ct-sw:hover { border-color: #ffffff66; } #shop .ct-sw.on { border-color: #fff; box-shadow: 0 0 0 2px #ffffff44; }
+  /* "current build" chips in the skin panel */
+  .current-build { display: flex; flex-wrap: wrap; gap: 7px; }
+  .cb-chip { display: inline-flex; align-items: center; gap: 5px; background: #2a2447; border: 1px solid #5cf2f655;
+    color: #e7ddff; border-radius: 999px; padding: 5px 11px; font: 700 .8rem system-ui; cursor: pointer; }
+  .cb-chip:hover { border-color: #5cf2f6; }
+  .cb-chip .cb-x { color: #9aa3c7; font-size: .72rem; }
+  .cb-empty { color: #8a82ad; font-size: .85rem; }
   .seedline { font-family: ui-monospace, monospace; font-size: .8rem; color: #9a93c0; margin-top: 6px; }
+  /* reward reveal when a cosmetic set is unlocked — glimmering tunnel of light + the 3 items */
+  #cosReward { position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; overflow: hidden;
+    background: radial-gradient(circle at 50% 47%, #281c5c 0%, #0b0916 68%); }
+  #cosReward[hidden] { display: none; }
+  #cosReward .rays { position: absolute; left: 50%; top: 47%; width: 230vmax; height: 230vmax; transform: translate(-50%,-50%);
+    background: repeating-conic-gradient(from 0deg, rgba(255,225,77,0) 0deg, rgba(255,225,77,.14) 4deg, rgba(255,225,77,0) 9deg);
+    animation: cosspin 26s linear infinite; pointer-events: none; }
+  @keyframes cosspin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+  #cosReward .halo { position: absolute; left: 50%; top: 47%; width: 82vmin; height: 82vmin; transform: translate(-50%,-50%);
+    background: radial-gradient(circle, rgba(255,248,224,.85) 0%, rgba(255,210,74,.35) 32%, transparent 66%);
+    filter: blur(6px); animation: cospulse 2.4s ease-in-out infinite; pointer-events: none; }
+  @keyframes cospulse { 0%,100% { opacity: .6; transform: translate(-50%,-50%) scale(1); } 50% { opacity: 1; transform: translate(-50%,-50%) scale(1.12); } }
+  #cosReward .vig { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: radial-gradient(circle at 50% 47%, transparent 24%, rgba(11,9,22,.55) 50%, #0b0916 72%); }
+  #cosReward .cr-card { position: relative; z-index: 2; text-align: center; max-width: 94vw; padding: 8px 16px;
+    animation: cospop .55s cubic-bezier(.2,1.3,.4,1) both; }
+  @keyframes cospop { from { opacity: 0; transform: scale(.45); } to { opacity: 1; transform: scale(1); } }
+  @keyframes cosrise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  #cosReward .cr-title { font: 800 1.7rem system-ui; color: #fff; text-shadow: 0 0 22px #ffd24a; margin-bottom: 8px; }
+  #cosReward .cr-sub { color: #cdd6ea; font-size: .95rem; margin-bottom: 20px; }
+  #cosReward .cr-items { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; animation: cosrise .5s ease both .18s; }
+  #cosReward .cr-it { width: 96px; padding: 14px 8px; border-radius: 14px; background: #ffffff14; border: 1px solid #ffd24a66; box-shadow: 0 0 18px #ffd24a44; }
+  #cosReward .cr-it .e { font-size: 2.6rem; line-height: 1; }
+  #cosReward .cr-it .n { font-size: .76rem; color: #e7ddff; margin-top: 8px; }
+  #cosReward .cr-go { background: linear-gradient(180deg,#ffe14d,#f4b400); color: #2a1c00; font: 800 1.1rem system-ui;
+    border: 0; border-radius: 13px; padding: 14px 36px; cursor: pointer; box-shadow: 0 8px 24px #ffd24a55; }
+  #cosReward .cr-go:hover { filter: brightness(1.06); }
 </style>
 <script defer src="/lib/appnav.js"></script>
 <script defer src="/lib/profile-widget.js"></script>
@@ -103,6 +149,8 @@
     <div class="row" style="margin-top:12px">
       <button class="act" id="reseed">🎲 Random skin</button>
     </div>
+    <div class="pl" style="margin-top:16px">Current build <span class="free">— what you're wearing</span></div>
+    <div class="current-build" id="currentBuild"></div>
   </div>
 
   <div class="panel">
@@ -120,6 +168,19 @@
   eventually your character shows up in the games. Earn XP by doing lessons and daily missions in the guided path, then spend it
   here. Drag the figure to spin it.</p>
 </main>
+
+<!-- Reward reveal shown when a cosmetic set is bought with XP -->
+<div id="cosReward" hidden>
+  <div class="rays"></div>
+  <div class="halo"></div>
+  <div class="vig"></div>
+  <div class="cr-card">
+    <div class="cr-title">✨ Set Unlocked! ✨</div>
+    <div class="cr-sub" id="cosSub"></div>
+    <div class="cr-items" id="cosItems"></div>
+    <button class="cr-go" id="cosGo">Continue →</button>
+  </div>
+</div>
 
 <script type="importmap">
 { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
@@ -153,13 +214,21 @@ const COSMETIC_TREE = {
   ]
 };
 
+// Per-item colour customizer: unlock for 150 XP, then recolour the item's main part.
+const CUST_COST = 150;
+const PALETTE = ["#8a5cf0", "#5cf2f6", "#39ff14", "#ffe14d", "#ff8f3f", "#ff6b9d", "#ffffff", "#20242e"];
+const ITEM_MAIN = { cap: "#f2f2f7", mortarboard: "#18181f", propeller: "#39c0ff", hoodie: "#5a3fb0", cape: "#d83a4a", scarf: "#2de2e6", halo: "#ffe14d", aura: "#5cf2f6", sparkles: "#ffe14d" };
+function itemColor(k) { return (state.colors && state.colors[k]) || ITEM_MAIN[k]; }
+function catOf(itemKey) { return COSMETIC_TREE.cats.find(c => c.items.some(it => it.key === itemKey)); }
+
 const KEY = "anpiAvatar";
-const DEFAULT = { skin: "#f0d2b4", owned: {}, equipped: {}, backdrop: "" };
+const DEFAULT = { skin: "#f0d2b4", owned: {}, equipped: {}, backdrop: "", customizers: {}, colors: {} };
 // XP wallet lives in the app's learn-state (localStorage "anpiLearn") — shared with the guided path.
 function wallet() { try { return (JSON.parse(localStorage.getItem("anpiLearn") || "{}").xp) || 0; } catch (e) { return 0; } }
 function spendXP(n) { try { const l = JSON.parse(localStorage.getItem("anpiLearn") || "{}"); l.xp = Math.max(0, (l.xp || 0) - n); localStorage.setItem("anpiLearn", JSON.stringify(l)); } catch (e) {} }
 
 let state = (function () { try { return Object.assign({}, DEFAULT, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) { return Object.assign({}, DEFAULT); } })();
+["owned", "equipped", "customizers", "colors"].forEach(k => { if (!state[k]) state[k] = {}; });
 function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
 
 // deterministic per-seed look (skin/hair/build) so each account is unique
@@ -181,7 +250,7 @@ if (!renderer) {
   stage.appendChild(renderer.domElement);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-  camera.position.set(0, 1.9, 6.3); camera.lookAt(0, 1.55, 0);
+  camera.position.set(0, 2.05, 7.4); camera.lookAt(0, 1.7, 0);   // pulled back + up so tall hats stay fully in frame
   scene.add(new THREE.AmbientLight(0xffffff, 0.65));
   const key = new THREE.DirectionalLight(0xffffff, 1.0); key.position.set(3, 6, 4); scene.add(key);
   const rim = new THREE.DirectionalLight(0x88aaff, 0.5); rim.position.set(-4, 2, -3); scene.add(rim);
@@ -243,16 +312,16 @@ if (!renderer) {
     const eq = state.equipped || {};
     // Headwear (+ halo) parented to headGroup so they bob with the head
     if (eq.cap) {   // white & purple mesh ballcap: white dome + purple brim
-      const white = new THREE.MeshStandardMaterial({ color: 0xf2f2f7, roughness: 0.7 });
+      const white = new THREE.MeshStandardMaterial({ color: itemColor("cap"), roughness: 0.7 });
       const purple = new THREE.MeshStandardMaterial({ color: 0x8a5cf0, roughness: 0.6 });
       const dome = new THREE.Mesh(new THREE.SphereGeometry(0.5, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2), white);
-      dome.position.set(0, 0.5, 0); headGroup.add(dome);
-      const brim = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.04, 20, 1, false, -Math.PI / 2, Math.PI), purple);
-      brim.position.set(0, 0.5, 0.34); headGroup.add(brim);
-      const btn = new THREE.Mesh(new THREE.SphereGeometry(0.05, 10, 8), purple); btn.position.set(0, 1.0, 0); headGroup.add(btn);
+      dome.position.set(0, 0.34, 0); headGroup.add(dome);   // lowered so the cap sits on the head, not floating
+      const brim = new THREE.Mesh(new THREE.CylinderGeometry(0.46, 0.46, 0.05, 28, 1, false, -Math.PI / 2, Math.PI), purple);
+      brim.rotation.x = -0.34; brim.position.set(0, 0.33, 0.36); headGroup.add(brim);   // bigger + angled down (curved bill)
+      const btn = new THREE.Mesh(new THREE.SphereGeometry(0.05, 10, 8), purple); btn.position.set(0, 0.84, 0); headGroup.add(btn);
     }
     if (eq.mortarboard) {   // black graduation cap: cap base + flat board + gold tassel
-      const black = new THREE.MeshStandardMaterial({ color: 0x18181f, roughness: 0.5 });
+      const black = new THREE.MeshStandardMaterial({ color: itemColor("mortarboard"), roughness: 0.5 });
       const base = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.2, 20), black); base.position.set(0, 0.62, 0); headGroup.add(base);
       const board = new THREE.Mesh(new THREE.BoxGeometry(0.98, 0.04, 0.98), black); board.position.set(0, 0.76, 0); headGroup.add(board);
       const gold = new THREE.MeshStandardMaterial({ color: 0xffd24a, roughness: 0.4 });
@@ -261,11 +330,11 @@ if (!renderer) {
     }
     if (eq.propeller) {   // colourful propeller beanie (the propeller spins in the loop)
       const beanie = new THREE.Mesh(new THREE.SphereGeometry(0.5, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2),
-        new THREE.MeshStandardMaterial({ color: 0x39c0ff, roughness: 0.6 }));
-      beanie.position.set(0, 0.5, 0); headGroup.add(beanie);
+        new THREE.MeshStandardMaterial({ color: itemColor("propeller"), roughness: 0.6 }));
+      beanie.position.set(0, 0.34, 0); headGroup.add(beanie);   // lowered so it sits on the head
       const stalk = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.16, 8),
-        new THREE.MeshStandardMaterial({ color: 0x333344, roughness: 0.5 })); stalk.position.set(0, 1.04, 0); headGroup.add(stalk);
-      propeller = new THREE.Group(); propeller.position.set(0, 1.14, 0);
+        new THREE.MeshStandardMaterial({ color: 0x333344, roughness: 0.5 })); stalk.position.set(0, 0.88, 0); headGroup.add(stalk);
+      propeller = new THREE.Group(); propeller.position.set(0, 0.98, 0);
       const blade = (col, rot) => { const m = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.03, 0.12),
         new THREE.MeshStandardMaterial({ color: col, roughness: 0.5 })); m.rotation.y = rot; return m; };
       propeller.add(blade(0xff4d6d, 0), blade(0xffe14d, Math.PI / 2));
@@ -273,7 +342,7 @@ if (!renderer) {
     }
     if (eq.halo) {
       const halo = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.045, 10, 28),
-        new THREE.MeshStandardMaterial({ color: 0xffe14d, emissive: 0xffe14d, emissiveIntensity: 0.6, roughness: 0.4 }));
+        new THREE.MeshStandardMaterial({ color: itemColor("halo"), emissive: itemColor("halo"), emissiveIntensity: 0.6, roughness: 0.4 }));
       halo.rotation.x = Math.PI / 2; halo.position.set(0, 0.95, 0); headGroup.add(halo);
     }
     headGroup.position.y = HEAD_Y; char.add(headGroup);
@@ -294,33 +363,34 @@ if (!renderer) {
 
     // Bodywear + Misc effects on the char, riding the whole-character float
     if (eq.hoodie) {   // cozy purple hoodie: a raised hood behind the head + a collar
-      const cloth = new THREE.MeshStandardMaterial({ color: 0x5a3fb0, roughness: 0.9 });
+      const cloth = new THREE.MeshStandardMaterial({ color: itemColor("hoodie"), roughness: 0.9 });
       const hood = new THREE.Mesh(new THREE.SphereGeometry(0.52, 20, 16, 0, Math.PI * 2, Math.PI * 0.33, Math.PI * 0.5), cloth);
       hood.position.set(0, 1.95, -0.16); char.add(hood);
       const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.66, 0.32, 24, 1, true), cloth); collar.position.set(0, 1.32, 0); char.add(collar);
     }
     if (eq.cape) {   // flowing red hero cape
       const c = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 1.3),
-        new THREE.MeshStandardMaterial({ color: 0xd83a4a, roughness: 0.85, side: THREE.DoubleSide }));
+        new THREE.MeshStandardMaterial({ color: itemColor("cape"), roughness: 0.85, side: THREE.DoubleSide }));
       c.position.set(0, 0.8, -0.52); c.rotation.x = 0.16; char.add(c);
     }
     if (eq.scarf) {   // cyan striped scarf around the neck + a hanging tail
-      const cyan = new THREE.MeshStandardMaterial({ color: 0x2de2e6, roughness: 0.7 });
+      const cyan = new THREE.MeshStandardMaterial({ color: itemColor("scarf"), roughness: 0.7 });
       const ring = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.1, 10, 24), cyan); ring.rotation.x = Math.PI / 2; ring.position.set(0, 1.5, 0); char.add(ring);
       const tail = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.5, 0.06), cyan); tail.position.set(0.18, 1.26, 0.26); tail.rotation.z = 0.12; char.add(tail);
     }
     if (eq.aura) {
       const aura = new THREE.Mesh(new THREE.TorusGeometry(0.95, 0.07, 10, 36),
-        new THREE.MeshStandardMaterial({ color: 0x5cf2f6, emissive: 0x2de2e6, emissiveIntensity: 0.7, roughness: 0.5, transparent: true, opacity: 0.8 }));
+        new THREE.MeshStandardMaterial({ color: itemColor("aura"), emissive: itemColor("aura"), emissiveIntensity: 0.7, roughness: 0.5, transparent: true, opacity: 0.8 }));
       aura.rotation.x = Math.PI / 2; aura.position.set(0, 0.45, 0); char.add(aura);
     }
     if (eq.sparkles) {   // little glowing motes that orbit the character (spun in the loop)
       sparkleGroup = new THREE.Group();
+      const custS = state.colors && state.colors.sparkles;   // if customized, recolour all motes to one colour
       const cols = [0xffe14d, 0x5cf2f6, 0xff8fce];
       for (let i = 0; i < 7; i++) {
-        const a = i / 7 * Math.PI * 2, r = 1.0 + 0.18 * (i % 2);
+        const a = i / 7 * Math.PI * 2, r = 1.0 + 0.18 * (i % 2), col = custS || cols[i % 3];
         const s = new THREE.Mesh(new THREE.SphereGeometry(0.07, 10, 8),
-          new THREE.MeshStandardMaterial({ color: cols[i % 3], emissive: cols[i % 3], emissiveIntensity: 0.9, roughness: 0.3 }));
+          new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.9, roughness: 0.3 }));
         s.position.set(Math.cos(a) * r, 0.4 + 0.95 * (i / 7), Math.sin(a) * r); sparkleGroup.add(s);
       }
       char.add(sparkleGroup);
@@ -412,21 +482,66 @@ function renderShop() {
     const csub = owned ? "✓ unlocked" : ("✦" + cat.cost);
     const ctip = owned ? (cat.name + " — unlocked") : (cat.name + " — unlock for " + cat.cost + " XP" + (afford ? "" : " (need more)"));
     html += '<li><button class="' + ccls + '" data-cat="' + cat.key + '" title="' + ctip + '">' +
-      '<span class="ct-em">' + cat.ic + '</span><span class="ct-name">' + cat.name + '</span><span class="ct-sub">' + csub + '</span></button><ul class="ct-slots">';
-    cat.items.forEach(it => {
-      if (owned) {
+      '<span class="ct-em">' + cat.ic + '</span><span class="ct-name">' + cat.name + '</span><span class="ct-sub">' + csub + '</span></button>';
+    if (owned) {
+      html += '<ul class="ct-itemcol">';
+      cat.items.forEach(it => {
         const eqd = !!state.equipped[it.key];
-        html += '<li><button class="ct-circle ct-item' + (eqd ? " eqd" : "") + '" data-item="' + it.key + '" title="' +
-          it.name + (eqd ? " — equipped" : " — tap to equip") + '"><span class="ct-em">' + it.ic + '</span><span class="ct-sub">' + (eqd ? "✓ on" : "equip") + '</span></button></li>';
-      } else {
-        html += '<li><div class="ct-circle ct-locked" title="' + it.name + " — unlock " + cat.name + " first" + '">🔒</div></li>';
-      }
-    });
-    html += '</ul></li>';
+        html += '<li class="ct-itemrow"><button class="ct-circle ct-item' + (eqd ? " eqd" : "") + '" data-item="' + it.key + '" title="' +
+          it.name + (eqd ? " — equipped (tap to remove)" : " — tap to wear") + '"><span class="ct-em">' + it.ic + '</span><span class="ct-sub">' + (eqd ? "✓ on" : "wear") + '</span></button>';
+        html += '<div class="ct-cust">';
+        if (!state.customizers[it.key]) {
+          html += '<button class="ct-custbuy' + (w >= CUST_COST ? "" : " cant") + '" data-cust="' + it.key + '" title="Unlock the colour customizer for ' + it.name + '">🎨 Color · ✦' + CUST_COST + '</button>';
+        } else {
+          const cur = itemColor(it.key).toLowerCase();
+          html += '<div class="ct-sw-row"><span class="ct-sw-lbl">🎨</span>' + PALETTE.map(c =>
+            '<button class="ct-sw' + (cur === c.toLowerCase() ? " on" : "") + '" data-color="' + it.key + "|" + c + '" style="background:' + c + '" title="' + c + '"></button>').join("") + '</div>';
+        }
+        html += '</div></li>';
+      });
+      html += '</ul>';
+    } else {
+      html += '<ul class="ct-slots">';
+      cat.items.forEach(it => {
+        html += '<li><div class="ct-circle ct-locked" title="' + it.name + " — unlock " + cat.name + " first" + '">' +
+          '<span class="ct-em">' + it.ic + '</span><span class="ct-sub">🔒</span></div></li>';
+      });
+      html += '</ul>';
+    }
+    html += '</li>';
   });
   html += '</ul></li></ul>';
   shop.innerHTML = html;
+  renderBuild();
 }
+// "Current build" — every item the user is currently wearing (tap a chip to take it off)
+function allItems() { const out = []; COSMETIC_TREE.cats.forEach(c => c.items.forEach(it => out.push(it))); return out; }
+const buildEl = document.getElementById("currentBuild");
+function renderBuild() {
+  if (!buildEl) return;
+  const eq = state.equipped || {};
+  const on = allItems().filter(it => eq[it.key]);
+  buildEl.innerHTML = on.length
+    ? on.map(it => '<button class="cb-chip" data-item="' + it.key + '" title="' + it.name + ' — tap to take off">' +
+        it.ic + ' ' + it.name + ' <span class="cb-x">✕</span></button>').join("")
+    : '<span class="cb-empty">Nothing equipped yet — buy a category below and tap items to wear them.</span>';
+}
+if (buildEl) buildEl.addEventListener("click", e => {
+  const c = e.target.closest(".cb-chip[data-item]"); if (!c) return;
+  state.equipped[c.dataset.item] = false; save();
+  renderShop(); window.__rebuild && window.__rebuild();
+});
+// Glimmering reveal of the 3 items unlocked when a set is bought
+const cosReward = document.getElementById("cosReward");
+function showCosReward(cat) {
+  document.getElementById("cosSub").textContent = cat.name + " unlocked — 3 new items to wear!";
+  document.getElementById("cosItems").innerHTML = cat.items.map(it =>
+    '<div class="cr-it"><div class="e">' + it.ic + '</div><div class="n">' + it.name + '</div></div>').join("");
+  if (cosReward) cosReward.hidden = false;
+}
+const cosGo = document.getElementById("cosGo");
+if (cosGo) cosGo.addEventListener("click", () => { cosReward.hidden = true; });
+
 shop.addEventListener("click", e => {
   const catBtn = e.target.closest(".ct-cat[data-cat]");
   if (catBtn) {
@@ -434,12 +549,29 @@ shop.addEventListener("click", e => {
     if (!cat || state.owned[cat.key] || wallet() < cat.cost) return;   // already owned / can't afford
     spendXP(cat.cost); state.owned[cat.key] = true;                    // buying unlocks its 3 default items
     save(); renderShop();
+    showCosReward(cat);                                                // glimmering reveal of the 3 unlocked items
+    return;
+  }
+  const custBtn = e.target.closest(".ct-custbuy[data-cust]");
+  if (custBtn) {
+    const k = custBtn.dataset.cust;
+    if (state.customizers[k] || wallet() < CUST_COST) return;
+    spendXP(CUST_COST); state.customizers[k] = true;   // unlock the colour swatches for this item
+    save(); renderShop();
+    return;
+  }
+  const swBtn = e.target.closest(".ct-sw[data-color]");
+  if (swBtn) {
+    const parts = swBtn.dataset.color.split("|");
+    state.colors[parts[0]] = parts[1];               // recolour the item's main part
+    save(); renderShop(); window.__rebuild && window.__rebuild();
     return;
   }
   const itemBtn = e.target.closest(".ct-item[data-item]");
   if (itemBtn) {
-    const k = itemBtn.dataset.item;
-    state.equipped[k] = !state.equipped[k];
+    const k = itemBtn.dataset.item, cat = catOf(k), wasOn = !!state.equipped[k];
+    if (cat) cat.items.forEach(it => { state.equipped[it.key] = false; });   // ONE item per category
+    state.equipped[k] = !wasOn;
     save(); renderShop(); window.__rebuild && window.__rebuild();
   }
 });
