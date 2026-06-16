@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Guided Learning · Anpi</title>
+<style>
+  :root { color-scheme: dark; --accent: #c9a3ff; --accent2: #7c9cff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; color: #ece9f6; font: 17px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: radial-gradient(1200px 800px at 50% -12%, #2e2160, #140f28 60%, #0c0a18 100%); }
+  a { color: inherit; }
+  .top { display: flex; gap: 16px; align-items: center; padding: 14px 20px; font-size: .9rem;
+    border-bottom: 1px solid #ffffff14; position: sticky; top: 0; z-index: 20;
+    background: #140f28d9; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .top a { color: #c6bdf0; text-decoration: none; }
+  .top a:hover { color: #fff; }
+  .top .sp { flex: 1; }
+  .hero { text-align: center; padding: 64px 22px 30px; position: relative; overflow: hidden; }
+  /* giant translucent あ watermark */
+  .hero .wm { position: absolute; inset: 0; z-index: 0; display: grid; place-items: center;
+    font-size: 30rem; font-weight: 900; color: #ffffff08; line-height: 1; user-select: none; pointer-events: none; }
+  .hero > * { position: relative; z-index: 1; }
+  .v01 { display: inline-block; background: #5cf2f6; color: #03252a; font-weight: 800; font-size: .72rem;
+    letter-spacing: 1.5px; padding: 4px 12px; border-radius: 999px; }
+  .hero h1 { font-size: clamp(2.4rem, 7vw, 3.6rem); margin: 14px 0 4px; }
+  .hero h1 .jp { color: var(--accent); }
+  .hero .tag { font-size: 1.15rem; color: #cfc6ee; max-width: 560px; margin: 12px auto 0; }
+  .cta { display: inline-block; margin-top: 26px; background: linear-gradient(180deg, #b98bff, #8a5cf0); color: #14082e;
+    font-weight: 800; font-size: 1.05rem; text-decoration: none; padding: 14px 26px; border-radius: 14px;
+    box-shadow: 0 10px 30px #8a5cf044; }
+  .cta:active { transform: translateY(1px); }
+  .cta2 { display: inline-block; margin-top: 12px; color: #d6cfee; text-decoration: none; font-weight: 700; font-size: .95rem;
+    background: #ffffff12; border: 1px solid #b98bff55; border-radius: 999px; padding: 9px 18px; }
+  .cta2:hover { background: #ffffff1c; border-color: #b98bff; }
+  main { max-width: 880px; margin: 0 auto; padding: 8px 22px 70px; }
+  .stat-row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 30px 0; }
+  .stat { background: #ffffff0d; border: 1px solid #ffffff1c; border-radius: 14px; padding: 12px 18px; text-align: center; min-width: 120px; }
+  .stat b { display: block; font-size: 1.7rem; color: var(--accent); }
+  .stat span { font-size: .82rem; color: #b7afd6; }
+  .feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin: 30px 0; }
+  .feat { background: #ffffff0d; border: 1px solid #ffffff1c; border-radius: 16px; padding: 18px; }
+  .feat .ic { font-size: 1.8rem; }
+  .feat h3 { margin: 8px 0 6px; font-size: 1.05rem; color: var(--accent2); }
+  .feat p { margin: 0; color: #c4bce0; font-size: .95rem; }
+  .stages { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 24px; }
+  .stage { background: #ffffff10; border: 1px solid #ffffff20; border-radius: 999px; padding: 6px 14px; font-size: .85rem; color: #d6cfee; }
+  .note { color: #8a82ad; font-size: .85rem; margin-top: 34px; line-height: 1.6; text-align: center; }
+</style>
+<script defer src="/lib/appnav.js"></script>
+<script defer src="/lib/profile-widget.js"></script>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="wm">あ</div>
+    <span class="v01">v0.1</span>
+    <h1>Guided Learning <span class="jp">案内</span></h1>
+    <p class="tag">A single guided path from あ to N1 — every concept taught from zero, plotted as a journey up Japan.</p>
+    <a class="cta" href="/?go=learn">Open the guided path →</a>
+    <div><a class="cta2" href="/character">🎭 Customize your character</a></div>
+  </section>
+
+  <main>
+    <div class="stat-row">
+      <div class="stat"><b>185</b><span>core JLPT lessons</span></div>
+      <div class="stat"><b>かな→N1</b><span>full span</span></div>
+      <div class="stat"><b>1</b><span>map of Japan</span></div>
+    </div>
+
+    <div class="feats">
+      <div class="feat"><div class="ic">🗺️</div><h3>A journey, not a list</h3><p>Lessons are pinned to real towns on a satellite map of Japan, threaded south-to-north so progress feels like travel.</p></div>
+      <div class="feat"><div class="ic">📚</div><h3>From zero to N1</h3><p>Foundations (kana, pitch, stroke order) through every JLPT tier — grammar, vocab, keigo, kanji, with practice decks built in.</p></div>
+      <div class="feat"><div class="ic">🎮</div><h3>Practice &amp; sync</h3><p>Each lesson links to flashcards and the typing game, and your progress syncs to your account across devices.</p></div>
+      <div class="feat"><div class="ic">🎭</div><h3>Earn &amp; customize</h3><p>Lessons and daily missions reward XP you spend on your own <a href="/character" style="color:var(--accent);text-decoration:none;font-weight:700">3D character</a> — unlock cosmetics down a branching cosmetics tree.</p></div>
+    </div>
+
+    <div class="stages">
+      <span class="stage">🪜 Foundations</span><span class="stage">🟢 N5</span><span class="stage">🔵 N4</span>
+      <span class="stage">🟡 N3</span><span class="stage">🟠 N2</span><span class="stage">🔴 N1</span>
+    </div>
+
+    <p class="note">v0.1 — the core path, map and lessons are live and growing. Tap “Open the guided path” to start or continue your journey.</p>
+  </main>
+</body>
+</html>

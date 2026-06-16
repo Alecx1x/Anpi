@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>漢字ロード / Kanji Road — demo</title>
+<style>
+  :root { color-scheme: dark; --dia: #ffd24a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: #0c0f1a;
+    color: #e9edf6; font: 18px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif; padding: 24px 18px 80px; }
+  /* Per-place backdrop photo with a heavy dark overlay so text stays readable. */
+  #bg { position: fixed; inset: 0; z-index: -1; background-size: cover; background-position: center; }
+  #bg::after { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(9,12,22,.74) 0%, rgba(9,12,22,.88) 48%, rgba(9,12,22,.95) 100%); }
+  main { max-width: 780px; margin: 0 auto; }
+  /* persistent home/back nav, stays visible while reading a lesson */
+  .topnav { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; gap: 16px;
+    margin: -24px -18px 18px; padding: 12px 18px; font-size: .9rem;
+    background: #04101fe0; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border-bottom: 1px solid #ffffff1c; }
+  .topnav a { color: #aee6e0; text-decoration: none; font-weight: 600; }
+  .topnav a:hover { color: #fff; }
+  .topnav .sp { flex: 1; }
+  .tag { font: 600 .72rem/1 system-ui; letter-spacing: 2px; color: #8fb4ff; text-transform: uppercase; }
+  .nav { display: flex; align-items: center; gap: 12px; margin: 10px 0 2px; }
+  .nav h1 { font-size: 2.1rem; margin: 0; }
+  .nav h1 rt { font-size: .42em; color: #8fb4ff; }
+  .nav .spacer { flex: 1; }
+  .nav button { font-size: 1.2rem; padding: 7px 14px; }
+  .lesson-no { font: 600 .82rem monospace; color: #8fb4ff; }
+  .sub { color: #aeb8cc; margin: 2px 0 16px; font-size: 1rem; }
+  .bar { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; margin-bottom: 18px; }
+  button { font: 600 .92rem system-ui; border: 1px solid #ffffff22; background: #1c2333; color: #cdd6ea;
+    border-radius: 10px; padding: 10px 14px; cursor: pointer; }
+  button.go { background: linear-gradient(180deg, #ffe14d, #f5c518); color: #1a1400; border: 0; }
+  button:disabled { opacity: .55; cursor: default; }
+  .known { margin-left: auto; font: 600 .9rem monospace; color: #8fd6a0; }
+  .sec { background: rgba(15,20,36,.80); border: 1px solid #ffffff1c; border-radius: 16px; padding: 18px 22px;
+    margin-bottom: 16px; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
+  .sec .sh { display: flex; align-items: baseline; gap: 9px; margin: 0 0 10px; flex-wrap: wrap; }
+  .sec .sh .ic { font-size: 1.25rem; }
+  .sec .sh .en { font: 800 1.15rem system-ui; color: #eaf0ff; letter-spacing: .3px; }
+  .sec .sh .jp { font-size: .95rem; color: #8fb4ff; }
+  .sec .bd { color: #e7ecf7; font-size: 1.1rem; line-height: 2.15; }
+  .sec .bd b { color: #fff; font-weight: 800; background: #ffffff16; border-radius: 5px; padding: 0 4px; }
+  /* Embedded Japanese terms: larger than the English; kanji larger + gold (the
+     dakuten/handakuten emphasis colour) by default. "Kanji color" button cycles it off. */
+  .kr-w { cursor: pointer; border-radius: 7px; padding: 0 2px; white-space: nowrap; font-size: 1.18rem; }
+  .kr-w:hover { background: #ffd24a22; }
+  .kr-w .kji { font-size: 1.5em; font-weight: 800; color: var(--dia); line-height: 1; }
+  body.kj-off .kr-w .kji { color: inherit; font-weight: 700; font-size: 1.32em; }
+  ruby rt { font-size: .5em; color: #9bbcff; font-weight: 600; user-select: none; }
+  #gloss { position: fixed; z-index: 50; max-width: min(320px, 92vw); display: none;
+    background: #11152b; border: 1px solid #ffd70077; border-radius: 12px; padding: 12px 15px; box-shadow: 0 16px 44px #000c; }
+  #gloss.show { display: block; }
+  #gloss .g-jp { font-size: 1.5rem; font-weight: 800; color: var(--dia); }
+  .g-spk { margin-left: 8px; background: #1c2333; border: 1px solid #ffffff33; color: var(--dia);
+    border-radius: 8px; padding: 2px 9px; cursor: pointer; font-size: 1rem; vertical-align: middle; }
+  .kc { cursor: pointer; }
+  #gloss .g-rd { color: #9bbcff; font-size: 1rem; margin-top: 2px; }
+  #gloss .g-en { color: #dde3f2; font-size: 1rem; margin-top: 4px; }
+  #gloss .g-hint { margin-top: 8px; color: #8a93b5; font-size: .78rem; }
+  .gk { cursor: pointer; border-radius: 4px; padding: 0 1px; }
+  .gk:hover { background: #ffd24a33; text-decoration: underline; }
+  #kpop { position: fixed; z-index: 60; max-width: min(300px, 92vw); display: none; text-align: center;
+    background: #11152b; border: 1px solid #ffd70088; border-radius: 12px; padding: 12px 14px; box-shadow: 0 16px 44px #000d; }
+  #kpop.show { display: block; }
+  #kpop .kp-head { margin-top: 9px; font-size: 1.02rem; }
+  #kpop .kp-char { font-size: 1.6rem; font-weight: 800; color: var(--dia); vertical-align: middle; }
+  #kpop .kp-mean { color: #fff; font-weight: 700; }
+  #kpop .kp-read { color: #9bbcff; font-size: .9rem; margin-top: 3px; }
+  #kpop .kp-na { color: #7f8aa3; font-size: .85rem; padding: 24px 0; }
+  .stroke-svg { width: 124px; height: 124px; background: #0d1024; border: 1px solid #ffffff14; border-radius: 12px; }
+  .stroke-path { fill: none; stroke: var(--dia); stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
+  .panel { margin-top: 20px; }
+  .panel h2 { font-size: .95rem; color: #8fb4ff; letter-spacing: 1px; text-transform: uppercase; margin: 0 0 12px; }
+  .kgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 11px; }
+  .kc { background: #1a1f3a; border: 1px solid #ffffff1a; border-radius: 12px; padding: 13px 15px; }
+  .kc .kch { font-size: 2.7rem; line-height: 1; color: var(--dia); font-weight: 700; }
+  .kc .km { font-weight: 700; margin-top: 6px; }
+  .kc .kr { color: #aeb8cc; font-size: .85rem; }
+  .kc.learned { border-color: #39ff1466; box-shadow: 0 0 0 1px #39ff1433, 0 0 16px #39ff1422; }
+  .kc.learned .kch { color: #39ff14; }
+  .q { margin: 0 0 16px; }
+  .q .qt { font-weight: 700; margin-bottom: 8px; }
+  .choice { display: block; width: 100%; text-align: left; margin: 6px 0; background: #161d33; border: 1px solid #ffffff1e; }
+  .choice.sel { border-color: var(--dia); background: #2a2614; }
+  .choice.right { border-color: #39ff14; background: #14361f; color: #c7ffd4; }
+  .choice.wrong { border-color: #ff6b6b; background: #3a1820; color: #ffd3d3; }
+  .q.open input { width: 100%; padding: 11px 13px; border-radius: 10px; background: #0e1322; border: 1px solid #ffffff22; color: #e9edf6; font: inherit; }
+  .q.open.ok input  { border-color: #39ff14; background: #14361f; color: #c7ffd4; }
+  .q.open.bad input { border-color: #ff6b6b; background: #3a1820; color: #ffd3d3; }
+  .q.open .verdict { font-weight: 700; font-size: .92rem; margin-top: 7px; }
+  .q.open.ok .verdict  { color: #8fffae; }
+  .q.open.bad .verdict { color: #ff9a9a; }
+  .model { color: #aeb8cc; font-weight: 400; font-size: .95rem; margin-top: 7px; }
+  .result { margin-top: 12px; font-weight: 700; min-height: 1.4em; }
+  .result.ok { color: #8fffae; }
+  .result.no { color: #ff9f9f; }
+  #reviewPanel { border: 1px solid #ff9f4355; border-radius: 14px; padding: 4px 16px 16px; }
+  #reviewPanel h2 { color: #ffb469; }
+  .card { background: #11152b; border: 1px solid #ffd24a55; border-radius: 14px; padding: 28px 18px; text-align: center; min-height: 130px; cursor: pointer; }
+  .card .cfront { font-size: 2.2rem; font-weight: 800; color: #e9edf6; }
+  .card .cfront .kji { color: var(--dia); }
+  .card .cback .rd { color: #9bbcff; font-size: 1.15rem; }
+  .card .cback .en { display: block; margin-top: 4px; color: #dde3f2; font-size: 1.1rem; }
+  .card .hint { color: #7f8aa3; font-size: .85rem; margin-top: 14px; }
+  .cardbar { display: flex; gap: 10px; align-items: center; margin-top: 12px; }
+  .note { color: #7f8aa3; font-size: .85rem; margin-top: 26px; line-height: 1.6; }
+  .toast { position: fixed; left: 50%; top: 18px; transform: translateX(-50%); z-index: 60;
+    background: #14361f; color: #8fffae; border: 1px solid #39ff1455; padding: 11px 17px; border-radius: 12px;
+    font-weight: 700; opacity: 0; transition: opacity .3s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+  /* knowledge-check action row: Check answers + Next lesson side by side */
+  .check-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+  #nextLesson { border: 1px solid #2de2e655; background: #112a2c; color: #7fe9ec; font-weight: 800;
+    border-radius: 11px; padding: 11px 16px; cursor: pointer; opacity: .45; transition: opacity .2s; }
+  #nextLesson:disabled { cursor: not-allowed; }
+  #nextLesson.ready { opacity: 1; color: #d7ffff; background: #123e40; border-color: #2de2e6;
+    animation: nlGlow 1.35s ease-in-out infinite; }
+  @keyframes nlGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(45,226,230,0); transform: translateY(0); }
+    50% { box-shadow: 0 0 18px 3px rgba(45,226,230,.65); transform: translateY(-1px); }
+  }
+  /* map "cutscene" overlay: the camera zooms in & follows the character as it waddles to the next point.
+     #krStage is tilted to a 3/4 angled view (not flat top-down); the character is "billboarded" upright. */
+  #krWalk { position: fixed; inset: 0; z-index: 9999; background: #06080f; overflow: hidden; }
+  #krWalk[hidden] { display: none; }
+  #krStage { position: absolute; inset: 0;
+    transform: perspective(1300px) rotateX(42deg) scale(1.5); transform-origin: 50% 62%; }
+  #krWalkMap { position: absolute; inset: 0; background: #06080f; }
+  #krOverlay { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 450; pointer-events: none; overflow: visible; }
+  #krWalk .lc-fade { position: absolute; inset: 0; z-index: 5; pointer-events: none;
+    background: radial-gradient(130% 75% at 50% 48%, transparent 48%, #06080fdd 100%); }
+  #krWalker { position: absolute; width: 168px; height: 234px; z-index: 800;
+    transform: translate(-50%, -92%) rotateX(-42deg); transform-origin: 50% 100%;
+    pointer-events: none; filter: drop-shadow(0 14px 16px rgba(0,0,0,.6)); }
+  #krWalker iframe { width: 100%; height: 100%; border: 0; background: transparent; display: block; }
+  #krWalker.face-left iframe { transform: scaleX(-1); }
+  #krWalkCap { position: absolute; left: 0; right: 0; bottom: 30px; text-align: center; z-index: 4;
+    color: #fff; font: 700 1.15rem system-ui; letter-spacing: .3px; text-shadow: 0 2px 10px #000; }
+  #krWalkCap small { display: block; font-weight: 600; font-size: .8rem; color: #b9c2da; margin-top: 4px; }
+  /* reward reveal — glimmering tunnel of light + the unlocked items */
+  #krReward { position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; overflow: hidden;
+    background: radial-gradient(circle at 50% 47%, #281c5c 0%, #0b0916 68%); }
+  #krReward[hidden] { display: none; }
+  #krReward .rays { position: absolute; left: 50%; top: 47%; width: 230vmax; height: 230vmax; transform: translate(-50%,-50%);
+    background: repeating-conic-gradient(from 0deg, rgba(255,225,77,0) 0deg, rgba(255,225,77,0.14) 4deg, rgba(255,225,77,0) 9deg);
+    animation: rwspin 26s linear infinite; pointer-events: none; }
+  @keyframes rwspin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+  #krReward .halo { position: absolute; left: 50%; top: 47%; width: 86vmin; height: 86vmin; transform: translate(-50%,-50%);
+    background: radial-gradient(circle, rgba(255,248,224,0.85) 0%, rgba(255,210,74,0.35) 32%, transparent 66%);
+    filter: blur(6px); animation: rwpulse 2.4s ease-in-out infinite; pointer-events: none; }
+  @keyframes rwpulse { 0%,100% { opacity:.6; transform: translate(-50%,-50%) scale(1); } 50% { opacity:1; transform: translate(-50%,-50%) scale(1.12); } }
+  /* fade the spinning light at the edges back into the dark page background */
+  #krReward .rwvig { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: radial-gradient(circle at 50% 47%, transparent 24%, rgba(11,9,22,0.55) 50%, #0b0916 72%); }
+  #krReward .rwcard { position: relative; z-index: 2; text-align: center; max-width: 94vw; padding: 8px 16px;
+    animation: rwpop .55s cubic-bezier(.2,1.3,.4,1) both; }
+  @keyframes rwpop { from { opacity:0; transform: scale(.45); } to { opacity:1; transform: scale(1); } }
+  @keyframes rwrise { from { opacity:0; transform: translateY(14px); } to { opacity:1; transform: none; } }
+  #krReward .rw-title { font: 800 1.9rem system-ui; color: #fff; text-shadow: 0 0 22px #ffd24a; margin-bottom: 22px; }
+  #krReward .rw-kanji { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; animation: rwrise .5s ease both .18s; }
+  #krReward .rw-k { width: 94px; padding: 14px 8px; border-radius: 14px; background: #ffffff14; border: 1px solid #ffd24a66; box-shadow: 0 0 18px #ffd24a44; }
+  #krReward .rw-k .kc { font-size: 2.9rem; color: #ffd24a; line-height: 1; }
+  #krReward .rw-k .km { font-size: .78rem; color: #cdd6ea; margin-top: 6px; }
+  #krReward .rw-bg { display: inline-flex; align-items: center; gap: 14px; background: #ffffff10; border: 1px solid #ffffff22;
+    border-radius: 14px; padding: 12px 18px; margin-bottom: 18px; animation: rwrise .5s ease both .34s; }
+  #krReward .rw-bg img { width: 116px; height: 70px; object-fit: cover; border-radius: 9px; }
+  #krReward .rw-bg b { font: 700 1.02rem system-ui; color: #e9edf6; }
+  #krReward .rw-bg small { display: block; color: #9aa3c7; font-weight: 600; font-size: .84rem; }
+  #krReward .rw-xp { font: 800 1.7rem ui-monospace, monospace; color: #ffe14d; margin-bottom: 26px; text-shadow: 0 0 16px #ffd24a66; animation: rwrise .5s ease both .5s; }
+  #krReward .rw-go { background: linear-gradient(180deg,#ffe14d,#f4b400); color: #2a1c00; font: 800 1.12rem system-ui;
+    border: 0; border-radius: 13px; padding: 14px 38px; cursor: pointer; box-shadow: 0 8px 24px #ffd24a55; }
+  #krReward .rw-go:hover { filter: brightness(1.06); }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Stash Leaflet now: the demo's inline script declares a global function L() (lesson accessor)
+     which would otherwise OVERWRITE Leaflet's window.L. -->
+<script>window.LEAFLET = window.L;</script>
+<script defer src="/lib/appnav.js"></script>
+<script defer src="/lib/profile-widget.js"></script>
+</head>
+<body>
+<div id="bg"></div>
+<main>
+  <div class="tag">漢字ロード · Kanji Road · demo</div>
+  <div class="nav">
+    <button id="prev">◀</button>
+    <h1 id="title"></h1>
+    <span class="spacer"></span>
+    <button id="next">▶</button>
+  </div>
+  <p class="sub"><span id="sub"></span> · <span class="lesson-no" id="lno"></span></p>
+
+  <div class="bar">
+    <button id="furi">Furigana: new only</button>
+    <button id="kj">Kanji color: gold</button>
+    <button id="audio">🔊 Audio: on</button>
+    <span class="known">Kanji known: <b id="kn">0</b> / 1026</span>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="panel">
+    <h2>Kanji to collect here</h2>
+    <div class="kgrid" id="kgrid"></div>
+  </div>
+
+  <div class="panel">
+    <h2>🧠 Knowledge check</h2>
+    <div id="check"></div>
+    <div class="check-actions">
+      <button id="grade">Check answers</button>
+      <button id="nextLesson" disabled title="Pass the knowledge check first">Next lesson →</button>
+    </div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <div class="panel" id="reviewPanel" style="display:none">
+    <h2>📇 Review required before retry</h2>
+    <div class="card" id="card"></div>
+    <div class="cardbar">
+      <button id="flip">Flip</button>
+      <button class="go" id="cardnext">Next ▶</button>
+      <span class="known" id="cardprog"></span>
+    </div>
+  </div>
+
+  <button class="go" id="learn" style="margin-top:6px" disabled></button>
+
+  <p class="note">Detailed English profile of each place, with its real Japanese terms embedded — kanji are
+  shown large and gold (the same dakuten/handakuten emphasis colour as the in-app button; press “Kanji color”
+  to toggle). Tap any term for reading + meaning; furigana only shows over kanji you haven't collected yet.
+  Lesson 1 is 波照間島 (Hateruma), Japan's southern tip — the start of the real south-to-north journey
+  (many more towns to come, moving north). Kyoto &amp; Nara remain as later-journey previews.</p>
+</main>
+
+<div id="gloss"></div>
+<div id="kpop"></div>
+<div class="toast" id="toast"></div>
+
+<!-- Map cutscene: the user's customized character waddles to the next point before the lesson advances -->
+<div id="krWalk" hidden>
+  <div id="krStage">
+    <div id="krWalkMap"></div>
+    <svg id="krOverlay"></svg>
+    <div id="krWalker"><iframe title="Your character traveling" data-src="/character?embed=1&walk=1"></iframe></div>
+  </div>
+  <div class="lc-fade"></div>
+  <div id="krWalkCap"></div>
+</div>
+
+<!-- Reward reveal: a glimmering tunnel of light shows everything unlocked from completing the lesson -->
+<div id="krReward" hidden>
+  <div class="rays"></div>
+  <div class="halo"></div>
+  <div class="rwvig"></div>
+  <div class="rwcard">
+    <div class="rw-title">✨ Lesson Complete! ✨</div>
+    <div class="rw-kanji" id="rwKanji"></div>
+    <div id="rwBgWrap"></div>
+    <div class="rw-xp" id="rwXp"></div>
+    <button class="rw-go" id="rwGo">Continue →</button>
+  </div>
+</div>
+
+<script src="/lib/kanji.js"></script>
+<script>
+var known = new Set("一二三四五六七八九十百千万円日月火水木金土山田人大中小上下左右本白名口目手足町村森林空気天文字花草虫犬".split(""));
+// Map coordinates per lesson index (matches KR_ROUTE on the Kanji Road landing) — used by the walk cutscene.
+var KR_PTS = [
+  [24.057,123.781],[24.345,124.157],[26.212,127.681],[30.358,130.546],[31.596,130.557],
+  [32.803,130.708],[33.590,130.402],[34.385,132.455],[34.665,133.918],[34.839,134.694],
+  [34.690,135.196],[34.687,135.526],[35.011,135.768],[34.685,135.805],[35.185,136.900],
+  [35.232,139.107],[35.685,139.753],[36.758,139.599],[38.260,140.882],[41.769,140.729]
+];
+function w(jp, rd, en, kanji) { return { jp: jp, rd: rd, en: en, kanji: kanji }; }
+function isKanji(ch) { return /[一-龯㐀-䶿]/.test(ch); }
+
+var LESSONS = [
+  {
+    place: "波照間島", placeRd: "はてるまじま", sub: "Hateruma Island · Okinawa, Yaeyama Islands · pop. ~480 · Lesson 1 — Japan's southern tip",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Haterumajima_Island_Aerial_photograph.2009.jpg/1920px-Haterumajima_Island_Aerial_photograph.2009.jpg",
+    sections: [
+      { ic: "🏝️", en: "Overview", jp: "歴史", bd: [
+        w("波照間島","はてるまじま","Hateruma Island",["波","照","間","島"]), " marks the very bottom of the map — **Japan's southernmost inhabited island**, adrift in the ",
+        w("八重山","やえやま","the Yaeyama Islands",["八","重","山"]), ", a hard ferry ride past Ishigaki across a strait that can strand you for days. Barely 500 people fish and cut cane here, under the little town of ",
+        w("竹富町","たけとみちょう","Taketomi Town",["竹","富","町"]), ", at the far southern edge of ",
+        w("沖縄県","おきなわけん","Okinawa Prefecture",["沖","縄","県"]),
+        ". Locals say the name marks the spot where the Ryukyu chain — and Japan — simply runs out." ] },
+      { ic: "🌊", en: "Setting", jp: "地理", bd: [
+        "No traffic lights, almost no streetlamps: once the sun goes down the island turns properly dark, and the stars come close. It sits far enough south to catch the **Southern Cross** — known here as ",
+        w("南十字星","みなみじゅうじせい","the Southern Cross",["南","十","字","星"]),
+        " — grazing the horizon for a few weeks each spring, something most people in Japan only ever see in photos. By day it's all heat, sugarcane and an unreal shade of blue." ] },
+      { ic: "🍚", en: "Local food", jp: "名物", bd: [
+        "Nearly every field is sugarcane, cooked down into dark, mineral-heavy block sugar — ",
+        w("黒糖","こくとう","brown sugar",["黒","糖"]), ", eaten in chips like candy. The island also keeps one minuscule distillery, and its awamori, ",
+        w("泡波","あわなみ","Awanami",["泡","波"]), ", has become almost legendary: so few bottles are made that it's rationed on the island and rarely escapes it." ] },
+      { ic: "⭐", en: "Sights", jp: "見どころ", bd: [
+        "Everyone makes the walk to the southern cape, where a lone stone marker, ",
+        w("日本最南端の碑","にほんさいなんたんのひ","Japan's Southernmost Point monument",["日","本","最","南","端","碑"]),
+        ", faces nothing but open Pacific. The other draw is ", w("ニシ浜","にしはま","Nishihama Beach",["浜"]),
+        ", a bright crescent of sand over water so clear that swimmers seem to hang in mid-air. No resorts, no crowds — the appeal is how little there is." ] },
+      { ic: "🎋", en: "Festivals & culture", jp: "祭り・文化", bd: [
+        "Once a year at Bon, the hush breaks for ", w("ムシャーマ","むしゃーま","Mushāma",[]),
+        ": masked ancestral spirits, booming drums and bō-staff dancers wind through the lanes while every household spills outside to watch. Then, just as quickly, the quiet settles back in." ] }
+    ],
+    newKanji: [
+      { k: "島", on: "トウ", kun: "しま", meaning: "island", ex: "波照間島" },
+      { k: "南", on: "ナン", kun: "みなみ", meaning: "south", ex: "南十字星" },
+      { k: "星", on: "セイ", kun: "ほし", meaning: "star", ex: "南十字星" }
+    ],
+    check: {
+      mc: [
+        { q: "What is Hateruma's claim to fame?", choices: ["Japan's largest island", "Japan's southernmost inhabited island", "Japan's snowiest town", "Japan's oldest capital"], a: 1 },
+        { q: "What rare constellation can be seen from Hateruma in spring?", choices: ["The Big Dipper", "The Southern Cross", "Orion's Belt", "The North Star"], a: 1 },
+        { q: "Which prized drink is made in tiny batches only on Hateruma?", choices: ["Sake", "Green tea", "泡波 (Awanami) awamori", "Plum wine"], a: 2 }
+      ],
+      open: { q: "What does Hateruma produce from its sugarcane?",
+        keywords: ["黒糖","kokuto","kokutō","brown sugar","black sugar","sugar"],
+        model: "黒糖 (kokutō) — rich brown sugar, boiled down from the island's sugarcane." }
+    }
+  },
+  {
+    place: "石垣島", placeRd: "いしがきじま", sub: "Ishigaki Island · Okinawa, Yaeyama Islands · pop. ~50,000 · Lesson 2 — the Yaeyama hub",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Kabira-Bay-Kabira-park-2019.jpg/1920px-Kabira-Bay-Kabira-park-2019.jpg",
+    sections: [
+      { ic: "🏝️", en: "Overview", jp: "歴史", bd: [
+        "If ", w("波照間島","はてるまじま","Hateruma Island",["波","照","間","島"]), " is the end of the line, ",
+        w("石垣島","いしがきじま","Ishigaki Island",["石","垣","島"]), " is its junction. The biggest island in the ",
+        w("八重山","やえやま","the Yaeyama Islands",["八","重","山"]), " and home to **Japan's southernmost city**, it's where some 50,000 people live and where nearly every traveller changes boats — the airport and harbour feed ferries out to Taketomi, Iriomote and beyond. Having run the whole archipelago for centuries, it still carries that old weight in its temples, markets and a downtown that genuinely bustles." ] },
+      { ic: "🌊", en: "Setting", jp: "地理", bd: [
+        "Where the islands around it are flat coral, Ishigaki has a green, mountainous spine. ",
+        w("於茂登岳","おもとだけ","Mt. Omoto",["於","茂","登","岳"]), " climbs to 526 m — **the highest peak in Okinawa** — its slopes thick with subtropical forest, rivers and falls. The whole island lies inside a national park, and the nights are dark enough that there's a working observatory up on the ridge." ] },
+      { ic: "🍖", en: "Local food", jp: "名物", bd: [
+        "Ishigaki's calling card is beef: ", w("石垣牛","いしがきぎゅう","Ishigaki beef",["石","垣","牛"]),
+        ", fattened on island pasture and marbled enough to stand beside the famous mainland brands — seared as steak or sliced raw over rice. Pair it with a bowl of ",
+        w("八重山そば","やえやまそば","Yaeyama soba noodles",["八","重","山"]), " in clear pork broth and a squeeze of sharp local citrus, and you've tasted the Yaeyama in one meal." ] },
+      { ic: "⭐", en: "Sights", jp: "見どころ", bd: [
+        "The showpiece is ", w("川平湾","かびらわん","Kabira Bay",["川","平","湾"]),
+        ", a bay where jade water pools between forested islets and glass-bottom boats slide above the coral and pearl beds below. The currents make it unsafe to swim, but it's unforgettable to look at — enough to earn **three stars** in the Michelin Green Guide. After dark, the dome of the ",
+        w("石垣島天文台","いしがきじまてんもんだい","Ishigaki Astronomical Observatory",["石","垣","島","天","文","台"]), " opens onto some of the clearest skies in the country." ] },
+      { ic: "🎋", en: "Festivals & culture", jp: "祭り・文化", bd: [
+        "Ishigaki is the cultural anchor of the islands, and its Bon festival, ", w("アンガマ","あんがま","Angama (Bon spirit visit)",[]),
+        ", is like nothing on the mainland: masked figures playing an ancient man and woman lead a troupe house to house, trading riddles with the living in a strange, high falsetto. Away from the festivals, the old quarters keep their red-tiled roofs, coral-stone walls and rooftop ",
+        w("シーサー","しーさー","shisa guardian lion-dogs",[]), " set to ward off misfortune." ] }
+    ],
+    newKanji: [
+      { k: "石", on: "セキ", kun: "いし", meaning: "stone", ex: "石垣島" },
+      { k: "牛", on: "ギュウ", kun: "うし", meaning: "cow, cattle", ex: "石垣牛" },
+      { k: "川", on: "セン", kun: "かわ", meaning: "river", ex: "川平湾" }
+    ],
+    check: {
+      mc: [
+        { q: "What distinction does Ishigaki City hold?", choices: ["Japan's oldest city", "Japan's southernmost city", "Japan's rainiest city", "Japan's highest city"], a: 1 },
+        { q: "How many stars did Kabira Bay earn in the Michelin Green Guide?", choices: ["One", "Two", "Three", "None"], a: 2 },
+        { q: "What premium food is Ishigaki famous for?", choices: ["Snow crab", "石垣牛 (Ishigaki beef)", "Kobe beef", "Bluefin tuna"], a: 1 }
+      ],
+      open: { q: "Name Ishigaki's famous turquoise bay.",
+        keywords: ["川平","kabira","かびら"],
+        model: "川平湾 (Kabira Bay) — a turquoise cove rated three stars in the Michelin Green Guide." }
+    }
+  },
+  {
+    place: "那覇", placeRd: "なは", sub: "Naha · 沖縄本島 (Okinawa main island) · pop. ~315,000 · Lesson 3 — the old royal capital",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Naha_Okinawa_Japan_Shuri-Castle-01.jpg/1920px-Naha_Okinawa_Japan_Shuri-Castle-01.jpg",
+    sections: [
+      { ic: "👑", en: "The kingdom", jp: "琉球王国", bd: [
+        "Step back onto the main island and the whole story shifts. For 450 years Naha was the port and capital of the ",
+        w("琉球王国","りゅうきゅうおうこく","the Ryukyu Kingdom",["琉","球","王","国"]),
+        ", an independent state that paid tribute to two empires at once and grew rich brokering trade between China, Japan and Southeast Asia. It kept almost no army — its power was carried entirely by the ",
+        w("海","うみ","the sea",["海"]), ". The line of kings ruled until Japan annexed the kingdom in 1879." ] },
+      { ic: "🏯", en: "Shuri Castle", jp: "首里城", bd: [
+        "Those kings were crowned at ", w("首里城","しゅりじょう","Shuri Castle",["首","里","城"]),
+        ", a palace unlike any on the mainland — Chinese-influenced, low and **vermilion red** rather than white and towering. The emblem of the whole prefecture, it was **destroyed by fire in 2019** (the fifth fire in its history) and is once again being rebuilt board by board." ] },
+      { ic: "🍲", en: "On the table", jp: "沖縄料理", bd: [
+        "Okinawan cooking is its own world. The everyday plate is ",
+        w("ゴーヤーチャンプルー","ごーやーちゃんぷるー","goya champuru — a bitter-melon stir-fry",[]),
+        " of bitter melon, tofu and egg; the comfort bowl is ", w("沖縄そば","おきなわそば","Okinawa soba",["沖","縄"]),
+        " in pork broth. Divers love ", w("海ぶどう","うみぶどう","sea grapes",["海"]),
+        ", little green 'grapes' from the ", w("海","うみ","sea",["海"]), " that pop like caviar. The traditional island diet is often tied to Okinawa's famous **longevity**." ] },
+      { ic: "🏙️", en: "The modern city", jp: "那覇市", bd: [
+        "Today ", w("那覇市","なはし","Naha City",["那","覇","市"]), " is Okinawa's beating heart, and its spine is ",
+        w("国際通り","こくさいどおり","Kokusai-dōri, 'International Street'",["国","際","通"]),
+        ", a mile of shops and izakaya nicknamed the **'Miracle Mile'** for rising straight out of the rubble of the war. Just off it, the covered ",
+        w("牧志公設市場","まきしこうせついちば","Makishi Public Market",["牧","志","公","設","市","場"]),
+        " stacks up reef fish in colours you won't see anywhere else." ] },
+      { ic: "🎶", en: "Sound of the islands", jp: "文化", bd: [
+        "The soundtrack everywhere is the ", w("三線","さんしん","sanshin, a three-string lute",["三","線"]),
+        " — snakeskin-bodied, and the ancestor of the mainland shamisen. At Bon it drives ",
+        w("エイサー","えいさー","eisa drum-dancing",[]), ", a thunderous street dance that keeps the spirit of the old kingdom loud and alive." ] }
+    ],
+    newKanji: [
+      { k: "海", on: "カイ", kun: "うみ", meaning: "sea, ocean", ex: "海ぶどう (umi-budō)" },
+      { k: "王", on: "オウ", kun: "—", meaning: "king", ex: "琉球王国 (Ryūkyū Kingdom)" },
+      { k: "市", on: "シ", kun: "いち", meaning: "city; market", ex: "那覇市 (Naha City)" }
+    ],
+    check: {
+      mc: [
+        { q: "What was Naha the capital of for 450 years?", choices: ["The Tokugawa shogunate", "the Ryukyu Kingdom", "The Satsuma domain", "The Yamato court"], a: 1 },
+        { q: "What happened to Shuri Castle in 2019?", choices: ["It was sold off", "It was destroyed by fire", "It was relocated", "It was renamed"], a: 1 },
+        { q: "Which Okinawan dish is a bitter-melon stir-fry?", choices: ["沖縄そば", "海ぶどう", "ゴーヤーチャンプルー", "黒糖"], a: 2 }
+      ],
+      open: { q: "What did the Ryukyu Kingdom grow rich from?",
+        keywords: ["trade","sea","maritime","middleman","broker","ships","海"],
+        model: "Sea trade — brokering goods on the maritime routes between China, Japan and Southeast Asia." }
+    }
+  },
+  {
+    place: "屋久島", placeRd: "やくしま", sub: "Yakushima · 鹿児島県 (Kyushu) · pop. ~12,000 · Lesson 4 — the ancient forest",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/6/68/Yakushima.jpg",
+    sections: [
+      { ic: "🌲", en: "Island of ancient cedars", jp: "屋久杉", bd: [
+        "North across open sea, a near-circular island rears up almost entirely as mountain and forest. Its glory is the ",
+        w("屋久杉","やくすぎ","Yakushima cedar",["屋","久","杉"]), " — cedars so ancient they have their own name. The most storied, ",
+        w("縄文杉","じょうもんすぎ","Jōmon Sugi",["縄","文","杉"]), ", is reckoned to be **thousands of years old**. In 1993 the forest became **one of Japan's first natural UNESCO World Heritage Sites**." ] },
+      { ic: "🌧️", en: "Where it always rains", jp: "気候", bd: [
+        "Locals only half-joke that it ", "**rains 35 days a month**", " here. Wet sea air piles into the peaks and wrings out some of the heaviest rainfall in Japan — and that endless ",
+        w("雨","あめ","rain",["雨"]), " is exactly what feeds the moss and the giant trees. Pack for ",
+        w("大雨","おおあめ","heavy rain",["大","雨"]), " whatever the forecast says." ] },
+      { ic: "⛰️", en: "Peaks & ravines", jp: "地形", bd: [
+        "The island stacks every climate from subtropical shore to near-alpine summit within a few kilometres. At its centre ",
+        w("宮之浦岳","みやのうらだけ","Mt. Miyanoura",["宮","之","浦","岳"]),
+        " tops out at 1,936 m — **the highest peak in southern Japan** — and cold water spills down through deep granite ",
+        w("谷","たに","valleys",["谷"]), "." ] },
+      { ic: "🍃", en: "The green world", jp: "白谷雲水峡", bd: [
+        "The walk no one forgets is ", w("白谷雲水峡","しらたにうんすいきょう","the Shiratani Unsuikyō ravine",["白","谷","雲","水","峡"]),
+        ", where every rock, root and fallen log drowns in a hundred shades of ", w("緑","みどり","green",["緑"]),
+        " moss — the forest widely said to have inspired the woodland of **Princess Mononoke**." ] },
+      { ic: "🐒", en: "Who lives here", jp: "生き物", bd: [
+        "Yakushima breeds its own miniatures: the small ", w("ヤクシカ","やくしか","Yaku deer",[]),
+        " and the ", w("ヤクザル","やくざる","Yaku macaque",[]), ", monkeys you'll find sitting calmly in the middle of the forest road. On summer nights, loggerhead turtles haul up the beaches to lay their eggs." ] }
+    ],
+    newKanji: [
+      { k: "雨", on: "ウ", kun: "あめ", meaning: "rain", ex: "大雨 (ōame, heavy rain)" },
+      { k: "谷", on: "コク", kun: "たに", meaning: "valley, ravine", ex: "白谷雲水峡 (Shiratani)" },
+      { k: "緑", on: "リョク", kun: "みどり", meaning: "green", ex: "緑 (midori)" }
+    ],
+    check: {
+      mc: [
+        { q: "How old is the famous Jōmon Sugi cedar thought to be?", choices: ["About a hundred years", "A few decades", "Thousands of years", "Exactly five hundred"], a: 2 },
+        { q: "What is Yakushima's weather famous for?", choices: ["Near-constant rain", "Endless snow", "Year-round drought", "Sandstorms"], a: 0 },
+        { q: "The mossy ravine Shiratani Unsuikyō is linked to which film?", choices: ["Spirited Away", "Princess Mononoke", "My Neighbor Totoro", "Your Name"], a: 1 }
+      ],
+      open: { q: "Why is Yakushima internationally protected?",
+        keywords: ["unesco","world heritage","heritage","ancient","cedar","forest","縄文杉"],
+        model: "Its ancient cedar forest made it one of Japan's first natural UNESCO World Heritage Sites (1993)." }
+    }
+  },
+  {
+    place: "鹿児島", placeRd: "かごしま", sub: "Kagoshima · 鹿児島県 (Kyushu) · pop. ~590,000 · Lesson 5 — the city beneath the volcano",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Sakurajima55.jpg/1920px-Sakurajima55.jpg",
+    sections: [
+      { ic: "🌋", en: "Beneath the volcano", jp: "桜島", bd: [
+        "You're on Kyushu proper now, in a city that lives in the shadow — and the ash — of a volcano. ",
+        w("桜島","さくらじま","Sakurajima",["桜","島"]), " looms just across the bay and **erupts almost daily**, dusting the streets with grey ash the locals sweep up like snow. Once its own island, a 1914 eruption welded it to the land with a flow of ",
+        w("溶岩","ようがん","lava",["溶","岩"]), ". The view has earned Kagoshima the nickname **'the Naples of the East'**." ] },
+      { ic: "⚓", en: "Gateway port", jp: "港町", bd: [
+        "Everything passes through the ", w("港","みなと","harbour",["港"]),
+        ": ferries shuttle to Sakurajima around the clock, and this is the **main jumping-off point for Yakushima** and the southern islands. For centuries this same harbour quietly smuggled in Western science and weapons while the rest of Japan stayed sealed shut." ] },
+      { ic: "🍖", en: "Black is the flavour", jp: "黒の味", bd: [
+        "Kagoshima's whole pantry runs on the colour ", w("黒","くろ","black",["黒"]), ": ",
+        w("黒豚","くろぶた","kurobuta black pork",["黒","豚"]), ", the prized Berkshire pork served as tonkatsu or shabu-shabu; sun-aged ",
+        w("黒酢","くろず","black vinegar",["黒","酢"]), " brewed outdoors in rows of clay pots; and ",
+        w("黒牛","くろうし","black wagyu",["黒","牛"]), " grazed on the warm southern pastures." ] },
+      { ic: "⚔️", en: "Satsuma & the samurai", jp: "歴史", bd: [
+        "This was the seat of the ", w("薩摩藩","さつまはん","the Satsuma domain",["薩","摩","藩"]),
+        ", whose samurai helped topple the shogunate and drag Japan into the modern age. Its most famous son, ",
+        w("西郷隆盛","さいごうたかもり","Saigō Takamori",["西","郷","隆","盛"]),
+        ", was a leader of the **Meiji Restoration** who later died here at the head of a doomed last-stand rebellion — the history that loosely inspired the film The Last Samurai." ] },
+      { ic: "♨️", en: "Buried in hot sand", jp: "温泉", bd: [
+        "Down the coast at ", w("指宿","いぶすき","Ibusuki",["指","宿"]),
+        " you can be **buried up to the neck in naturally steaming volcanic sand** — a black-sand bath found almost nowhere else, heated by the very same geothermal force that powers the region, rising straight up through the beach." ] }
+    ],
+    newKanji: [
+      { k: "黒", on: "コク", kun: "くろ", meaning: "black", ex: "黒豚 (kurobuta)" },
+      { k: "岩", on: "ガン", kun: "いわ", meaning: "rock, crag", ex: "溶岩 (yōgan, lava)" },
+      { k: "港", on: "コウ", kun: "みなと", meaning: "harbour, port", ex: "鹿児島港 (Kagoshima Port)" }
+    ],
+    check: {
+      mc: [
+        { q: "How often does Sakurajima erupt?", choices: ["Once a century", "Almost daily", "It is extinct", "Only in winter"], a: 1 },
+        { q: "What is Kagoshima's prized 'black' meat?", choices: ["黒豚 (black pork)", "Snow crab", "Bluefin tuna", "Venison"], a: 0 },
+        { q: "Which figure from here helped lead the Meiji Restoration?", choices: ["Tokugawa Ieyasu", "Saigō Takamori", "Oda Nobunaga", "Murasaki Shikibu"], a: 1 }
+      ],
+      open: { q: "What can you experience at Ibusuki, south of the city?",
+        keywords: ["sand","sand bath","buried","hot sand","volcanic sand","steam","steaming"],
+        model: "A volcanic sand bath — being buried up to the neck in naturally steaming hot sand on the beach." }
+    }
+  },
+  {
+    place: "熊本", placeRd: "くまもと", sub: "Kumamoto · 熊本県 (Kyushu) · pop. ~740,000 · Lesson 6 — the castle and the Land of Fire",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Kumamoto_Castle_Keep_Tower_20221022-3.jpg/1920px-Kumamoto_Castle_Keep_Tower_20221022-3.jpg",
+    sections: [
+      { ic: "🏯", en: "Overview", jp: "歴史", bd: [
+        w("熊本","くまもと","Kumamoto",["熊","本"]), " sits at the heart of Kyushu, a proud castle town that calls itself the **Land of Fire** — ",
+        w("火の国","ひのくに","the Land of Fire",["火","国"]), " — for the volcanic country all around it. Its symbol is one of Japan's three great fortresses, ",
+        w("熊本城","くまもとじょう","Kumamoto Castle",["熊","本","城"]), ", raised around 1600 by the warlord ",
+        w("加藤清正","かとうきよまさ","Katō Kiyomasa",["加","藤","清","正"]), ", whose steep, curved stone walls became the model later castle builders studied." ] },
+      { ic: "⛰️", en: "Setting", jp: "地理", bd: [
+        "East of the city the land swells into ", w("阿蘇山","あそさん","Mt. Aso",["阿","蘇","山"]),
+        ", an active volcano that holds **one of the largest volcanic calderas in the world** — a ring so vast that whole towns, farms and railways sit inside the old crater. Steam still drifts from its central cone, and the grassy highland of ",
+        w("草千里","くさせんり","Kusasenri",["草","千","里"]), " rolls out across the plateau where horses and cattle graze." ] },
+      { ic: "🍖", en: "Local food", jp: "名物", bd: [
+        "Kumamoto eats boldly. Its most famous dish is ", w("馬刺し","ばさし","basashi — raw horse",["馬"]),
+        ", thin slices of horse served raw with ginger and soy, a delicacy held in real pride here. Alongside it comes ",
+        w("辛子蓮根","からしれんこん","karashi renkon",["辛","子","蓮","根"]), ", lotus root stuffed with hot mustard and fried. And because clean ",
+        w("水","みず","water",["水"]), " wells up everywhere, **the whole city drinks 100% natural spring water** straight from the tap." ] },
+      { ic: "⭐", en: "Sights", jp: "見どころ", bd: [
+        "The castle is the must-see even mid-repair: a 2016 earthquake toppled its walls and turrets, and the slow, public rebuild has become a symbol of the city's grit. For something calmer, locals walk the strolling garden of ",
+        w("水前寺成趣園","すいぜんじじょうじゅえん","Suizenji Garden",["水","前","寺","成","趣","園"]),
+        ", which recreates the old Tōkaidō highway in miniature — complete with a little green Mt. Fuji." ] },
+      { ic: "🐻", en: "Festivals & culture", jp: "祭り・文化", bd: [
+        "Few places have a more famous face: ", w("くまモン","くまもん","Kumamon",[]),
+        ", the round black bear with red cheeks, began as a Kumamoto mascot and grew into **one of Japan's best-loved characters**, earning the prefecture a small fortune in merchandise. And each autumn the city throws a grand festival famous for its troop of **richly decorated horses**, ",
+        w("飾り馬","かざりうま","decorated horses",["飾","馬"]), ", paraded through the streets to pounding drums." ] }
+    ],
+    newKanji: [
+      { k: "熊", on: "ユウ", kun: "くま", meaning: "bear", ex: "熊本 (Kumamoto)" },
+      { k: "馬", on: "バ", kun: "うま", meaning: "horse", ex: "馬刺し (basashi)" },
+      { k: "国", on: "コク", kun: "くに", meaning: "country, land", ex: "火の国 (Land of Fire)" }
+    ],
+    check: {
+      mc: [
+        { q: "What does Kumamoto nickname itself?", choices: ["The Land of Snow", "The Land of Fire", "The Land of Gold", "The Land of Mist"], a: 1 },
+        { q: "What lies just east of the city?", choices: ["A coral reef", "Mt. Aso and its giant caldera", "A wide desert", "A glacier"], a: 1 },
+        { q: "Which raw dish is Kumamoto known for?", choices: ["馬刺し (raw horse)", "Snow crab", "Sea grapes", "Black pork"], a: 0 }
+      ],
+      open: { q: "Where does Kumamoto's tap water come from?",
+        keywords: ["spring","springs","groundwater","ground water","natural water","aquifer","water","水"],
+        model: "Natural spring water — the city drinks 100% groundwater welling up from its volcanic aquifers." }
+    }
+  },
+  {
+    place: "福岡", placeRd: "ふくおか", sub: "Fukuoka · 福岡県 (Kyushu) · pop. ~1.6 million · Lesson 7 — Kyushu's gateway city",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Fukuoka_Skyline_of_Seaside_Momochi.jpg/1920px-Fukuoka_Skyline_of_Seaside_Momochi.jpg",
+    sections: [
+      { ic: "🏙️", en: "Overview", jp: "歴史", bd: [
+        w("福岡","ふくおか","Fukuoka",["福","岡"]), " is the **largest city on Kyushu** and Japan's gateway to the rest of Asia — closer to Seoul than to Tokyo. It was born in 1889 when two old towns merged: the samurai castle town of Fukuoka and the merchant port of ",
+        w("博多","はかた","Hakata",["博","多"]), ", whose name still marks the main station, the local dialect and the food. Today it is one of Japan's youngest, fastest-growing cities." ] },
+      { ic: "⚓", en: "Setting", jp: "地理", bd: [
+        "The city opens onto ", w("博多湾","はかたわん","Hakata Bay",["博","多","湾"]),
+        ", its waterfront crowned by the ", w("福岡タワー","ふくおかたわー","Fukuoka Tower",["福","岡"]),
+        " above the man-made Momochi seafront. For centuries this shore was Japan's front door to the mainland — and its shield: **the Mongol invasions of the 1200s were thrown back here**, helped by the storms later named the ",
+        w("神風","かみかぜ","'divine wind'",["神","風"]), "." ] },
+      { ic: "🍜", en: "Local food", jp: "名物", bd: [
+        "Fukuoka may be Japan's best eating city. It is the home of ", w("豚骨ラーメン","とんこつらーめん","tonkotsu ramen",["豚","骨"]),
+        ", milky pork-bone noodles born in Hakata and now copied worldwide. Its other signature is ",
+        w("明太子","めんたいこ","mentaiko — spicy cod roe",["明","太","子"]), ", bright chilli-cured roe eaten with rice. Best of all are the ",
+        w("屋台","やたい","yatai stalls",["屋","台"]), ", **open-air street-food stalls** that line the riverside at night for ramen, skewers and beer shoulder-to-shoulder with strangers." ] },
+      { ic: "⛩️", en: "Sights", jp: "見どころ", bd: [
+        "Just outside the city stands ", w("太宰府天満宮","だざいふてんまんぐう","Dazaifu Tenmangū",["太","宰","府","天","満","宮"]),
+        ", a shrine to ", w("菅原道真","すがわらのみちざね","Sugawara no Michizane",["菅","原","道","真"]),
+        ", a scholar so revered he was enshrined as **the god of learning** — every winter, students flood in to pray before their exams. Back in town, the summer ",
+        w("博多祇園山笠","はかたぎおんやまかさ","Hakata Gion Yamakasa",["博","多","祇","園","山","笠"]),
+        " sends teams sprinting through the streets hauling one-ton festival floats." ] },
+      { ic: "🎎", en: "Festivals & culture", jp: "祭り・文化", bd: [
+        "Hakata keeps its crafts alive: hand-painted ", w("博多人形","はかたにんぎょう","Hakata clay dolls",["博","多","人","形"]),
+        " and ", w("博多織","はかたおり","Hakata-ori silk",["博","多","織"]), ", a tightly woven cloth once prized for samurai sashes. For luck in the new year, locals make the rounds of the city's ",
+        w("神社","じんじゃ","Shinto shrines",["神","社"]), ", tucked quietly between the glass towers." ] }
+    ],
+    newKanji: [
+      { k: "福", on: "フク", kun: "—", meaning: "fortune, good luck", ex: "福岡 (Fukuoka)" },
+      { k: "岡", on: "コウ", kun: "おか", meaning: "hill, ridge", ex: "福岡 (Fukuoka)" },
+      { k: "神", on: "シン", kun: "かみ", meaning: "god, deity", ex: "神社 (jinja, shrine)" }
+    ],
+    check: {
+      mc: [
+        { q: "Fukuoka is the largest city in which region?", choices: ["Hokkaido", "Kyushu", "Shikoku", "Okinawa"], a: 1 },
+        { q: "Which ramen style was born in Hakata?", choices: ["Miso ramen", "Tonkotsu (pork-bone) ramen", "Shoyu ramen", "Tsukemen"], a: 1 },
+        { q: "Who is enshrined at Dazaifu Tenmangū?", choices: ["A sea god", "Sugawara no Michizane, the god of learning", "A famous shogun", "The first emperor"], a: 1 }
+      ],
+      open: { q: "What are Fukuoka's famous open-air street-food stalls called?",
+        keywords: ["yatai","屋台","stall","stalls","street stall","street food"],
+        model: "屋台 (yatai) — open-air street-food stalls along the river serving ramen, skewers and drinks." }
+    }
+  },
+  {
+    place: "広島", placeRd: "ひろしま", sub: "Hiroshima · 広島県 (Chūgoku) · pop. ~1.2 million · Lesson 8 — the city of peace",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Itsukushima_Shrine_Torii_Gate_%2813890465459%29.jpg/1920px-Itsukushima_Shrine_Torii_Gate_%2813890465459%29.jpg",
+    sections: [
+      { ic: "🕊️", en: "Overview", jp: "歴史", bd: [
+        w("広島","ひろしま","Hiroshima",["広","島"]), " is the great city of the Chūgoku region, spread across a fan of river deltas on the Inland Sea. The world knows it for a single morning in **1945**, when it became **the first city ever struck by an atomic bomb**, and for what it chose to become afterward: a city rebuilt around the idea of ",
+        w("平和","へいわ","peace",["平","和"]), ". Today it is green, lively and forward-looking, and it carries that message of ", w("平和","へいわ","peace",["平","和"]), " to visitors from all over the world." ] },
+      { ic: "☮️", en: "The Peace Park", jp: "平和記念公園", bd: [
+        "At the city's heart lies the ", w("平和記念公園","へいわきねんこうえん","Peace Memorial Park",["平","和","記","念","公","園"]),
+        ", laid out where the bomb fell. Its most haunting landmark is the ", w("原爆ドーム","げんばくどーむ","the Atomic Bomb Dome",["原","爆"]),
+        ", the skeletal ruin of a hall left standing as a **UNESCO World Heritage reminder** — and a vow that it must never happen again. Each August, thousands gather to float paper lanterns down the river for the dead." ] },
+      { ic: "⛩️", en: "The floating shrine", jp: "宮島", bd: [
+        "Just offshore stands one of Japan's most photographed sights: the great vermilion ", w("鳥居","とりい","torii gate",["鳥","居"]),
+        " of ", w("厳島神社","いつくしまじんじゃ","Itsukushima Shrine",["厳","島","神","社"]), " on the island of ",
+        w("宮島","みやじま","Miyajima",["宮","島"]), ". At high tide the shrine and its gate seem to **stand on the sea itself**; at low tide you can walk out across the flats to the gate's feet. Tame deer wander the lanes here, much as they do in Nara." ] },
+      { ic: "🥢", en: "Local food", jp: "名物", bd: [
+        "Hiroshima argues with Osaka over ", w("お好み焼き","おこのみやき","okonomiyaki",[]),
+        ", and the local version is its own thing: a savoury pancake **layered, not mixed**, piled with cabbage and a nest of fried noodles. And from the calm Inland Sea come plump ",
+        w("牡蠣","かき","oysters",["牡","蠣"]), ", grilled in the shell all winter — the region grows **the lion's share of Japan's oysters**." ] },
+      { ic: "🚋", en: "Getting around", jp: "文化", bd: [
+        "Hiroshima never gave up its ", w("路面電車","ろめんでんしゃ","streetcars",["路","面","電","車"]),
+        " — a beloved fleet of trams, a few of them historic cars that survived the war, still rattling through streets where most cities long ago tore their tracks out. They are the everyday rhythm of a place that rebuilt itself and simply kept moving." ] }
+    ],
+    newKanji: [
+      { k: "和", on: "ワ", kun: "やわ-らぐ", meaning: "harmony, peace", ex: "平和 (heiwa, peace)" },
+      { k: "宮", on: "キュウ", kun: "みや", meaning: "shrine, palace", ex: "宮島 (Miyajima)" },
+      { k: "電", on: "デン", kun: "—", meaning: "electricity", ex: "電車 (densha, train/tram)" }
+    ],
+    check: {
+      mc: [
+        { q: "What happened to Hiroshima in 1945?", choices: ["A great earthquake", "It became the first city struck by an atomic bomb", "It became Japan's capital", "It was founded"], a: 1 },
+        { q: "What floats offshore at Miyajima?", choices: ["A lighthouse", "The torii gate of Itsukushima Shrine", "A castle", "A volcano"], a: 1 },
+        { q: "How is Hiroshima-style okonomiyaki different?", choices: ["It is deep-fried", "It is served raw", "It is layered, not mixed", "It has no cabbage"], a: 2 }
+      ],
+      open: { q: "What idea did Hiroshima rebuild itself around?",
+        keywords: ["peace","平和","heiwa","remembrance","never again","no more war"],
+        model: "Peace (平和) — it rebuilt as a city dedicated to peace and to remembrance, so that it never happens again." }
+    }
+  },
+  {
+    place: "岡山", placeRd: "おかやま", sub: "Okayama · 岡山県 (Chūgoku) · pop. ~700,000 · Lesson 9 — the garden city & the peach boy",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Okayama_Castle%2C_November_2016_-04.jpg/1920px-Okayama_Castle%2C_November_2016_-04.jpg",
+    sections: [
+      { ic: "🏯", en: "Overview", jp: "歴史", bd: [
+        "Crossing east along the Inland Sea, you reach ", w("岡山","おかやま","Okayama",["岡","山"]),
+        ", a sunny castle city the locals call the **'Land of Sunshine'** for having some of the fewest rainy days in Japan. Its lords raised a striking black keep, ",
+        w("岡山城","おかやまじょう","Okayama Castle",["岡","山","城"]), ", nicknamed the **'Crow Castle'** for its jet-black walls." ] },
+      { ic: "🌸", en: "The great garden", jp: "後楽園", bd: [
+        "Okayama's pride is ", w("後楽園","こうらくえん","Kōraku-en",["後","楽","園"]),
+        ", ranked among **Japan's three great landscape gardens**. Its name means a garden for enjoying your ",
+        w("楽","らく","ease",["楽"]), " — broad lawns, tea houses and ponds laid out so a lord could unwind. A ",
+        w("庭","にわ","garden",["庭"]), " like this is meant to be walked through, not just admired from a veranda." ] },
+      { ic: "🌉", en: "Bridge to Shikoku", jp: "瀬戸大橋", bd: [
+        "From here the mainland reaches across the sea to the island of Shikoku over the ",
+        w("瀬戸大橋","せとおおはし","the Great Seto Bridge",["瀬","戸","大","橋"]),
+        ", a **double-deck road-and-rail bridge over 13 km long**. Before it opened in 1988 every traveller crossed by ferry; the ",
+        w("橋","はし","bridge",["橋"]), " finally stitched the islands together." ] },
+      { ic: "🍑", en: "The peach boy", jp: "桃太郎", bd: [
+        "Okayama claims the legend of ", w("桃太郎","ももたろう","Momotarō, the Peach Boy",["桃","太","郎"]),
+        ", the hero born from a giant peach who sails off with a dog, a monkey and a pheasant to defeat the ogres on a distant island. The tale is tied to the ancient **Kibi** kingdom that sat here, and the sweet ",
+        w("きびだんご","きびだんご","kibi-dango millet dumplings",[]), " he carries are still sold all over town." ] },
+      { ic: "🎏", en: "Castle town today", jp: "文化", bd: [
+        "The rebuilt keep glows black-and-gold above the river, where on summer nights cormorant fishermen still work the water by torchlight. Okayama stays an easygoing place where the old castle, the famous ",
+        w("庭","にわ","garden",["庭"]), " and the modern city sit comfortably together." ] }
+    ],
+    newKanji: [
+      { k: "橋", on: "キョウ", kun: "はし", meaning: "bridge", ex: "瀬戸大橋 (Great Seto Bridge)" },
+      { k: "庭", on: "テイ", kun: "にわ", meaning: "garden, yard", ex: "庭園 (teien, garden)" },
+      { k: "楽", on: "ガク・ラク", kun: "たの-しい", meaning: "ease; fun; music", ex: "後楽園 (Kōraku-en)" }
+    ],
+    check: {
+      mc: [
+        { q: "What is Okayama nicknamed for its weather?", choices: ["Land of Snow", "Land of Sunshine", "Land of Mist", "Land of Storms"], a: 1 },
+        { q: "Kōraku-en is ranked among Japan's three great what?", choices: ["castles", "landscape gardens", "shrines", "hot springs"], a: 1 },
+        { q: "What links Okayama to the island of Shikoku?", choices: ["A tunnel", "The Great Seto Bridge", "A ferry only", "A land causeway"], a: 1 }
+      ],
+      open: { q: "Which legendary hero is Okayama associated with?",
+        keywords: ["momotaro","momotarō","桃太郎","peach boy","peach"],
+        model: "桃太郎 (Momotarō), the Peach Boy who sails off to defeat the ogres." }
+    }
+  },
+  {
+    place: "姫路", placeRd: "ひめじ", sub: "Himeji · 兵庫県 (Kansai) · pop. ~520,000 · Lesson 10 — the White Heron Castle",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Himeji_castle_in_may_2015.jpg/1920px-Himeji_castle_in_may_2015.jpg",
+    sections: [
+      { ic: "🏯", en: "Overview", jp: "歴史", bd: [
+        "A short way east stands ", w("姫路","ひめじ","Himeji",["姫","路"]),
+        ", home to what many call **the most beautiful castle in Japan**. ", w("姫路城","ひめじじょう","Himeji Castle",["姫","路","城"]),
+        " has stood for four centuries through war and earthquake without burning — **the finest original castle keep in the country**, not a concrete rebuild." ] },
+      { ic: "🕊️", en: "The White Heron", jp: "白鷺城", bd: [
+        "Its dazzling white walls and swooping roofs earned it the name ", w("白鷺城","しらさぎじょう","the White Heron Castle",["白","鷺","城"]),
+        ", as if a great bird had alighted with wings spread. The whitewash is more than beauty: it is **fire-resistant plaster** that helped the ",
+        w("城","しろ","castle",["城"]), " survive the centuries." ] },
+      { ic: "🗝️", en: "A clever fortress", jp: "守り", bd: [
+        "Behind the elegance hides a deadly maze: the path to the keep **spirals and doubles back** through gates and dead ends to trap and slow attackers. Yet no army ever stormed it — its defences were so feared it was never truly tested." ] },
+      { ic: "🏆", en: "A world treasure", jp: "世界遺産", bd: [
+        "In 1993 Himeji became **one of Japan's first UNESCO World Heritage Sites**, a ",
+        w("世界遺産","せかいいさん","World Heritage Site",["世","界","遺","産"]), ", and the nation counts it among its greatest ",
+        w("国宝","こくほう","National Treasures",["国","宝"]), ". A years-long restoration finished in 2015 left the ",
+        w("宝","たから","treasure",["宝"]), " gleaming white once more." ] },
+      { ic: "🌸", en: "Around the castle", jp: "見どころ", bd: [
+        "Spring wraps the moats in cherry blossom, and beside the keep the strolling garden of ",
+        w("好古園","こうこえん","Kōko-en",["好","古","園"]), " recreates the gardens of the samurai who once lived along this ",
+        w("路","みち","road",["路"]), ". Himeji rewards those who slow down and look up." ] }
+    ],
+    newKanji: [
+      { k: "路", on: "ロ", kun: "じ", meaning: "road, route", ex: "姫路 (Himeji)" },
+      { k: "宝", on: "ホウ", kun: "たから", meaning: "treasure", ex: "国宝 (kokuhō, national treasure)" },
+      { k: "世", on: "セイ・セ", kun: "よ", meaning: "world; generation; era", ex: "世界遺産 (World Heritage)" }
+    ],
+    check: {
+      mc: [
+        { q: "What is Himeji Castle's nickname?", choices: ["Black Crow Castle", "White Heron Castle", "Golden Carp Castle", "Red Phoenix Castle"], a: 1 },
+        { q: "What makes Himeji special among Japan's castles?", choices: ["It is the tallest", "It is an original keep, not a concrete rebuild", "It is the newest", "It floats on water"], a: 1 },
+        { q: "What honour did Himeji receive in 1993?", choices: ["Olympic host", "A UNESCO World Heritage Site", "A national park", "A film studio"], a: 1 }
+      ],
+      open: { q: "Why was the castle's white plaster more than decorative?",
+        keywords: ["fire","fire-resistant","fireproof","protect","resist","resistant"],
+        model: "The white plaster is fire-resistant, which helped the wooden castle survive." }
+    }
+  },
+  {
+    place: "神戸", placeRd: "こうべ", sub: "Kobe · 兵庫県 (Kansai) · pop. ~1.5 million · Lesson 11 — the port between mountains and sea",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Kobe_Port_Tower_and_Maritime_Museum%2C_November_2016.jpg/1920px-Kobe_Port_Tower_and_Maritime_Museum%2C_November_2016.jpg",
+    sections: [
+      { ic: "⚓", en: "Overview", jp: "歴史", bd: [
+        "Pressed into a thin strip between steep mountains and the sea sits ", w("神戸","こうべ","Kobe",["神","戸"]),
+        ", **one of the first Japanese ports opened to foreign trade** in 1868. Ships from around the world tied up here, and the city grew outward-looking, its hillsides still dotted with old Western merchant houses." ] },
+      { ic: "🚢", en: "A working harbour", jp: "港町", bd: [
+        "The waterfront is all cranes, ", w("船","ふね","ships",["船"]), " and the busy ",
+        w("神戸港","こうべこう","Kobe Port",["神","戸","港"]),
+        ". When vessels grew too big, Kobe simply **built islands out into the bay** — among the world's first large man-made port islands. The harbour still sets the city's pulse." ] },
+      { ic: "🥩", en: "Kobe beef", jp: "神戸牛", bd: [
+        "The city's name travels the world on a plate: ", w("神戸牛","こうべぎゅう","Kobe beef",["神","戸","牛"]),
+        ", **wagyu so finely marbled it melts like butter**, from cattle raised under famously careful conditions nearby. High above, the night view from ",
+        w("六甲山","ろっこうさん","Mt. Rokkō",["六","甲","山"]), " over the glittering port is rated among Japan's finest." ] },
+      { ic: "🌏", en: "The foreign quarter", jp: "異人館", bd: [
+        "In the ", w("北野","きたの","Kitano",["北","野"]), " district the lanes still climb past **Western-style mansions** built by 19th-century traders, while down by the water a lively ",
+        w("南京町","なんきんまち","Nankin-machi Chinatown",["南","京","町"]), " keeps the flavour of the old trading days alive." ] },
+      { ic: "🕯️", en: "Out of the rubble", jp: "震災", bd: [
+        "In 1995 a massive earthquake tore through the ", w("地","ち","ground",["地"]),
+        " beneath the city, killing thousands and flattening whole districts. Kobe's recovery became a symbol of resilience, remembered every winter by a glowing festival of lights — a city that **rebuilt itself stronger** from the shaken earth." ] }
+    ],
+    newKanji: [
+      { k: "戸", on: "コ", kun: "と", meaning: "door; household", ex: "神戸 (Kobe)" },
+      { k: "船", on: "セン", kun: "ふね", meaning: "ship, boat", ex: "船 (fune, ship)" },
+      { k: "地", on: "チ・ジ", kun: "—", meaning: "ground, earth, land", ex: "地震 (jishin, earthquake)" }
+    ],
+    check: {
+      mc: [
+        { q: "What was Kobe one of the first to do in 1868?", choices: ["Build a castle", "Open to foreign trade", "Host the Olympics", "Mint coins"], a: 1 },
+        { q: "How did Kobe expand its harbour when ships outgrew it?", choices: ["Dug tunnels", "Built man-made islands", "Moved the whole city", "Banned big ships"], a: 1 },
+        { q: "What is Kobe beef famous for?", choices: ["Being grilled over coal", "Its fine marbling (wagyu)", "Being served raw only", "Being the cheapest"], a: 1 }
+      ],
+      open: { q: "What happened to Kobe in 1995, and how is it remembered?",
+        keywords: ["earthquake","quake","1995","recover","resilience","lights","rebuilt"],
+        model: "A major earthquake devastated the city; its recovery is remembered each winter with a festival of lights." }
+    }
+  },
+  {
+    place: "大阪", placeRd: "おおさか", sub: "Osaka · 大阪府 (Kansai) · pop. ~2.7 million · Lesson 12 — the nation's kitchen",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Osaka_Castle_03bs3200.jpg/1920px-Osaka_Castle_03bs3200.jpg",
+    sections: [
+      { ic: "🏯", en: "Overview", jp: "歴史", bd: [
+        "Japan's brash, warm-hearted second city, ", w("大阪","おおさか","Osaka",["大","阪"]),
+        ", grew rich as a place of trade rather than rule. The warlord ", w("豊臣秀吉","とよとみひでよし","Toyotomi Hideyoshi",["豊","臣","秀","吉"]),
+        " raised the mighty ", w("大阪城","おおさかじょう","Osaka Castle",["大","阪","城"]),
+        " here in the 1580s, and the merchant town that gathered below it became **the commercial heart of the country**." ] },
+      { ic: "💴", en: "The merchants' city", jp: "商人の町", bd: [
+        "While samurai ruled elsewhere, Osaka ran on ", w("商売","しょうばい","commerce",["商","売"]),
+        ". Its traders built **the world's first organised rice futures exchange**, and even today the local greeting is less 'hello' than **'making any money?'**. A born ",
+        w("商人","しょうにん","merchant",["商","人"]), " town to its bones." ] },
+      { ic: "🐙", en: "The nation's kitchen", jp: "天下の台所", bd: [
+        "Osaka calls itself **the 'nation's kitchen,'** and lives by the motto ",
+        w("食い倒れ","くいだおれ","kuidaore — eat till you drop",["食","倒"]), ". This is the home of ",
+        w("たこ焼き","たこやき","takoyaki octopus balls",["焼"]), " and ", w("お好み焼き","おこのみやき","okonomiyaki",["好","焼"]),
+        " — street ", w("食","しょく","food",["食"]), " best eaten standing up, elbow to elbow." ] },
+      { ic: "🌃", en: "Dōtonbori", jp: "道頓堀", bd: [
+        "After dark everyone heads to ", w("道頓堀","どうとんぼり","Dōtonbori",["道","頓","堀"]),
+        ", a canal-side blaze of giant neon — the running Glico man, the huge mechanical crab — along ",
+        w("通り","とおり","streets",["通"]), " packed with food stalls. It is the loud, glowing **heart of Osaka's nightlife**." ] },
+      { ic: "🎭", en: "Osaka humour", jp: "文化", bd: [
+        "Osakans are famous for being **blunt, warm and very funny** — the city gave Japan its beloved ",
+        w("漫才","まんざい","manzai stand-up comedy",["漫","才"]), " double-acts. Quick to laugh and quick to chat to strangers, the people are as much the draw as the food." ] }
+    ],
+    newKanji: [
+      { k: "食", on: "ショク", kun: "た-べる", meaning: "eat; food", ex: "食い倒れ (kuidaore)" },
+      { k: "商", on: "ショウ", kun: "あきな-う", meaning: "commerce, trade", ex: "商人 (shōnin, merchant)" },
+      { k: "通", on: "ツウ", kun: "とお-る", meaning: "pass through; street", ex: "通り (tōri, street)" }
+    ],
+    check: {
+      mc: [
+        { q: "Osaka grew rich mainly as a city of what?", choices: ["samurai rule", "trade and commerce", "temples", "fishing"], a: 1 },
+        { q: "What nickname does Osaka give itself for its food?", choices: ["the nation's kitchen", "the garden city", "the little Kyoto", "the snow country"], a: 0 },
+        { q: "What is Dōtonbori best known for?", choices: ["Silent temples", "Blazing neon and nightlife", "Ski slopes", "A castle moat"], a: 1 }
+      ],
+      open: { q: "What does Osaka's food motto 'kuidaore' mean?",
+        keywords: ["eat","eat till you drop","ruin","bankrupt","food","drop"],
+        model: "Kuidaore — to 'eat till you drop' (ruin yourself with food); Osaka's love of eating." }
+    }
+  },
+  {
+    place: "京都", placeRd: "きょうと", sub: "Kyoto · 京都府 (Kansai) · pop. ~1.4 million · Lesson 13 — the thousand-year capital",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine%2C_Kyoto%2C_Japan.jpg/1920px-Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine%2C_Kyoto%2C_Japan.jpg",
+    sections: [
+      { ic: "🏯", en: "History", jp: "歴史", bd: [
+        "Kyoto (", w("京都","きょうと","Kyoto; lit. 'capital city'",["京","都"]), ") was founded in **794** as ",
+        w("平安京","へいあんきょう","Heian-kyō, 'capital of peace'",["平","安","京"]), " by Emperor ",
+        w("桓武","かんむ","Emperor Kanmu",["桓","武"]), ", who laid it on a grand grid modeled on the Tang-Chinese capital Chang'an. ",
+        "It stayed Japan's imperial capital for nearly 1,100 years — through the refined ",
+        w("平安","へいあん","Heian (era of court culture)",["平","安"]), " court era — until the emperor moved to Tokyo in 1868. ",
+        "It was gutted by the decade-long ", w("応仁の乱","おうにんのらん","Ōnin War (1467–77)",["応","仁","乱"]),
+        " that touched off the Warring States period, but rebuilt each time. In WWII it was **struck from the atomic-bomb " +
+        "target list**, sparing its temples — 17 sites now form the UNESCO ‘Historic Monuments of Ancient Kyoto.’" ] },
+      { ic: "🗻", en: "Setting", jp: "地理", bd: [
+        "Kyoto sits in a basin ringed by mountains on three sides, threaded by the ",
+        w("鴨川","かもがわ","Kamo River",["鴨","川"]), " (Kamo River), a beloved riverside walk. The enclosed valley brings " +
+        "humid summers, cold winters, and the misty hills that frame its temple views. Just south, ",
+        w("宇治","うじ","Uji",["宇","治"]), " is famed for green tea and the temple ",
+        w("平等院","びょうどういん","Byōdō-in (on the ¥10 coin)",["平","等","院"]), ", pictured on the ¥10 coin." ] },
+      { ic: "🍵", en: "Local food", jp: "名物", bd: [
+        "Kyoto cuisine (", w("京料理","きょうりょうり","Kyoto cuisine",["京","料","理"]), ") is the home of multi-course ",
+        w("懐石","かいせき","kaiseki fine dining",["懐","石"]), " dining — seasonal, delicate, exquisitely plated. Temple culture gave it ",
+        w("湯豆腐","ゆどうふ","simmered tofu",["湯","豆","腐"]), " and vegetarian ",
+        w("精進料理","しょうじんりょうり","Buddhist vegetarian cuisine",["精","進","料","理"]), ". Everyday tables feature ",
+        w("京野菜","きょうやさい","heirloom Kyoto vegetables",["京","野","菜"]), " and home-style ",
+        w("おばんざい","おばんざい","Kyoto home cooking",[]), ". For sweets there's ",
+        w("八ツ橋","やつはし","cinnamon rice sweets",["八","橋"]), ", and everything ",
+        w("抹茶","まっちゃ","powdered green tea",["抹","茶"]), ", much of it from ", w("宇治","うじ","Uji",["宇","治"]), "." ] },
+      { ic: "⛩️", en: "Sights", jp: "見どころ", bd: [
+        "Kyoto has some 1,600 temples and 400 shrines. The icons: ",
+        w("金閣寺","きんかくじ","the Golden Pavilion",["金","閣","寺"]), " (gold-leaf Golden Pavilion) and its quieter sibling ",
+        w("銀閣寺","ぎんかくじ","the Silver Pavilion",["銀","閣","寺"]), "; ",
+        w("清水寺","きよみずでら","Kiyomizu temple",["清","水","寺"]), " with its great wooden stage over the hillside; ",
+        w("伏見稲荷大社","ふしみいなりたいしゃ","Fushimi Inari Shrine",["伏","見","稲","荷","大","社"]), " and its tunnels of vermilion ",
+        w("鳥居","とりい","shrine gates",["鳥","居"]), "; the Zen rock garden of ",
+        w("龍安寺","りょうあんじ","Ryōan-ji",["龍","安","寺"]), "; the shogun's ",
+        w("二条城","にじょうじょう","Nijō Castle",["二","条","城"]), " with ‘nightingale’ floors that chirp underfoot; and the bamboo groves of ",
+        w("嵐山","あらしやま","Arashiyama",["嵐","山"]), "." ] },
+      { ic: "🎆", en: "Festivals & culture", jp: "祭り・文化", bd: [
+        "Kyoto's year is built around festivals. The ", w("祇園祭","ぎおんまつり","Gion Festival",["祇","園","祭"]),
+        " runs all **July** (since 869), parading towering ", w("山鉾","やまほこ","festival floats",["山","鉾"]),
+        " floats — a UNESCO intangible heritage. May brings the Heian-costumed ",
+        w("葵祭","あおいまつり","Aoi Festival",["葵","祭"]), "; October the historical parade ",
+        w("時代祭","じだいまつり","Jidai Festival",["時","代","祭"]), "; and on Aug 16 ",
+        w("五山送り火","ござんのおくりび","mountain bonfire event",["五","山","送","火"]), " sets giant kanji-shaped bonfires alight on the hills. The ",
+        w("祇園","ぎおん","Gion district",["祇","園"]), " district is still the world of the ",
+        w("舞妓","まいこ","apprentice geisha",["舞","妓"]), " and the ", w("茶道","さどう","tea ceremony",["茶","道"]), "." ] },
+      { ic: "👤", en: "Notable figures", jp: "人物", bd: [
+        "Kyoto's Heian court produced two giants of world literature: ",
+        w("紫式部","むらさきしきぶ","Murasaki Shikibu",["紫","式","部"]), ", whose ",
+        w("源氏物語","げんじものがたり","The Tale of Genji",["源","氏","物","語"]), " (c.1008) is often called the first novel, and ",
+        w("清少納言","せいしょうなごん","Sei Shōnagon",["清","少","納","言"]), ", author of the witty ",
+        w("枕草子","まくらのそうし","The Pillow Book",["枕","草","子"]), ". Centuries later the shogun ",
+        w("足利義満","あしかがよしみつ","Ashikaga Yoshimitsu",["足","利","義","満"]), " built the Golden Pavilion as his retirement villa." ] }
+    ],
+    newKanji: [
+      { k: "都", on: "ト・ツ", kun: "みやこ", meaning: "capital, metropolis", ex: "京都 (Kyōto)" },
+      { k: "寺", on: "ジ", kun: "てら", meaning: "temple", ex: "金閣寺 (Kinkaku-ji)" },
+      { k: "茶", on: "チャ・サ", kun: "—", meaning: "tea", ex: "抹茶 (matcha)" },
+      { k: "祭", on: "サイ", kun: "まつ-り", meaning: "festival", ex: "祇園祭 (Gion Matsuri)" },
+      { k: "城", on: "ジョウ", kun: "しろ", meaning: "castle", ex: "二条城 (Nijō-jō)" },
+      { k: "鳥", on: "チョウ", kun: "とり", meaning: "bird", ex: "鳥居 (torii)" }
+    ],
+    check: {
+      mc: [
+        { q: "When was Kyoto founded as Heian-kyō?", choices: ["710", "794", "1467", "1868"], a: 1 },
+        { q: "Why were Kyoto's temples spared in WWII?", choices: ["It was too far north to reach", "It was struck from the atomic-bomb target list", "It had already surrendered", "It was hidden in the mountains"], a: 1 },
+        { q: "Which July festival parades giant yamaboko floats?", choices: ["葵祭 (Aoi)", "時代祭 (Jidai)", "祇園祭 (Gion)", "五山送り火"], a: 2 }
+      ],
+      open: { q: "Name one famous temple or shrine in Kyoto (English or Japanese).",
+        keywords: ["kinkaku","金閣","ginkaku","銀閣","kiyomizu","清水","fushimi","伏見","稲荷","inari","ryoan","龍安"],
+        model: "e.g. Kinkaku-ji (金閣寺), Kiyomizu-dera (清水寺), Fushimi Inari (伏見稲荷大社), or Ryōan-ji (龍安寺)." }
+    }
+  },
+  {
+    place: "奈良", placeRd: "なら", sub: "Nara · 奈良県 (Kansai) · pop. ~360,000 · Lesson 14 — Japan's first capital",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Nara_Park_-_panoramio_%282%29.jpg/1920px-Nara_Park_-_panoramio_%282%29.jpg",
+    sections: [
+      { ic: "🏯", en: "History", jp: "歴史", bd: [
+        "Nara (", w("奈良","なら","Nara",["奈","良"]), ") was **Japan's first permanent capital**, founded in **710** as Heijō-kyō — a century before ",
+        w("京都","きょうと","Kyoto",["京","都"]), ". The cradle of Japanese Buddhism, it named the Nara period; the ",
+        w("都","みやこ","capital",["都"]), " later moved away, but its great temples remained." ] },
+      { ic: "🍵", en: "Local food", jp: "名物", bd: [
+        "Specialties include ", w("柿の葉寿司","かきのはずし","persimmon-leaf sushi",["柿","葉","寿","司"]), " and ",
+        w("奈良漬","ならづけ","Nara pickles",["奈","良","漬"]), " (sake-lees pickles). ", w("茶","ちゃ","tea",["茶"]), " culture runs deep here too." ] },
+      { ic: "⛩️", en: "Sights", jp: "見どころ", bd: [
+        "The city centers on ", w("奈良公園","ならこうえん","Nara Park",["奈","良","公","園"]), ", where tame ",
+        w("鹿","しか","deer",["鹿"]), " roam freely, and ", w("東大寺","とうだいじ","Tōdai temple",["東","大","寺"]), " houses the ",
+        w("大仏","だいぶつ","Great Buddha",["大","仏"]), ", one of the world's largest bronze statues." ] }
+    ],
+    newKanji: [
+      { k: "公", on: "コウ", kun: "おおやけ", meaning: "public", ex: "公園 (kōen, park)" },
+      { k: "園", on: "エン", kun: "その", meaning: "garden, park", ex: "公園 (kōen)" },
+      { k: "仏", on: "ブツ", kun: "ほとけ", meaning: "Buddha", ex: "大仏 (daibutsu)" },
+      { k: "鹿", on: "ロク", kun: "しか", meaning: "deer", ex: "鹿 (shika)" }
+    ],
+    check: {
+      mc: [
+        { q: "What was Nara in the year 710?", choices: ["A fishing village", "Japan's first permanent capital", "A samurai castle town", "A trading port"], a: 1 },
+        { q: "Which animal roams freely in Nara Park?", choices: ["Monkeys", "Deer", "Foxes", "Cranes"], a: 1 }
+      ],
+      open: { q: "What famous statue is housed in Tōdai-ji?",
+        keywords: ["daibutsu","大仏","great buddha","buddha","仏"],
+        model: "The Daibutsu (大仏) — the Great Buddha, a giant bronze statue." }
+    }
+  },
+  {
+    place: "名古屋", placeRd: "なごや", sub: "Nagoya · 愛知県 (Chūbu) · pop. ~2.3 million · Lesson 15 — the castle of golden dolphins",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Nagoya_Castle_7.jpg/1920px-Nagoya_Castle_7.jpg",
+    sections: [
+      { ic: "🏯", en: "Overview", jp: "歴史", bd: [
+        "Leaving Kansai for central Japan, you reach ", w("名古屋","なごや","Nagoya",["名","古","屋"]),
+        ", the country's industrial powerhouse and fourth-largest city. The Tokugawa shoguns built ",
+        w("名古屋城","なごやじょう","Nagoya Castle",["名","古","屋","城"]),
+        " here, crowned with a pair of **golden dolphins** (kinshachi) that became the city's emblem." ] },
+      { ic: "⛩️", en: "Atsuta Shrine", jp: "熱田神宮", bd: [
+        "Far older than the city is ", w("熱田神宮","あつたじんぐう","Atsuta Shrine",["熱","田","神","宮"]),
+        ", **one of Shinto's most sacred sites**, said to safeguard the sacred sword — **one of Japan's Three Imperial Regalia**. Pilgrims have come to this ",
+        w("宮","みや","shrine",["宮"]), " for close to two thousand years." ] },
+      { ic: "🚗", en: "City of makers", jp: "ものづくり", bd: [
+        "This is the heartland of Japanese manufacturing: the ", w("自動車","じどうしゃ","automobile",["自","動","車"]),
+        " giant Toyota grew up just outside town, and the region builds everything from cars to aircraft. A deep ",
+        w("車","くるま","car",["車"]), " culture and a dense web of ", w("鉄道","てつどう","railways",["鉄","道"]),
+        " keep all of central Japan moving." ] },
+      { ic: "🍤", en: "Nagoya flavour", jp: "名古屋めし", bd: [
+        "Nagoya guards its own bold cooking, ", w("名古屋めし","なごやめし","Nagoya-meshi",["名","古","屋"]),
+        ": dark red ", w("味噌カツ","みそかつ","miso-katsu pork cutlet",["味","噌"]), ", richly grilled ",
+        w("ひつまぶし","ひつまぶし","hitsumabushi eel",[]), " and chewy flat ", w("きしめん","きしめん","kishimen noodles",[]),
+        " — flavours found nowhere else in Japan." ] },
+      { ic: "🎏", en: "Crossroads of Japan", jp: "交通", bd: [
+        "Sitting roughly midway between Tokyo and Osaka, Nagoya has always been a crossroads where bullet trains and old highways meet. The rebuilt golden ",
+        w("城","しろ","castle",["城"]), " still watches over a city that quietly **builds much of what Japan sells to the world**." ] }
+    ],
+    newKanji: [
+      { k: "古", on: "コ", kun: "ふる-い", meaning: "old", ex: "名古屋 (Nagoya)" },
+      { k: "車", on: "シャ", kun: "くるま", meaning: "vehicle, car", ex: "自動車 (jidōsha, car)" },
+      { k: "鉄", on: "テツ", kun: "—", meaning: "iron; railway", ex: "鉄道 (tetsudō, railway)" }
+    ],
+    check: {
+      mc: [
+        { q: "What crowns Nagoya Castle as its emblem?", choices: ["Golden dolphins (shachi)", "A red phoenix", "White herons", "A bronze bell"], a: 0 },
+        { q: "Atsuta Shrine is said to safeguard one of the what?", choices: ["crown jewels", "Three Imperial Regalia", "lost scrolls", "royal seals"], a: 1 },
+        { q: "What industry is Nagoya the heartland of?", choices: ["Fishing", "Manufacturing and automobiles", "Tea farming", "Tourism only"], a: 1 }
+      ],
+      open: { q: "Why is Nagoya called a crossroads of Japan?",
+        keywords: ["between","tokyo","osaka","midway","middle","center","central","halfway"],
+        model: "It sits midway between Tokyo and Osaka, where the railways and old highways meet." }
+    }
+  },
+  {
+    place: "箱根", placeRd: "はこね", sub: "Hakone · 神奈川県 (Kantō) · pop. ~11,000 · Lesson 16 — hot springs beneath Mt. Fuji",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/View_of_Mount_Fuji_from_Lake_Ashi.jpg/1920px-View_of_Mount_Fuji_from_Lake_Ashi.jpg",
+    sections: [
+      { ic: "♨️", en: "Overview", jp: "歴史", bd: [
+        "Climbing into the mountains south-west of Tokyo, you reach ", w("箱根","はこね","Hakone",["箱","根"]),
+        ", Japan's most beloved hot-spring retreat. For centuries weary travellers have soaked here in steaming ",
+        w("温泉","おんせん","hot springs",["温","泉"]), " — and on a clear day the perfect cone of Mt. Fuji rises across the water." ] },
+      { ic: "🗻", en: "Mt. Fuji", jp: "富士山", bd: [
+        "No mountain means more to Japan than ", w("富士山","ふじさん","Mt. Fuji",["富","士","山"]),
+        ", **the country's highest peak at 3,776 m** and a sacred volcano painted and climbed for centuries. From Hakone it floats above ",
+        w("芦ノ湖","あしのこ","Lake Ashi",["芦","湖"]), ", mirrored in the still water — the very picture of ",
+        w("富","ふ","Fuji",["富"]), " itself." ] },
+      { ic: "🚧", en: "The old checkpoint", jp: "関所", bd: [
+        "Hakone guarded the ", w("東海道","とうかいどう","the Tōkaidō",["東","海","道"]),
+        ", the great road between Edo and Kyoto, and every traveller had to pass its strict ",
+        w("関所","せきしょ","checkpoint",["関","所"]),
+        ". The shogun's guards watched above all for **'outgoing women and incoming guns'** — keeping hostages in the capital and weapons out. A reconstruction of the ",
+        w("関","せき","barrier",["関"]), " still stands by the lake." ] },
+      { ic: "🚡", en: "Mountain journey", jp: "見どころ", bd: [
+        "Getting around Hakone is half the fun: a switchback railway, a ropeway over **steaming volcanic valleys** at ",
+        w("大涌谷","おおわくだに","Ōwakudani",["大","涌","谷"]),
+        ", and a pirate-styled boat across the lake. At Ōwakudani, eggs boiled black in the sulphur springs are said to **add seven years to your life**." ] },
+      { ic: "🎨", en: "Art in the hills", jp: "文化", bd: [
+        "The clean mountain air has long drawn artists, and Hakone is dotted with open-air museums set among the trees. After a day of sightseeing the reward is the same as it was for Edo-era travellers: sinking into a hot ",
+        w("温泉","おんせん","hot spring",["温","泉"]), " as the mist slides down the slopes." ] }
+    ],
+    newKanji: [
+      { k: "温", on: "オン", kun: "あたた-かい", meaning: "warm; hot spring", ex: "温泉 (onsen, hot spring)" },
+      { k: "富", on: "フ・フウ", kun: "と-む", meaning: "wealth, abundance (Mt. Fuji)", ex: "富士山 (Mt. Fuji)" },
+      { k: "関", on: "カン", kun: "せき", meaning: "barrier, checkpoint; gateway", ex: "関所 (sekisho, checkpoint)" }
+    ],
+    check: {
+      mc: [
+        { q: "What is Hakone most famous for?", choices: ["Ski jumps", "Hot springs and Mt. Fuji views", "Beaches", "A great castle"], a: 1 },
+        { q: "How tall is Mt. Fuji?", choices: ["1,000 m", "3,776 m — Japan's highest", "8,000 m", "500 m"], a: 1 },
+        { q: "What did the Hakone checkpoint famously watch for?", choices: ["Smuggled tea", "Outgoing women and incoming guns", "Stray cattle", "Foreign ships"], a: 1 }
+      ],
+      open: { q: "What can you see across Lake Ashi from Hakone on a clear day?",
+        keywords: ["fuji","mt fuji","mount fuji","富士","volcano","mountain"],
+        model: "Mt. Fuji, Japan's highest peak, rising across the lake." }
+    }
+  },
+  {
+    place: "東京", placeRd: "とうきょう", sub: "Tokyo · 東京都 (Kantō) · pop. ~14 million · Lesson 17 — the capital that was Edo",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Sensoji_2023.jpg/1920px-Sensoji_2023.jpg",
+    sections: [
+      { ic: "🏙️", en: "Overview", jp: "歴史", bd: [
+        "At last you reach ", w("東京","とうきょう","Tokyo",["東","京"]),
+        ", **the world's largest metropolitan area** and Japan's capital. Its name means simply the **'eastern capital'** — for this was once ",
+        w("江戸","えど","Edo",["江","戸"]),
+        ", a fishing town that the Tokugawa shoguns grew into one of history's biggest cities, renamed when the emperor moved here in 1868." ] },
+      { ic: "🏯", en: "Heart of power", jp: "皇居", bd: [
+        "Where Edo Castle once stood, the ", w("皇居","こうきょ","Imperial Palace",["皇","居"]),
+        " now sits behind broad moats and stone walls at the very centre of the city — the home of the ",
+        w("天皇","てんのう","Emperor",["天","皇"]), ". Around this green heart the metropolis spreads in every direction." ] },
+      { ic: "⛩️", en: "Old Tokyo", jp: "浅草", bd: [
+        "For a taste of old Edo, head to ", w("浅草","あさくさ","Asakusa",["浅","草"]), " and its grand temple ",
+        w("浅草寺","せんそうじ","Sensō-ji",["浅","草","寺"]),
+        ", **Tokyo's oldest temple**, reached through a thunder-gate and a long lane of tiny shops. The surrounding streets still keep the craftsmen and festivals of the shogun's town." ] },
+      { ic: "🚄", en: "The crowd machine", jp: "交通", bd: [
+        "Tokyo runs on its trains. ", w("東京駅","とうきょうえき","Tokyo Station",["東","京","駅"]),
+        " fires bullet trains across the country, and ", w("新宿駅","しんじゅくえき","Shinjuku Station",["新","宿","駅"]),
+        " is **the busiest railway station on earth**, moving millions of people a day. Every ", w("駅","えき","station",["駅"]),
+        " is a small city in itself." ] },
+      { ic: "🌆", en: "Many cities in one", jp: "文化", bd: [
+        "Tokyo is really dozens of towns fused together — the youth fashion of Harajuku, the famous crossing at Shibuya, the calm of the Meiji Shrine's forest, the electric glow of Akihabara. **Endlessly reinventing itself**, it sets the trends the rest of Japan follows." ] }
+    ],
+    newKanji: [
+      { k: "京", on: "キョウ・ケイ", kun: "みやこ", meaning: "capital", ex: "東京 (Tokyo); 京都 (Kyoto)" },
+      { k: "皇", on: "コウ・オウ", kun: "—", meaning: "emperor", ex: "皇居 (Imperial Palace)" },
+      { k: "駅", on: "エキ", kun: "—", meaning: "(train) station", ex: "東京駅 (Tokyo Station)" }
+    ],
+    check: {
+      mc: [
+        { q: "What was Tokyo called before 1868?", choices: ["Kyoto", "Edo", "Osaka", "Nara"], a: 1 },
+        { q: "What stands today where Edo Castle once was?", choices: ["A baseball stadium", "The Imperial Palace", "A shopping mall", "An airport"], a: 1 },
+        { q: "What distinction does Shinjuku Station hold?", choices: ["The oldest station", "The busiest railway station on earth", "The smallest station", "The only station"], a: 1 }
+      ],
+      open: { q: "What does the name 'Tokyo' mean?",
+        keywords: ["eastern capital","east capital","capital","東京","east"],
+        model: "'Eastern capital' — it became the capital when the emperor moved east from Kyoto." }
+    }
+  },
+  {
+    place: "日光", placeRd: "にっこう", sub: "Nikkō · 栃木県 (Kantō) · pop. ~80,000 · Lesson 18 — shrines in the cedar mountains",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/200801_Nikko_Tosho-gu_Nikko_Japan03s3.jpg/1920px-200801_Nikko_Tosho-gu_Nikko_Japan03s3.jpg",
+    sections: [
+      { ic: "⛩️", en: "Overview", jp: "歴史", bd: [
+        "North of Tokyo, deep in forested mountains, lies ", w("日光","にっこう","Nikkō",["日","光"]),
+        " — a name that means **'sunlight.'** There is an old saying: **'never say 'splendid' until you have seen Nikkō.'** The ",
+        w("光","ひかり","light",["光"]), " slanting through its giant cedars has drawn pilgrims for centuries." ] },
+      { ic: "🏯", en: "Tomb of the shogun", jp: "東照宮", bd: [
+        "Nikkō's glory is ", w("東照宮","とうしょうぐう","Tōshō-gū",["東","照","宮"]), ", the dazzling mausoleum of ",
+        w("徳川家康","とくがわいえやす","Tokugawa Ieyasu",["徳","川","家","康"]),
+        ", **the shogun who unified Japan** and founded the dynasty that ruled for 250 years. Against Japan's usual restraint, this shrine **drips with gold and colour**, every surface carved and gilded." ] },
+      { ic: "🐒", en: "Carved in wood", jp: "彫刻", bd: [
+        "Among its thousands of carvings hide two of Japan's most famous: the **three wise monkeys** — 'see no evil, hear no evil, speak no evil' — and the ",
+        w("眠り猫","ねむりねこ","Sleeping Cat",["眠","猫"]), ", said to guard the tomb of the great ",
+        w("家","いえ","house",["家"]), " of Tokugawa. Look closely and the whole shrine tells stories." ] },
+      { ic: "🌲", en: "Mountains & water", jp: "自然", bd: [
+        "Beyond the shrines the land soars: the **97-metre Kegon Falls** plunge from ",
+        w("中禅寺湖","ちゅうぜんじこ","Lake Chūzenji",["中","禅","寺","湖"]),
+        ", a crater lake high in the hills, and a famous avenue of **towering cedars** lines the old approach road for miles." ] },
+      { ic: "☀️", en: "Light and shadow", jp: "文化", bd: [
+        "Nikkō was built to turn a man into a god — to let the first Tokugawa shogun **shine over the land** like the rising sun, his shrine-name 東照 meaning 'light of the east.' Centuries on, the gold still catches the mountain ",
+        w("光","ひかり","light",["光"]), " exactly as intended." ] }
+    ],
+    newKanji: [
+      { k: "光", on: "コウ", kun: "ひかり", meaning: "light, shine", ex: "日光 (Nikkō, sunlight)" },
+      { k: "照", on: "ショウ", kun: "て-らす", meaning: "shine, illuminate", ex: "東照宮 (Tōshō-gū)" },
+      { k: "家", on: "カ・ケ", kun: "いえ", meaning: "house, family", ex: "徳川家 (the Tokugawa house)" }
+    ],
+    check: {
+      mc: [
+        { q: "What does the name 'Nikkō' mean?", choices: ["Moonlight", "Sunlight", "Snowfield", "Riverbend"], a: 1 },
+        { q: "Who is enshrined at Tōshō-gū?", choices: ["Emperor Meiji", "Tokugawa Ieyasu", "Oda Nobunaga", "Date Masamune"], a: 1 },
+        { q: "How does Tōshō-gū differ from most Japanese shrines?", choices: ["It is plain wood", "It drips with gold and colour", "It is underground", "It is made of stone"], a: 1 }
+      ],
+      open: { q: "Name one of the two famous carvings at Nikkō.",
+        keywords: ["three wise monkeys","monkeys","sleeping cat","cat","monkey","see no evil"],
+        model: "The three wise monkeys ('see/hear/speak no evil') and the Sleeping Cat." }
+    }
+  },
+  {
+    place: "仙台", placeRd: "せんだい", sub: "Sendai · 宮城県 (Tōhoku) · pop. ~1.1 million · Lesson 19 — the City of Trees & the One-Eyed Dragon",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/1/1d/SendaiCity_Skylines_from_Mukaiyama2018.jpg",
+    sections: [
+      { ic: "🌳", en: "Overview", jp: "歴史", bd: [
+        "Entering the northern Tōhoku region, you reach ", w("仙台","せんだい","Sendai",["仙","台"]),
+        ", a graceful modern city long known as the **'City of Trees'** for its leafy boulevards. It was founded by one of history's most colourful warlords — and still feels like his city four centuries on." ] },
+      { ic: "🐉", en: "The One-Eyed Dragon", jp: "伊達政宗", bd: [
+        "Sendai was built by ", w("伊達政宗","だてまさむね","Date Masamune",["伊","達","政","宗"]),
+        ", the **'One-Eyed Dragon'** — a brilliant general who lost an eye to smallpox as a child and ruled the north with bold ambition, even **sending his own envoys across the ocean to Europe**. His talent for ",
+        w("政","せい","governance",["政"]), " made Sendai a centre of culture far from the capital." ] },
+      { ic: "🏯", en: "Green Leaf Castle", jp: "青葉城", bd: [
+        "His fortress, ", w("青葉城","あおばじょう","Aoba Castle",["青","葉","城"]),
+        " — the **'Green Leaf Castle'** — stood on a wooded hill above the river, and a famous bronze statue of Masamune on horseback still surveys the city from its ruins. The ",
+        w("青","あお","blue-green",["青"]), " hills around it give Sendai its colour." ] },
+      { ic: "🎋", en: "Star festival", jp: "七夕", bd: [
+        "Each August Sendai hosts **Japan's grandest Tanabata**, the ", w("七夕","たなばた","Star Festival",["七","夕"]),
+        ", when whole streets vanish under enormous paper streamers. The festival recalls a legend of two ",
+        w("星","ほし","stars",["星"]), " — lovers allowed to meet just once a year across the Milky Way on a summer ",
+        w("夕","ゆう","evening",["夕"]), "." ] },
+      { ic: "🐂", en: "Northern flavour", jp: "名物", bd: [
+        "Sendai's signature dish is ", w("牛タン","ぎゅうたん","grilled beef tongue",["牛"]),
+        ", charcoal-grilled and chewy — invented here after the war and now famous nationwide. With its trees, festivals and easy pace, Sendai is the welcoming gateway to Japan's deep north." ] }
+    ],
+    newKanji: [
+      { k: "青", on: "セイ", kun: "あお", meaning: "blue; green", ex: "青葉城 (Aoba Castle)" },
+      { k: "政", on: "セイ", kun: "まつりごと", meaning: "government, rule", ex: "伊達政宗 (Date Masamune)" },
+      { k: "夕", on: "セキ", kun: "ゆう", meaning: "evening", ex: "七夕 (Tanabata, Star Festival)" }
+    ],
+    check: {
+      mc: [
+        { q: "What is Sendai nicknamed?", choices: ["City of Water", "City of Trees", "City of Light", "City of Bridges"], a: 1 },
+        { q: "Who founded Sendai?", choices: ["Tokugawa Ieyasu", "Date Masamune", "Saigō Takamori", "Oda Nobunaga"], a: 1 },
+        { q: "Which grand summer festival is Sendai famous for?", choices: ["Snow Festival", "Tanabata (Star Festival)", "Cherry Blossom Festival", "Fire Festival"], a: 1 }
+      ],
+      open: { q: "Why was Date Masamune called the 'One-Eyed Dragon'?",
+        keywords: ["one eye","lost an eye","eye","smallpox","one-eyed","dragon"],
+        model: "He lost an eye to smallpox as a child and was a fierce, brilliant warlord." }
+    }
+  },
+  {
+    place: "函館", placeRd: "はこだて", sub: "Hakodate · 北海道 (Hokkaidō) · pop. ~250,000 · Lesson 20 — Hokkaidō's gateway port",
+    bg: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Hakodate_Goryokaku_Panorama_1.JPG/1920px-Hakodate_Goryokaku_Panorama_1.JPG",
+    sections: [
+      { ic: "⚓", en: "Overview", jp: "歴史", bd: [
+        "Crossing the strait to the great northern island of ", w("北海道","ほっかいどう","Hokkaidō",["北","海","道"]),
+        ", you arrive at ", w("函館","はこだて","Hakodate",["函","館"]),
+        ", **one of the first Japanese ports opened to the West** in 1859. Traders and sailors poured in, and the hillsides still wear their churches, consulates and clapboard houses — a town that **opened the door to the wider world**." ] },
+      { ic: "⭐", en: "The star fort", jp: "五稜郭", bd: [
+        "Hakodate's emblem is ", w("五稜郭","ごりょうかく","Goryōkaku",["五","稜","郭"]),
+        ", a **Western-style star-shaped fort**, the first of its kind in Japan. In 1869 it was the **last stand of the shogun's forces** in the civil war that ended samurai rule; today its grassy ramparts fill with cherry blossom each spring." ] },
+      { ic: "🌃", en: "The famous view", jp: "夜景", bd: [
+        "A ropeway up Mt. Hakodate reaches one of the world's great ", w("夜景","やけい","night views",["夜","景"]),
+        ": the city glitters across a narrow waist of land between two dark bays, blazing against the black sea. Few ",
+        w("夜","よる","night",["夜"]), " skylines in Japan are more loved." ] },
+      { ic: "🦑", en: "Morning market", jp: "朝市", bd: [
+        "Down by the harbour the ", w("朝市","あさいち","morning market",["朝","市"]),
+        " opens at dawn with tanks of crab, scallops and the local squid — so fresh you can have a **bowl of seafood over rice** before the city fully wakes. The red-brick ",
+        w("金森倉庫","かねもりそうこ","Kanemori warehouses",["金","森","倉","庫"]), " by the water, once trading sheds, now hold cafés and shops." ] },
+      { ic: "🚪", en: "Door to the north", jp: "文化", bd: [
+        "Hakodate has always been a place of arrivals — the spot where Japan first ", w("開港","かいこう","opened its port",["開","港"]),
+        " to the world, and still the southern gateway to wild Hokkaidō. From its ", w("開","ひら","opening",["開"]),
+        " harbour, the great northern island rolls away into snow country — a fitting end to the long road north." ] }
+    ],
+    newKanji: [
+      { k: "館", on: "カン", kun: "やかた", meaning: "hall, building", ex: "函館 (Hakodate)" },
+      { k: "夜", on: "ヤ", kun: "よる", meaning: "night", ex: "夜景 (yakei, night view)" },
+      { k: "開", on: "カイ", kun: "ひら-く", meaning: "open", ex: "開港 (kaikō, opening a port)" }
+    ],
+    check: {
+      mc: [
+        { q: "What was Hakodate one of the first to do in 1859?", choices: ["Build a castle", "Open as a port to the West", "Host a festival", "Mint gold"], a: 1 },
+        { q: "What is Goryōkaku?", choices: ["A shrine", "A Western-style star-shaped fort", "A garden", "A harbour"], a: 1 },
+        { q: "What is Hakodate famous for seeing at night?", choices: ["The northern lights", "Its night view from Mt. Hakodate", "Fireworks only", "Nothing — it is dark"], a: 1 }
+      ],
+      open: { q: "What historic event happened at Goryōkaku in 1869?",
+        keywords: ["last stand","civil war","boshin","shogun","samurai","battle","surrender","end of samurai"],
+        model: "It was the last stand of the shogun's forces in the civil war that ended samurai rule." }
+    }
+  }
+];
+
+// Open a specific lesson when arrived via the journey map (/kanji-road-demo?lesson=N).
+var cur = (function () {
+  var m = /[?&]lesson=(\d+)/.exec(location.search || "");
+  var i = m ? +m[1] : 0;
+  return Math.max(0, Math.min((window.LESSONS ? LESSONS.length : 1) - 1, i));
+})(), furiMode = "new", curTerms = [];
+var sel = {}, graded = false, passed = false;   // knowledge-check state
+var mustReview = false, reviewCards = [], ri = 0, flipped = false;  // remediation drill
+// Persisted passed checks (keyed by place name) → a completed lesson stays filled-in + green,
+// and "Next lesson" stays available, on every later visit.
+var KRChecks = {}; try { KRChecks = JSON.parse(localStorage.getItem("anpiKRChecks") || "{}") || {}; } catch (e) { KRChecks = {}; }
+function saveCheckState() {
+  try {
+    KRChecks[L().place] = { sel: sel };
+    localStorage.setItem("anpiKRChecks", JSON.stringify(KRChecks));
+    // Unlock this lesson's scenery as a character background (used on the profile/character page).
+    var bd = JSON.parse(localStorage.getItem("anpiKRBackdrops") || "[]");
+    if (L().bg && !bd.some(function (x) { return x.place === L().place; })) {
+      bd.push({ place: L().place, placeRd: L().placeRd, bg: L().bg });
+      localStorage.setItem("anpiKRBackdrops", JSON.stringify(bd));
+    }
+  } catch (e) {}
+}
+function loadCheckState() {   // call right after resetCheck() on a lesson change (and at first load)
+  var rec = KRChecks[L().place];
+  if (rec && rec.sel) {
+    sel = {}; for (var k in rec.sel) sel[k] = rec.sel[k];   // restore the user's (correct) answers
+    graded = true; passed = true;
+    var r = document.getElementById("result");
+    if (r) { r.className = "result ok"; r.textContent = "✓ Completed earlier — your answers are shown below."; }
+  }
+}
+var gloss = document.getElementById("gloss");
+var kpop = document.getElementById("kpop");
+var glossSpeak = "", audioOn = true, player = null;
+// Pronounce Japanese via the site's free TTS proxy (same-origin Pages Function).
+function speak(text) {
+  if (!audioOn || !text) return;
+  try { if (!player) player = new Audio(); player.src = "/api/tts?q=" + encodeURIComponent(text); player.play().catch(function () {}); }
+  catch (e) {}
+}
+function closeKpop() { kpop.classList.remove("show"); if (window.KanjiStrokes) { try { KanjiStrokes.stop(); } catch (e) {} } }
+// Per-kanji drill-down: basic meaning (kanjiapi.dev) + looping stroke order (KanjiVG via lib/kanji.js).
+async function openKanji(ch, el) {
+  kpop.innerHTML = '<div class="kp-strokes"></div>' +
+    '<div class="kp-head"><span class="kp-char">' + esc(ch) + '</span> <span class="kp-mean">…</span></div>' +
+    '<div class="kp-read"></div>';
+  kpop.classList.add("show");
+  var r = el.getBoundingClientRect(), w = Math.min(300, window.innerWidth * 0.92);
+  var left = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, window.innerWidth - w - 8));
+  var top = r.bottom + 8; if (top + 230 > window.innerHeight) top = Math.max(8, r.top - 230);
+  kpop.style.left = left + "px"; kpop.style.top = top + "px"; kpop.style.width = w + "px";
+  var sc = kpop.querySelector(".kp-strokes");
+  if (window.KanjiStrokes) {
+    KanjiStrokes.render(sc, ch).then(function (ok) { if (!ok) sc.innerHTML = '<div class="kp-na">stroke data unavailable</div>'; });
+  } else { sc.innerHTML = '<div class="kp-na">stroke data unavailable</div>'; }
+  try {
+    var res = await fetch("https://kanjiapi.dev/v1/kanji/" + encodeURIComponent(ch));
+    if (res.ok) {
+      var d = await res.json();
+      // Prefer the single Heisig keyword as the "basic meaning"; fall back to the first listed meaning.
+      kpop.querySelector(".kp-mean").textContent = d.heisig_en || (d.meanings || [])[0] || "—";
+      var on = (d.on_readings || []).join("・"), kun = (d.kun_readings || []).join("・");
+      kpop.querySelector(".kp-read").textContent = [on ? "音 " + on : "", kun ? "訓 " + kun : ""].filter(Boolean).join("   ");
+    } else { kpop.querySelector(".kp-mean").textContent = "—"; }
+  } catch (e) { kpop.querySelector(".kp-mean").textContent = "(meaning unavailable)"; }
+}
+function resetCheck() {
+  sel = {}; graded = false; passed = false; mustReview = false; reviewCards = []; ri = 0; flipped = false;
+  var r = document.getElementById("result"); if (r) { r.textContent = ""; r.className = "result"; }
+  var rp = document.getElementById("reviewPanel"); if (rp) rp.style.display = "none";
+  var g = document.getElementById("grade"); if (g) { g.disabled = false; g.textContent = "Check answers"; }
+}
+// Build a remediation deck from the lesson's own embedded terms (dedup).
+function lessonTerms() {
+  var seen = {}, out = [];
+  L().sections.forEach(function (s) { s.bd.forEach(function (t) {
+    if (typeof t === "object" && t.jp && !seen[t.jp]) { seen[t.jp] = 1; out.push(t); }
+  }); });
+  return out;
+}
+function startReview() {
+  // Drill only this lesson's collectible kanji (a short, level-appropriate set) —
+  // never the long list of advanced place-name terms.
+  mustReview = true;
+  reviewCards = L().newKanji.map(function (k) {
+    return { jp: k.k, rd: (k.kun && k.kun !== "—") ? k.kun.replace(/-/g, "") : k.on, en: k.meaning };
+  });
+  ri = 0; flipped = false;
+  document.getElementById("reviewPanel").style.display = "block";
+  var g = document.getElementById("grade"); g.disabled = true; g.textContent = "Finish the review first";
+  renderCard();
+}
+function renderCard() {
+  var c = reviewCards[ri]; if (!c) return;
+  var html = '<div class="cfront">' + baseHTML(c.jp) + ' <button class="g-spk" title="Play">🔊</button></div>';
+  html += flipped
+    ? '<div class="cback"><span class="rd">' + esc(c.rd) + '</span><span class="en">' + esc(c.en) + '</span></div>'
+    : '<div class="hint">Tap the card (or Flip) — recall the reading &amp; meaning</div>';
+  document.getElementById("card").innerHTML = html;
+  document.getElementById("cardprog").textContent = (ri + 1) + " / " + reviewCards.length;
+  var nx = document.getElementById("cardnext");
+  nx.disabled = !flipped;
+  nx.textContent = (ri === reviewCards.length - 1) ? "✓ Done — retry the check" : "Next ▶";
+}
+function cardFlip() { flipped = true; var c = reviewCards[ri]; if (c) speak(c.rd || c.jp); renderCard(); }
+function cardNext() {
+  if (!flipped) return;
+  if (ri < reviewCards.length - 1) { ri++; flipped = false; renderCard(); }
+  else {
+    mustReview = false; document.getElementById("reviewPanel").style.display = "none";
+    var g = document.getElementById("grade"); g.disabled = false; g.textContent = "Try the check again";
+    var r = document.getElementById("result"); r.className = "result"; r.textContent = "Review complete — give the check another go.";
+  }
+}
+function L() { return LESSONS[cur]; }
+function needsFuri(t) { return t.kanji.some(function (k) { return !known.has(k); }); }
+function esc(s){ return s.replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];}); }
+function fmt(s){ return esc(s).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>"); }  // **key fact** → highlighted
+
+function baseHTML(jp) {
+  var out = "";
+  for (var i = 0; i < jp.length; i++) {
+    var ch = jp[i];
+    out += isKanji(ch) ? '<span class="kji">' + esc(ch) + '</span>' : esc(ch);
+  }
+  return out;
+}
+function termHTML(t) {
+  var i = curTerms.push(t) - 1;
+  var showFuri = furiMode === "all" ? true : (furiMode === "off" ? false : needsFuri(t));
+  var base = baseHTML(t.jp);
+  var inner = showFuri ? "<ruby>" + base + "<rt>" + esc(t.rd) + "</rt></ruby>" : base;
+  return '<span class="kr-w" data-i="' + i + '">' + inner + "</span>";
+}
+
+function render() {
+  var L0 = L(); curTerms = [];
+  if (L0.bg) document.getElementById("bg").style.backgroundImage = "url('" + L0.bg + "')";
+  document.getElementById("title").innerHTML = "<ruby>" + esc(L0.place) + "<rt>" + esc(L0.placeRd) + "</rt></ruby>";
+  document.getElementById("sub").textContent = L0.sub;
+  document.getElementById("lno").textContent = "Lesson " + (cur + 1) + " / " + LESSONS.length;
+  document.getElementById("prev").disabled = cur === 0;
+  document.getElementById("next").disabled = cur === LESSONS.length - 1;
+  document.getElementById("sections").innerHTML = L0.sections.map(function (s) {
+    var body = s.bd.map(function (tok) { return typeof tok === "string" ? fmt(tok) : termHTML(tok); }).join("");
+    return '<div class="sec"><div class="sh"><span class="ic">' + s.ic + '</span><span class="en">' + esc(s.en) +
+      '</span><span class="jp">' + esc(s.jp) + '</span></div><div class="bd">' + body + '</div></div>';
+  }).join("");
+  document.getElementById("kn").textContent = known.size;
+  document.getElementById("kgrid").innerHTML = L0.newKanji.map(function (k, ki) {
+    return '<div class="kc' + (known.has(k.k) ? " learned" : "") + '" data-i="' + ki + '"><div class="kch">' + k.k + '</div>' +
+      '<div class="km">' + esc(k.meaning) + '</div><div class="kr">音 ' + esc(k.on) + ' · 訓 ' + esc(k.kun) + '</div>' +
+      '<div class="kr">' + esc(k.ex) + '</div></div>';
+  }).join("");
+  renderCheck();
+  var allKnown = L0.newKanji.every(function (k) { return known.has(k.k); });
+  var limited = krLimitReached(L0.place);   // a NEW lesson but the daily limit (3) is already used up
+  var lb = document.getElementById("learn");
+  if (allKnown) { lb.disabled = true; lb.textContent = "✓ Collected — furigana updated"; }
+  else if (!passed) { lb.disabled = true; lb.textContent = "🔒 Pass the knowledge check to collect"; }
+  else if (limited) { lb.disabled = true; lb.textContent = "🚫 " + KR_DAILY_LIMIT + " lessons today — come back tomorrow"; }
+  else { lb.disabled = false; lb.textContent = "🎁 Collect new items!!!"; }
+  // "Next lesson" glows once the knowledge check is passed (unless the daily lesson limit is reached).
+  var nl = document.getElementById("nextLesson");
+  if (nl) {
+    var hasNext = cur < LESSONS.length - 1;
+    var canGo = passed && hasNext && !limited;
+    nl.style.display = hasNext ? "" : "none";
+    nl.disabled = !canGo;
+    nl.classList.toggle("ready", canGo);
+    nl.title = limited ? "Daily limit reached — come back tomorrow" : (passed ? "Travel to the next place" : "Pass the knowledge check first");
+    if (canGo) { var wf = document.querySelector("#krWalker iframe"); if (wf && !wf.src) wf.src = wf.dataset.src; }
+  }
+}
+
+function renderCheck() {
+  var c = L().check; if (!c) { document.getElementById("check").innerHTML = ""; return; }
+  var html = "";
+  c.mc.forEach(function (m, qi) {
+    html += '<div class="q"><div class="qt">' + (qi + 1) + ". " + esc(m.q) + '</div>';
+    m.choices.forEach(function (ch, ci) {
+      var cls = "choice";
+      if (sel[qi] === ci) cls += " sel";
+      if (graded) { if (ci === m.a) cls += " right"; else if (sel[qi] === ci) cls += " wrong"; }
+      html += '<button class="' + cls + '" data-q="' + qi + '" data-c="' + ci + '">' + esc(ch) + '</button>';
+    });
+    html += '</div>';
+  });
+  var openCls = "q open", verdict = "";
+  if (graded) {
+    var ans = (sel.open || "").toLowerCase();
+    var ok = c.open.keywords.some(function (k) { return ans.indexOf(k.toLowerCase()) >= 0; });
+    openCls += ok ? " ok" : " bad";
+    verdict = '<div class="verdict">' + (ok ? "✓ Correct" : "✗ Not quite") + '</div>';
+  }
+  html += '<div class="' + openCls + '"><div class="qt">' + (c.mc.length + 1) + ". " + esc(c.open.q) + '</div>' +
+    '<input id="openans" type="text" placeholder="Type your answer…" value="' + esc(sel.open || "") + '">' +
+    verdict +
+    (graded ? '<div class="model">Model answer: ' + esc(c.open.model) + '</div>' : '') + '</div>';
+  document.getElementById("check").innerHTML = html;
+}
+
+function grade() {
+  var c = L().check; if (!c) return;
+  var oi = document.getElementById("openans"); if (oi) sel.open = oi.value;
+  graded = true;
+  var allMc = c.mc.every(function (m, qi) { return sel[qi] === m.a; });
+  var ans = (sel.open || "").toLowerCase();
+  var openOk = c.open.keywords.some(function (k) { return ans.indexOf(k.toLowerCase()) >= 0; });
+  passed = allMc && openOk;
+  render();
+  var r = document.getElementById("result");
+  if (passed) {
+    saveCheckState();   // remember this lesson is done → stays filled/green + next-lesson on revisit
+    document.getElementById("reviewPanel").style.display = "none";
+    r.className = "result ok"; r.textContent = "✓ Nice — you clearly read it. Collect your kanji below!";
+  } else {
+    r.className = "result no";
+    r.textContent = (!allMc ? "Some answers are off." : "Open answer didn't match.") +
+      " Drill the lesson's kanji below, then retry.";
+    startReview();   // lock the retry behind a flashcard drill of this lesson's terms
+  }
+}
+
+document.getElementById("sections").addEventListener("click", function (e) {
+  var el = e.target.closest(".kr-w"); if (!el) { gloss.classList.remove("show"); return; }
+  var t = curTerms[+el.dataset.i];
+  var jpHtml = "";
+  for (var ci = 0; ci < t.jp.length; ci++) {
+    var ch = t.jp[ci];
+    jpHtml += isKanji(ch) ? '<span class="gk" data-k="' + esc(ch) + '">' + esc(ch) + '</span>' : esc(ch);
+  }
+  var hasKanji = /[一-龯㐀-䶿]/.test(t.jp);
+  gloss.innerHTML = '<div class="g-jp">' + jpHtml + '<button class="g-spk" title="Play pronunciation">🔊</button></div>' +
+    '<div class="g-rd">' + esc(t.rd) + '</div><div class="g-en">' + esc(t.en) + '</div>' +
+    (hasKanji ? '<div class="g-hint">tap a kanji for its meaning &amp; stroke order →</div>' : '');
+  gloss.classList.add("show");
+  closeKpop();
+  glossSpeak = t.rd || t.jp; speak(glossSpeak);
+  var r = el.getBoundingClientRect(), gw = Math.min(320, window.innerWidth * 0.92);
+  var left = Math.max(8, Math.min(r.left + r.width / 2 - gw / 2, window.innerWidth - gw - 8));
+  var top = r.bottom + 8; if (top + 110 > window.innerHeight) top = r.top - 110;
+  gloss.style.left = left + "px"; gloss.style.top = Math.max(8, top) + "px"; gloss.style.width = gw + "px";
+});
+// Dismiss the term popup on any tap/click outside the box itself (pointerdown
+// fires reliably for both mouse and touch; plain `click` is unreliable on touch
+// for non-interactive targets, which left the box un-closeable on phones/TVs).
+// The box and its 🔊 button are inside #gloss, so tapping them won't close it.
+document.addEventListener("pointerdown", function (e) {
+  if (e.target.closest("#gloss") || e.target.closest("#kpop")) return;
+  gloss.classList.remove("show"); closeKpop();
+});
+
+document.getElementById("furi").addEventListener("click", function () {
+  furiMode = furiMode === "new" ? "all" : furiMode === "all" ? "off" : "new";
+  this.textContent = "Furigana: " + (furiMode === "new" ? "new only" : furiMode);
+  render();
+});
+document.getElementById("kj").addEventListener("click", function () {
+  var off = document.body.classList.toggle("kj-off");
+  this.textContent = "Kanji color: " + (off ? "off" : "gold");
+});
+// ---- Kanji Road XP + daily limit (each lesson = +15 XP, max 3 lessons/day; tweak the two constants) ----
+var KR_XP_PER = 15;        // XP per completed Kanji Road lesson
+var KR_DAILY_LIMIT = 3;    // max NEW lessons that can be completed per day
+function krToday() { var d = new Date(); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
+function krAwarded() { try { return JSON.parse(localStorage.getItem("anpiKRAwarded") || "{}") || {}; } catch (e) { return {}; } }
+function krDailyCount() {   // {date,count} — number of new lessons completed today (resets each day)
+  var tk = krToday(), d; try { d = JSON.parse(localStorage.getItem("anpiKRDaily") || "{}"); } catch (e) { d = {}; }
+  if (d.date !== tk) d = { date: tk, count: 0 };
+  return d;
+}
+// True only when THIS lesson is new (never earned XP) AND the daily limit is already used up.
+function krLimitReached(place) { return !krAwarded()[place] && (krDailyCount().count >= KR_DAILY_LIMIT); }
+// Complete a lesson: award exactly +15 once ever, count it toward the daily limit, keep the app's
+// reconcile in sync (so it won't re-award). Returns { xp, already, blocked }.
+function completeLessonXP(place) {
+  var aw = krAwarded();
+  if (aw[place]) return { xp: 0, already: true };          // already earned before → no XP, no count
+  var d = krDailyCount();
+  if (d.count >= KR_DAILY_LIMIT) return { xp: 0, blocked: true };
+  d.count += 1; localStorage.setItem("anpiKRDaily", JSON.stringify(d));
+  aw[place] = true; localStorage.setItem("anpiKRAwarded", JSON.stringify(aw));
+  try {
+    var tk = krToday(), ls = JSON.parse(localStorage.getItem("anpiLearn") || "{}");
+    if (!ls.daily || ls.daily.date !== tk) ls.daily = { date: tk, flash: 0, game: 0, kanji: 0 };
+    ls.daily.kanji = Math.min(KR_DAILY_LIMIT, d.count);    // keep app's reconcileKanjiRoad from double-awarding
+    ls.xp = (ls.xp || 0) + KR_XP_PER;
+    localStorage.setItem("anpiLearn", JSON.stringify(ls));
+  } catch (e) {}
+  return { xp: KR_XP_PER };
+}
+function showReward(L0, res) {
+  document.getElementById("rwKanji").innerHTML = L0.newKanji.map(function (k) {
+    return '<div class="rw-k"><div class="kc">' + esc(k.k) + '</div><div class="km">' + esc(k.meaning) + '</div></div>';
+  }).join("");
+  document.getElementById("rwBgWrap").innerHTML = L0.bg
+    ? '<div class="rw-bg"><img src="' + L0.bg + '" alt=""><span><b>New background unlocked</b><small>' + esc(L0.place) + '</small></span></div>'
+    : "";
+  document.getElementById("rwXp").textContent = res.already ? "✓ Already collected" : (res.xp > 0 ? ("+" + res.xp + " XP") : "✦ Daily limit reached");
+  document.getElementById("krReward").hidden = false;
+}
+document.getElementById("rwGo").addEventListener("click", function () { document.getElementById("krReward").hidden = true; });
+
+document.getElementById("learn").addEventListener("click", function () {
+  var L0 = L();
+  if (krLimitReached(L0.place)) return;   // safety — the button is already disabled at the daily limit
+  L0.newKanji.forEach(function (k) { known.add(k.k); });
+  var res = completeLessonXP(L0.place);   // exactly +15 once, capped at KR_DAILY_LIMIT/day
+  render();
+  showReward(L0, res);   // glimmering reveal of the kanji + background + XP just unlocked
+});
+document.getElementById("check").addEventListener("click", function (e) {
+  var b = e.target.closest(".choice"); if (!b) return;
+  var oi = document.getElementById("openans"); if (oi) sel.open = oi.value;  // keep typed text
+  sel[+b.dataset.q] = +b.dataset.c; graded = false;
+  var r = document.getElementById("result"); r.textContent = ""; r.className = "result";
+  renderCheck();
+});
+document.getElementById("grade").addEventListener("click", grade);
+document.getElementById("card").addEventListener("click", function (e) {
+  var c = reviewCards[ri]; if (!c) return;
+  if (e.target.closest(".g-spk")) { speak(c.rd || c.jp); return; }
+  cardFlip();
+});
+document.getElementById("flip").addEventListener("click", cardFlip);
+document.getElementById("cardnext").addEventListener("click", cardNext);
+document.getElementById("audio").addEventListener("click", function () {
+  audioOn = !audioOn; this.textContent = "🔊 Audio: " + (audioOn ? "on" : "off");
+});
+document.getElementById("gloss").addEventListener("click", function (e) {
+  if (e.target.closest(".g-spk")) { speak(glossSpeak); return; }
+  var gk = e.target.closest(".gk"); if (gk) openKanji(gk.dataset.k, gk);
+});
+document.getElementById("kgrid").addEventListener("click", function (e) {
+  var c = e.target.closest(".kc"); if (!c) return;
+  var k = L().newKanji[+c.dataset.i]; if (!k) return;
+  openKanji(k.k, c);   // same meaning + looping stroke-order popup as the in-lesson terms
+});
+document.getElementById("prev").addEventListener("click", function () { if (cur > 0) { cur--; resetCheck(); loadCheckState(); render(); scrollTo(0,0); } });
+document.getElementById("next").addEventListener("click", function () { if (cur < LESSONS.length-1) { cur++; resetCheck(); loadCheckState(); render(); scrollTo(0,0); } });
+
+// "Next lesson" → play the map cutscene (character waddles to the next point), then advance.
+document.getElementById("nextLesson").addEventListener("click", function () {
+  if (this.disabled || cur >= LESSONS.length - 1) return;
+  this.disabled = true; this.classList.remove("ready");
+  playWalk(cur, cur + 1, function () { cur++; resetCheck(); loadCheckState(); render(); scrollTo(0, 0); });
+});
+
+var walkMap = null, walkTrail = null, walkDots = null;
+var JAPAN_BOUNDS = [[24, 122], [46, 146]];   // whole-country framing for the opening shot
+function playWalk(fromIdx, toIdx, done) {
+  var LF = window.LEAFLET;   // Leaflet, stashed in <head> before the global function L() clobbered window.L
+  var from = KR_PTS[fromIdx], to = KR_PTS[toIdx], ov = document.getElementById("krWalk");
+  if (!from || !to || !LF || !LF.map) { done(); return; }   // graceful fallback: just advance
+  var walker = document.getElementById("krWalker");
+  document.getElementById("krWalkCap").innerHTML =
+    "Traveling to <b>" + esc(LESSONS[toIdx].place) + "</b><small>" + esc(LESSONS[toIdx].placeRd) + "</small>";
+  ov.hidden = false;
+  walker.style.display = "none";   // hidden during the wide shot + zoom-in; appears for the walk
+  if (!walkMap) {
+    // Default zoom/fade animations stay ON so flyTo loads tiles smoothly (no blackout).
+    walkMap = LF.map("krWalkMap", { zoomControl:false, attributionControl:false, dragging:false,
+      scrollWheelZoom:false, doubleClickZoom:false, boxZoom:false, keyboard:false, touchZoom:false, tap:false, zoomSnap:0 });
+    LF.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      { maxZoom: 18, keepBuffer: 6 }).addTo(walkMap);
+  }
+  var FOLLOW_ZOOM = 9.4;
+  function placeAt(ll) { var p = walkMap.latLngToContainerPoint(ll); walker.style.left = p.x + "px"; walker.style.top = p.y + "px"; }
+
+  // Trail + circular points are drawn in OUR OWN svg (not Leaflet vector layers), so they don't balloon
+  // during Leaflet's zoom animation then snap — instead the points scale DOWN smoothly with live zoom.
+  var svg = document.getElementById("krOverlay");
+  svg.innerHTML =
+    '<line id="krTrail" stroke="#ffd24a" stroke-width="3" stroke-dasharray="6 9" stroke-linecap="round" opacity="0.95"></line>' +
+    '<circle id="krDotA" fill="#9aa3c7" stroke="#ffffff" stroke-width="2"></circle>' +
+    '<circle id="krDotB" fill="#ffd24a" stroke="#ffffff" stroke-width="2"></circle>';
+  var elT = svg.querySelector("#krTrail"), elA = svg.querySelector("#krDotA"), elB = svg.querySelector("#krDotB");
+  var overlayOn = false;
+  function drawOverlay() {
+    var pf = walkMap.latLngToContainerPoint(from), pt = walkMap.latLngToContainerPoint(to);
+    var z = walkMap.getZoom(), t = Math.max(0, Math.min(1, (z - 5) / (FOLLOW_ZOOM - 5)));
+    var r = 16 + (6 - 16) * t;   // big at the Japan-wide view, shrinking as the map zooms in
+    elT.setAttribute("x1", pf.x); elT.setAttribute("y1", pf.y); elT.setAttribute("x2", pt.x); elT.setAttribute("y2", pt.y);
+    elA.setAttribute("cx", pf.x); elA.setAttribute("cy", pf.y); elA.setAttribute("r", Math.max(3, r * 0.8).toFixed(1));
+    elB.setAttribute("cx", pt.x); elB.setAttribute("cy", pt.y); elB.setAttribute("r", Math.max(3, r).toFixed(1));
+  }
+  function overlayLoop() { if (!overlayOn) return; drawOverlay(); requestAnimationFrame(overlayLoop); }
+
+  setTimeout(function () {
+    walkMap.invalidateSize();
+    // PHASE 1 — open on the whole of Japan.
+    walkMap.fitBounds(JAPAN_BOUNDS, { animate: false });
+    overlayOn = true; overlayLoop();   // draw + keep the trail/points synced and scaling every frame
+    setTimeout(function () {
+      // PHASE 2 — zoom in toward the starting point (Leaflet's flyTo loads tiles smoothly).
+      walkMap.flyTo(from, FOLLOW_ZOOM, { duration: 1.7 });
+      walkMap.once("moveend", function () {
+        // PHASE 3 — character appears and walks to the next point; camera PANS to follow
+        // (fixed zoom, so tiles never thrash → no black-out).
+        walker.style.display = "block"; placeAt(from);
+        // Turn the 3D character to face the on-screen travel bearing (so it walks forward, not backward,
+        // and at the right left/right/away/toward angle for each leg). a = π/2 − atan2(dy, dx).
+        var pf0 = walkMap.latLngToContainerPoint(from), pt0 = walkMap.latLngToContainerPoint(to);
+        var faceA = Math.PI / 2 - Math.atan2(pt0.y - pf0.y, pt0.x - pf0.x);
+        var wf = walker.querySelector("iframe");
+        function sendFace() { try { if (wf && wf.contentWindow) wf.contentWindow.postMessage({ anpiFace: faceA }, "*"); } catch (e) {} }
+        sendFace(); setTimeout(sendFace, 150); setTimeout(sendFace, 500);
+        var dur = 3200, t0 = null;
+        function frame(now) {
+          if (t0 === null) t0 = now;
+          var k = Math.min(1, (now - t0) / dur);
+          var e = k < 0.5 ? 2*k*k : 1 - Math.pow(-2*k + 2, 2) / 2;   // ease-in-out
+          var clat = from[0] + (to[0] - from[0]) * e, clng = from[1] + (to[1] - from[1]) * e;
+          walkMap.setView([clat, clng], FOLLOW_ZOOM, { animate: false });   // pan-follow only (no zoom change)
+          placeAt([clat, clng]);   // character stays centered; the map scrolls beneath it
+          if (k < 1) requestAnimationFrame(frame);
+          else setTimeout(function () { overlayOn = false; ov.hidden = true; done(); }, 800);
+        }
+        requestAnimationFrame(frame);
+      });
+    }, 950);
+  }, 300);
+}
+
+loadCheckState();   // restore a previously-completed check on first load
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Guided Learning · Skill Tree — prototype</title>
+<style>
+  :root { color-scheme: dark; --av: #ffd24a; --mas: #5cf2f6; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; color: #ece9f6; font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: radial-gradient(1100px 800px at 50% -10%, #2c1f5e, #140f28 55%, #0b0916 100%); padding: 0 0 70px; }
+  header { position: sticky; top: 0; z-index: 5; backdrop-filter: blur(6px); background: #140f28cc;
+    border-bottom: 1px solid #ffffff14; padding: 12px 18px; }
+  .htop { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; max-width: 760px; margin: 0 auto; }
+  .htop .tag { font: 600 .68rem/1 system-ui; letter-spacing: 2px; color: #b69bff; text-transform: uppercase; }
+  .htop h1 { font-size: 1.15rem; margin: 0; }
+  .htop .sp { flex: 1; }
+  .htop a { color: #c6bdf0; text-decoration: none; font-size: .85rem; }
+  .lvbar { max-width: 760px; margin: 8px auto 0; display: flex; align-items: center; gap: 10px; }
+  .lv { font-weight: 800; color: var(--av); white-space: nowrap; }
+  .xp { flex: 1; height: 9px; background: #ffffff1a; border-radius: 99px; overflow: hidden; }
+  .xp > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #8a5cf0, #5cf2f6); transition: width .4s; }
+  .xptxt { font: 600 .8rem monospace; color: #b7afd6; white-space: nowrap; }
+  main { max-width: 760px; margin: 0 auto; padding: 10px 14px; }
+  .tier { position: relative; padding: 22px 0 8px; }
+  .tier::before { content: ""; position: absolute; left: 50%; top: -14px; height: 30px; width: 3px; transform: translateX(-50%);
+    background: linear-gradient(#ffffff00, #ffffff2e); }
+  .tier:first-child::before { display: none; }
+  .tier-h { display: flex; align-items: center; gap: 9px; justify-content: center; margin-bottom: 12px; }
+  .tier-h .ic { font-size: 1.2rem; }
+  .tier-h .nm { font: 800 .82rem system-ui; letter-spacing: 1px; text-transform: uppercase; color: #cdbcff; }
+  .tier-h .ct { font: 600 .72rem monospace; color: #8a82ad; }
+  .nodes { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .node { position: relative; width: 46px; height: 46px; border-radius: 50%; border: 2px solid #ffffff22;
+    background: #1a1530; color: #6b6390; font-size: 1.05rem; cursor: default; display: grid; place-items: center;
+    transition: transform .12s, box-shadow .12s; }
+  .node.avail { border-color: var(--av); color: var(--av); cursor: pointer; box-shadow: 0 0 0 3px #ffd24a22, 0 0 16px #ffd24a44;
+    animation: pulse 1.8s ease-in-out infinite; }
+  .node.mastered { border-color: var(--mas); color: #03252a; background: linear-gradient(180deg, #7df0f4, #34c6cc); cursor: pointer; }
+  .node.locked { opacity: .5; }
+  .node:hover.avail, .node:hover.mastered { transform: translateY(-2px); }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 3px #ffd24a22, 0 0 12px #ffd24a33; } 50% { box-shadow: 0 0 0 4px #ffd24a33, 0 0 22px #ffd24a66; } }
+  #tip { position: fixed; z-index: 30; max-width: min(260px, 86vw); display: none; background: #11152b;
+    border: 1px solid #ffffff2e; border-radius: 10px; padding: 9px 12px; box-shadow: 0 14px 40px #000c; font-size: .9rem; pointer-events: none; }
+  #tip.show { display: block; }
+  #tip .t { font-weight: 700; }
+  #tip .s { color: #9b9; color: #9a93c0; font-size: .8rem; margin-top: 2px; }
+  .note { max-width: 760px; margin: 24px auto 0; padding: 0 16px; color: #8a82ad; font-size: .82rem; line-height: 1.5; text-align: center; }
+  .reset { display: block; margin: 18px auto 0; }
+  button.reset { background: #1c2333; border: 1px solid #ffffff22; color: #cdd6ea; border-radius: 10px; padding: 8px 14px; cursor: pointer; }
+</style>
+<script defer src="/lib/appnav.js"></script>
+<script defer src="/lib/profile-widget.js"></script>
+</head>
+<body>
+  <header>
+    <div class="htop">
+      <span class="tag">prototype</span>
+      <h1>Guided Learning · Skill Tree</h1>
+      <span class="sp"></span>
+      <a href="/guided-learning">← landing</a>
+    </div>
+    <div class="lvbar">
+      <span class="lv" id="lv">Lv 1</span>
+      <span class="xp"><i id="xpfill"></i></span>
+      <span class="xptxt" id="xptxt">0 XP</span>
+    </div>
+  </header>
+
+  <main id="tree"></main>
+  <button class="reset" id="reset">↻ Reset progress</button>
+  <p class="note">Prototype of the RPG skill-tree mechanic for Guided Learning. Each dot is a real lesson; finish
+  one to <b>unlock</b> the next (glowing = available, 🔵 = mastered). Tap an available node to master it and earn XP.
+  Hover/tap a node to see which lesson it is. (Mechanic only — not yet wired to the real lessons or progress.)</p>
+
+<script src="/lib/curriculum.js"></script>
+<script>
+var STAGE_META = {
+  "Foundations": "🪜", "Beginner · N5": "🟢", "Elementary · N4": "🔵",
+  "Intermediate · N3": "🟡", "Upper-Intermediate · N2": "🟠", "Advanced · N1": "🔴"
+};
+var C = window.CURRICULUM || { units: [] };
+var order = C.units.map(function (u) { return u; });   // global lesson order = tree order
+var mastered = {};                                     // id -> true
+var tip = document.getElementById("tip") || (function(){ var d=document.createElement("div"); d.id="tip"; document.body.appendChild(d); return d; })();
+
+function load() { try { mastered = JSON.parse(localStorage.getItem("skillTreeProto") || "{}"); } catch (e) { mastered = {}; } }
+function save() { try { localStorage.setItem("skillTreeProto", JSON.stringify(mastered)); } catch (e) {} }
+function isMastered(id) { return !!mastered[id]; }
+// available = first lesson, or the previous lesson in global order is mastered
+function isAvailable(i) { return !isMastered(order[i].id) && (i === 0 || isMastered(order[i - 1].id)); }
+function masteredCount() { return order.filter(function (u) { return isMastered(u.id); }).length; }
+
+function render() {
+  var byStage = [];
+  var seen = {}, idxGlobal = 0;
+  // group preserving order
+  var groups = [];
+  order.forEach(function (u, i) {
+    if (!groups.length || groups[groups.length - 1].stage !== u.stage) groups.push({ stage: u.stage, items: [] });
+    groups[groups.length - 1].items.push({ u: u, i: i });
+  });
+  var html = groups.map(function (g) {
+    var done = g.items.filter(function (x) { return isMastered(x.u.id); }).length;
+    var nodes = g.items.map(function (x) {
+      var st = isMastered(x.u.id) ? "mastered" : (isAvailable(x.i) ? "avail" : "locked");
+      var face = st === "mastered" ? "★" : (st === "avail" ? "◆" : "🔒");
+      return '<button class="node ' + st + '" data-i="' + x.i + '">' + face + '</button>';
+    }).join("");
+    return '<section class="tier"><div class="tier-h"><span class="ic">' + (STAGE_META[g.stage] || "•") +
+      '</span><span class="nm">' + esc(g.stage) + '</span><span class="ct">' + done + '/' + g.items.length + '</span></div>' +
+      '<div class="nodes">' + nodes + '</div></section>';
+  }).join("");
+  document.getElementById("tree").innerHTML = html;
+  var n = masteredCount(), total = order.length;
+  var xp = n * 100, lv = Math.floor(n / 8) + 1;
+  document.getElementById("lv").textContent = "Lv " + lv;
+  document.getElementById("xptxt").textContent = xp.toLocaleString() + " XP · " + n + "/" + total + " mastered";
+  document.getElementById("xpfill").style.width = (total ? (n / total * 100) : 0) + "%";
+}
+function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];}); }
+
+document.getElementById("tree").addEventListener("click", function (e) {
+  var nd = e.target.closest(".node"); if (!nd) return;
+  var i = +nd.dataset.i;
+  if (isMastered(order[i].id) || isAvailable(i)) { mastered[order[i].id] = !mastered[order[i].id]; save(); render(); }
+});
+document.getElementById("tree").addEventListener("pointermove", function (e) {
+  var nd = e.target.closest(".node"); if (!nd) { tip.classList.remove("show"); return; }
+  var u = order[+nd.dataset.i];
+  tip.innerHTML = '<div class="t">' + esc(u.title) + '</div><div class="s">' + esc(u.stage) + '</div>';
+  tip.classList.add("show");
+  var w = 240; tip.style.left = Math.max(8, Math.min(e.clientX - w / 2, innerWidth - w - 8)) + "px";
+  tip.style.top = (e.clientY + 16) + "px"; tip.style.width = w + "px";
+});
+document.getElementById("tree").addEventListener("pointerleave", function () { tip.classList.remove("show"); });
+document.getElementById("reset").addEventListener("click", function () { mastered = {}; save(); render(); });
+
+load(); render();
+window.__nodeCount = order.length;
+</script>
+</body>
+</html>

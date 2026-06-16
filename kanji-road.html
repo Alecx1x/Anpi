@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>漢字ロード · Kanji Road</title>
+<style>
+  :root { color-scheme: dark; --gold: #ffd24a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; color: #eaf3f4; font: 17px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: #061419; }
+  a { color: inherit; }
+  .top { display: flex; gap: 16px; align-items: center; padding: 14px 20px; font-size: .9rem;
+    border-bottom: 1px solid #ffffff14; background: #04101480; position: sticky; top: 0; backdrop-filter: blur(4px); }
+  .top a { color: #aee6e0; text-decoration: none; }
+  .top a:hover { color: #fff; }
+  .top .sp { flex: 1; }
+  /* HERO with Kabira-Bay backdrop */
+  .hero { position: relative; padding: 70px 22px 56px; text-align: center; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: -2;
+    background: url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Kabira-Bay-Kabira-park-2019.jpg/1920px-Kabira-Bay-Kabira-park-2019.jpg") center/cover; }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(180deg, rgba(4,16,20,.55), rgba(4,16,20,.82) 60%, #061419 100%); }
+  .wip { display: inline-block; background: #ff9f43; color: #1a0e00; font-weight: 800; font-size: .72rem;
+    letter-spacing: 1.5px; padding: 4px 12px; border-radius: 999px; }
+  .hero h1 { font-size: clamp(2.6rem, 8vw, 4.2rem); margin: 14px 0 4px; letter-spacing: 2px;
+    text-shadow: 0 4px 30px #000a; }
+  .hero h1 .en { display: block; font-size: .3em; letter-spacing: 6px; color: var(--gold); margin-top: 6px; }
+  .hero .tag { font-size: 1.15rem; color: #d7eeec; max-width: 540px; margin: 14px auto 0; text-shadow: 0 2px 12px #000a; }
+  .cta { display: inline-block; margin-top: 26px; background: linear-gradient(180deg, #ffe14d, #f5c518); color: #1a1400;
+    font-weight: 800; font-size: 1.05rem; text-decoration: none; padding: 14px 26px; border-radius: 14px;
+    box-shadow: 0 10px 30px #f5c51844; }
+  .cta:active { transform: translateY(1px); }
+  main { max-width: 860px; margin: 0 auto; padding: 8px 22px 70px; }
+  .feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 36px 0; }
+  .feat { background: #0c2329; border: 1px solid #1c4a4a; border-radius: 16px; padding: 18px; }
+  .feat .ic { font-size: 1.8rem; }
+  .feat h3 { margin: 8px 0 6px; font-size: 1.05rem; color: var(--gold); }
+  .feat p { margin: 0; color: #bcd9d6; font-size: .95rem; }
+  .chapter { margin-top: 30px; }
+  .chapter h2 { font-size: 1.3rem; }
+  .chapter .ch-sub { color: #9fc7c2; margin-top: -6px; }
+  .stops { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 16px; }
+  .stop { display: block; text-decoration: none; background: #0c2329; border: 1px solid #1c4a4a; border-radius: 16px;
+    padding: 16px 18px; transition: border-color .15s, transform .15s; }
+  .stop:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .stop .no { font: 800 .72rem monospace; color: #6fb6ae; letter-spacing: 1px; }
+  .stop .jp { font-size: 1.7rem; font-weight: 800; color: var(--gold); margin: 2px 0; }
+  .stop .en { color: #cfe9e5; font-size: .92rem; }
+  .stop.todo { opacity: .5; }
+  .stop.todo .jp { color: #7fa6a0; }
+  .note { color: #6f928d; font-size: .85rem; margin-top: 34px; line-height: 1.6; text-align: center; }
+  /* journey map */
+  #krMap { height: 440px; border-radius: 16px; overflow: hidden; border: 1px solid #1c4a4a; margin: 16px 0 4px; background: #04101a; }
+  .leaflet-container { background: #04101a; font-family: inherit; }
+  .kr-pin-no { font: 800 .72rem/1 var(--mono-font, monospace); color: #ffd24a; }
+  .map-hint { color: #6f928d; font-size: .8rem; margin: 0 0 14px; text-align: center; }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script defer src="/lib/appnav.js"></script>
+<script defer src="/lib/profile-widget.js"></script>
+</head>
+<body>
+
+  <section class="hero">
+    <span class="wip">WORK IN PROGRESS</span>
+    <h1>漢字ロード<span class="en">KANJI ROAD</span></h1>
+    <p class="tag">Read your way up Japan — town by town, kanji by kanji — from the southern islands to the far north.</p>
+    <a class="cta" href="/kanji-road-demo">Begin the Journey →</a>
+  </section>
+
+  <main>
+    <div class="feats">
+      <div class="feat"><div class="ic">🏝️</div><h3>Real places, real stories</h3><p>Each lesson is a detailed profile of an actual Japanese town — its history, food, sights, festivals and lore.</p></div>
+      <div class="feat"><div class="ic">🈶</div><h3>Kanji in context</h3><p>Tap any term for its reading, meaning, audio, and a looping stroke-order animation. Collected kanji compound as you travel.</p></div>
+      <div class="feat"><div class="ic">🧠</div><h3>Earn it by reading</h3><p>A knowledge check gates each town's kanji — pass it (or drill the flashcards) to add them to your collection.</p></div>
+    </div>
+
+    <div class="chapter">
+      <h2>The Journey North</h2>
+      <p class="ch-sub">From Japan's southern tip, town by town and kanji by kanji, all the way to the far north.</p>
+      <div id="krMap"></div>
+      <p class="map-hint">Tap a stop on the map to begin that town's lesson.</p>
+      <div class="stops" id="krStops"></div>
+    </div>
+
+    <p class="note">🚧 Kanji Road is an early work in progress — the format and first towns are live to explore,
+    with many more towns (and the full 教育漢字 backbone) on the way north.</p>
+  </main>
+
+<script>
+/* The route up Japan. Each entry maps a town to its lesson index in kanji-road-demo's LESSONS array.
+   Plotted south→north; add new towns here in order as lessons are written. */
+var KR_ROUTE = [
+  { n: 1, idx: 0, jp: "波照間島", en: "Hateruma · Japan's southern tip",     lat: 24.057, lng: 123.781, ready: true },
+  { n: 2, idx: 1, jp: "石垣島",   en: "Ishigaki · the Yaeyama hub",          lat: 24.345, lng: 124.157, ready: true },
+  { n: 3, idx: 2, jp: "那覇",     en: "Naha · the old royal capital",        lat: 26.212, lng: 127.681, ready: true },
+  { n: 4, idx: 3, jp: "屋久島",   en: "Yakushima · the ancient forest",      lat: 30.358, lng: 130.546, ready: true },
+  { n: 5, idx: 4, jp: "鹿児島",   en: "Kagoshima · beneath the volcano",     lat: 31.596, lng: 130.557, ready: true },
+  { n: 6, idx: 5, jp: "熊本",     en: "Kumamoto · the castle & Land of Fire", lat: 32.803, lng: 130.708, ready: true },
+  { n: 7, idx: 6, jp: "福岡",     en: "Fukuoka · Kyushu's gateway city",     lat: 33.590, lng: 130.402, ready: true },
+  { n: 8, idx: 7, jp: "広島",     en: "Hiroshima · the city of peace",      lat: 34.385, lng: 132.455, ready: true },
+  { n: 9, idx: 8, jp: "岡山",     en: "Okayama · garden city & peach boy",  lat: 34.665, lng: 133.918, ready: true },
+  { n: 10, idx: 9, jp: "姫路",    en: "Himeji · the White Heron Castle",    lat: 34.839, lng: 134.694, ready: true },
+  { n: 11, idx: 10, jp: "神戸",   en: "Kobe · port between mountains & sea", lat: 34.690, lng: 135.196, ready: true },
+  { n: 12, idx: 11, jp: "大阪",   en: "Osaka · the nation's kitchen",       lat: 34.687, lng: 135.526, ready: true },
+  { n: 13, idx: 12, jp: "京都",   en: "Kyoto · the thousand-year capital",  lat: 35.011, lng: 135.768, ready: true },
+  { n: 14, idx: 13, jp: "奈良",   en: "Nara · Japan's first capital",       lat: 34.685, lng: 135.805, ready: true },
+  { n: 15, idx: 14, jp: "名古屋", en: "Nagoya · castle of golden dolphins", lat: 35.185, lng: 136.900, ready: true },
+  { n: 16, idx: 15, jp: "箱根",   en: "Hakone · hot springs below Mt. Fuji", lat: 35.232, lng: 139.107, ready: true },
+  { n: 17, idx: 16, jp: "東京",   en: "Tokyo · the capital that was Edo",   lat: 35.685, lng: 139.753, ready: true },
+  { n: 18, idx: 17, jp: "日光",   en: "Nikkō · shrines in cedar mountains", lat: 36.758, lng: 139.599, ready: true },
+  { n: 19, idx: 18, jp: "仙台",   en: "Sendai · City of Trees",            lat: 38.260, lng: 140.882, ready: true },
+  { n: 20, idx: 19, jp: "函館",   en: "Hakodate · Hokkaidō's gateway port", lat: 41.769, lng: 140.729, ready: true }
+];
+(function () {
+  var pad2 = function (n) { return (n < 10 ? "0" : "") + n; };
+  var stops = document.getElementById("krStops");
+  if (stops) stops.innerHTML = KR_ROUTE.map(function (s) {
+    return '<a class="stop" href="/kanji-road-demo?lesson=' + s.idx + '">' +
+      '<div class="no">STOP ' + pad2(s.n) + '</div><div class="jp">' + s.jp + '</div>' +
+      '<div class="en">' + s.en + '</div></a>';
+  }).join("");
+
+  if (window.L && document.getElementById("krMap")) {
+    var map = L.map("krMap", { zoomControl: true, scrollWheelZoom: false });
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      { maxZoom: 17, attribution: "Imagery © Esri" }).addTo(map);
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+      { maxZoom: 17, opacity: 0.85 }).addTo(map);
+    var pts = KR_ROUTE.map(function (s) { return [s.lat, s.lng]; });
+    L.polyline(pts, { color: "#ffd24a", weight: 3, opacity: 0.85, dashArray: "2,9", lineCap: "round" }).addTo(map);
+    KR_ROUTE.forEach(function (s) {
+      var mk = L.circleMarker([s.lat, s.lng], {
+        radius: 9, weight: 3, color: "#04101a",
+        fillColor: s.ready ? "#ffd24a" : "#6f928d", fillOpacity: 1
+      }).addTo(map);
+      mk.bindTooltip('<b>' + s.jp + '</b> &nbsp;' + s.en + (s.ready ? '' : ' (soon)'), { direction: "top", offset: [0, -6] });
+      if (s.ready) mk.on("click", function () { location.href = "/kanji-road-demo?lesson=" + s.idx; });
+    });
+    map.fitBounds(pts, { padding: [44, 44] });
+    setTimeout(function () { map.invalidateSize(); map.fitBounds(pts, { padding: [44, 44] }); }, 250);
+  }
+})();
+</script>
+</body>
+</html>

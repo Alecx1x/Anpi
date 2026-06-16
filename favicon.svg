@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Anpi Learning">
+  <defs>
+    <radialGradient id="bg" cx="32" cy="20" r="52" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2f2560"/>
+      <stop offset="0.6" stop-color="#1b1633"/>
+      <stop offset="1" stop-color="#0d0f1c"/>
+    </radialGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#bg)" stroke="#ffd24a" stroke-width="2.5"/>
+  <text x="32" y="47" text-anchor="middle"
+        font-family="'Yu Gothic','Hiragino Kaku Gothic ProN','Noto Sans JP','Meiryo',sans-serif"
+        font-size="44" font-weight="800" fill="#ffd24a">あ</text>
+</svg>

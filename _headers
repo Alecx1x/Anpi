@@ -8,6 +8,12 @@
 # notes per directive). If you add a new CDN / API / tile host, add it here too
 # or the browser will block it.
 
+# Serve the SVG favicon with the correct MIME type (Pages can mislabel it as
+# text/html, which — with nosniff below — stops the browser using it as an icon).
+/favicon.svg
+  Content-Type: image/svg+xml
+  Cache-Control: public, max-age=86400
+
 /*
   # Stop browsers from MIME-sniffing a response into a different type
   # (e.g. treating a data file as executable script).
@@ -18,9 +24,10 @@
   Referrer-Policy: strict-origin-when-cross-origin
 
   # Clickjacking protection. frame-ancestors (in the CSP below) is the modern
-  # form; X-Frame-Options covers older browsers. The app is never meant to be
-  # embedded in an <iframe>.
-  X-Frame-Options: DENY
+  # form; X-Frame-Options covers older browsers. SAMEORIGIN (not DENY) so the
+  # app's own profile popover can embed /character?embed=1 in a same-origin
+  # iframe, while still blocking embedding by any other site.
+  X-Frame-Options: SAMEORIGIN
 
   # Disable powerful browser features the app does not use, so a future bug or
   # injected content can't silently request them.
@@ -50,7 +57,8 @@
   #   media-src 'self'          : the /api/tts pronunciation audio (same-origin proxy).
   #   object-src 'none'         : no plugins/embeds.
   #   base-uri / form-action 'self' : block <base> hijack and off-site form posts.
-  #   frame-ancestors 'none'    : no embedding (clickjacking).
+  #   frame-src 'self'          : the profile popover's same-origin /character?embed=1 iframe.
+  #   frame-ancestors 'self'    : only this site may embed its own pages (clickjacking guard).
   #
   # SHIPPED AS REPORT-ONLY FIRST (does NOT block anything; violations only log to
   # the browser console). Rationale: this app is live and the deploy/verify loop
@@ -59,4 +67,4 @@
   # Policy" violation entries in the console across map/sign-in/decks/stroke-order,
   # THEN promote by renaming the header below to `Content-Security-Policy` to
   # enforce. All the other headers above already enforce (they carry no breakage risk).
-  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' data: blob: https://server.arcgisonline.com https://unpkg.com; media-src 'self'; connect-src 'self' https://sgmsiythssuwgzwcyjti.supabase.co wss://sgmsiythssuwgzwcyjti.supabase.co https://kanjiapi.dev https://cdn.jsdelivr.net; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' data: blob: https://server.arcgisonline.com https://unpkg.com; media-src 'self'; connect-src 'self' https://sgmsiythssuwgzwcyjti.supabase.co wss://sgmsiythssuwgzwcyjti.supabase.co https://kanjiapi.dev https://cdn.jsdelivr.net; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'self'; frame-ancestors 'self'

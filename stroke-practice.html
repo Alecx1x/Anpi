@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>書道 · Stroke Practice — pilot</title>
+<style>
+  :root { color-scheme: dark; --gold: #ffd24a; --ink: #eaf0ff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: radial-gradient(1100px 700px at 50% -10%, #20243f, #0c0f1a 62%);
+    color: #e9edf6; font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; padding: 22px 16px 60px; }
+  main { max-width: 480px; margin: 0 auto; text-align: center; }
+  .tag { font: 600 .7rem/1 system-ui; letter-spacing: 2px; color: #8fb4ff; text-transform: uppercase; }
+  h1 { font-size: 1.7rem; margin: 8px 0 2px; }
+  h1 .jp { color: var(--gold); }
+  .stage { margin: 4px 0 14px; font-weight: 700; color: var(--gold); min-height: 1.4em; }
+  .stage .sub { display: block; color: #9fb0d6; font-weight: 400; font-size: .9rem; }
+  .padwrap { position: relative; width: min(86vw, 340px); height: min(86vw, 340px); margin: 0 auto;
+    background: #0d1024; border: 1px solid #ffffff1f; border-radius: 16px; touch-action: none; overflow: hidden; }
+  .padwrap::before, .padwrap::after { content: ""; position: absolute; background: #ffffff12; }
+  .padwrap::before { left: 50%; top: 6%; bottom: 6%; width: 1px; transform: translateX(-.5px); }
+  .padwrap::after { top: 50%; left: 6%; right: 6%; height: 1px; transform: translateY(-.5px); }
+  #ref { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  #ref path { fill: none; stroke: #ffffff30; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  #ref.hidden { display: none; }
+  #pad { position: absolute; inset: 0; width: 100%; height: 100%; cursor: crosshair; }
+  #snums { position: absolute; inset: 0; pointer-events: none; }
+  #snums span { position: absolute; transform: translate(-50%, -50%); font: 700 .8rem system-ui;
+    color: #ff9f43; background: #0d1024cc; border: 1px solid #ff9f4377; border-radius: 999px; width: 18px; height: 18px;
+    display: grid; place-items: center; }
+  .controls { display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+  button { font: 600 .92rem system-ui; border: 1px solid #ffffff22; background: #1c2333; color: #cdd6ea;
+    border-radius: 10px; padding: 10px 14px; cursor: pointer; }
+  button.go { background: linear-gradient(180deg, #ffe14d, #f5c518); color: #1a1400; border: 0; }
+  button:disabled { opacity: .5; cursor: default; }
+  #grade { margin-top: 18px; }
+  .gtop { font-size: 1.05rem; }
+  .glabel { font-size: 3rem; font-weight: 900; line-height: 1; }
+  .gpct { color: #9fb0d6; }
+  .crit { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; max-width: 320px; margin: 14px auto 0;
+    text-align: left; font-size: .95rem; }
+  .crit .v { font-weight: 800; }
+  .crit .crit-h { grid-column: 1 / -1; margin-top: 6px; padding-top: 8px; border-top: 1px solid #ffffff14;
+    font-size: .76rem; letter-spacing: 1px; text-transform: uppercase; color: #8fb4ff; font-weight: 700; }
+  .ok { color: #8fffae; } .mid { color: #ffd24a; } .bad { color: #ff9f9f; }
+  .verdict { margin: 12px auto 0; max-width: 340px; padding: 9px 14px; border-radius: 12px; font-weight: 700; font-size: .95rem; }
+  .verdict.pass { background: #173a26; border: 1px solid #2f7d4f; color: #aef4c6; }
+  .verdict.fail { background: #3a1a1a; border: 1px solid #7d3030; color: #ffc2c2; }
+  .note { color: #7f8aa3; font-size: .82rem; margin-top: 22px; line-height: 1.5; }
+  .dbg { text-align: left; white-space: pre-wrap; word-break: break-word; margin-top: 16px; padding: 10px 12px;
+    background: #0c1020; border: 1px solid #ffffff1c; border-radius: 10px; overflow-x: auto;
+    font: 11px/1.5 ui-monospace, "Cascadia Mono", Consolas, monospace; color: #9fb0d6; }
+  .tuner { text-align: left; background: #0c1020; border: 1px solid #ffd24a44; border-radius: 12px; padding: 12px 14px; margin-bottom: 18px; }
+  .tuner-h { font-weight: 800; color: #ffe14d; }
+  .tuner-h span { font: 700 .58rem monospace; background: #5cf2f6; color: #03252a; padding: 1px 7px; border-radius: 999px; margin-left: 8px; vertical-align: middle; }
+  .tuner-note { color: #8a93ad; font-size: .76rem; line-height: 1.45; margin: 6px 0 4px; }
+  .tuner .tg { margin-top: 10px; font: 700 .68rem system-ui; letter-spacing: 1px; text-transform: uppercase; color: #8fb4ff; }
+  .tuner .trow { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 0; font-size: .85rem; }
+  .tuner .trow span { color: #cdd6ea; }
+  .tuner .trow input { width: 84px; background: #1c2333; border: 1px solid #ffffff22; color: #fff; border-radius: 6px; padding: 5px 7px; font: inherit; }
+  .tuner .tbtns { display: flex; gap: 8px; margin-top: 12px; }
+  .tuner .tbtns button { flex: 1; }
+  .tuner textarea { width: 100%; height: 48px; margin-top: 8px; background: #070a14; color: #9fb0d6; border: 1px solid #ffffff1c; border-radius: 8px; font: 11px ui-monospace, monospace; padding: 6px; resize: vertical; }
+</style>
+<script defer src="/lib/appnav.js"></script>
+<script defer src="/lib/profile-widget.js"></script>
+</head>
+<body>
+<main>
+  <div class="tag">書道 · stroke practice · pilot</div>
+  <h1>Write <span class="jp" id="kanji">川</span></h1>
+  <div class="stage" id="stage"></div>
+
+  <div class="padwrap" id="padwrap">
+    <svg id="ref" viewBox="0 0 109 109" preserveAspectRatio="xMidYMid meet"></svg>
+    <canvas id="pad"></canvas>
+    <div id="snums"></div>
+  </div>
+
+  <div class="controls">
+    <button id="undo">↶ Undo</button>
+    <button id="clear">Clear</button>
+    <button id="action" class="go"></button>
+  </div>
+
+  <div id="grade"></div>
+
+  <p class="note">Pass 1: trace the faint guide to learn the strokes. Pass 2: the guide disappears — write it from
+  memory and you're graded on direction, stroke order, count, the spacing/balance between strokes, and
+  fluidity — whether each line is a <b>quick, smooth, direct brush stroke</b> (slow, hesitant strokes are
+  docked). All measured against the real KanjiVG stroke data, no AI needed. You need at least a
+  <b>C (70%)</b> — plus the lesson's knowledge check — to collect the kanji and continue in Kanji Road.</p>
+</main>
+
+<script src="/lib/kanji.js"></script>
+<script>
+var KANJI = "川";
+var pad = document.getElementById("pad"), ref = document.getElementById("ref");
+var ctx = pad.getContext("2d");
+var SIZE = 0, DPR = Math.max(1, Math.min(3, window.devicePixelRatio || 1));
+var refStrokes = [];      // sampled reference strokes in 109-space
+var userStrokes = [];     // each = array of {x,y} in 109-space
+var drawing = false, cur = null;
+function now() { return (window.performance && performance.now) ? performance.now() : Date.now(); }
+var stage = "loading";    // loading | trace | write | result
+var SAMPLES = 24;
+var graded = false;       // has the current attempt been graded? (gates live re-grading from the tuner)
+
+// ---- Scoring config (all the tunable knobs in one place) ----
+var DEFAULTS = {
+  speedFull: 0.9, speedZero: 3.0, speedFloor: 0.55,       // speed: time(s) for full / for zero, min factor
+  smoothDevFull: 3.0, smoothCoef: 0.8, smoothExp: 2.0,    // smoothness: wobble→0 dev, penalty strength & curve
+  straightTol: 0.5, straightFloor: 0.7,                   // straightness: meander tolerance, min factor
+  spacingTol: 0.40, orderWeight: 0.55, spacingWeight: 0.45, // spacing tolerance + base weights
+  dirExp: 2.5, countPenalty: 0.3,                         // direction harshness, per-stroke count penalty
+  passMark: 0.70                                          // min overall to pass (C)
+};
+var CFG = {};
+(function () { var s = {}; try { s = JSON.parse(localStorage.getItem("strokeCfg") || "{}"); } catch (e) {} for (var k in DEFAULTS) CFG[k] = (s[k] != null) ? s[k] : DEFAULTS[k]; })();
+function saveCfg() { try { localStorage.setItem("strokeCfg", JSON.stringify(CFG)); } catch (e) {} }
+window.__cfg = CFG;
+var DEBUG = /[?&](debug|tune)(?:=|&|$)/.test(location.search);
+var TUNE = /[?&]tune(?:=|&|$)/.test(location.search);
+function regrade() { if (graded && userStrokes.length) grade(); }
+
+function sizePad() {
+  SIZE = document.getElementById("padwrap").clientWidth;
+  pad.width = SIZE * DPR; pad.height = SIZE * DPR;
+  pad.style.width = SIZE + "px"; pad.style.height = SIZE + "px";
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  redraw();
+}
+function toCanvas(p) { return { x: p.x / 109 * SIZE, y: p.y / 109 * SIZE }; }
+function toRef(x, y) { return { x: x / SIZE * 109, y: y / SIZE * 109 }; }
+
+// ---- reference loading + sampling ----
+function polyLen(pts) { var L = 0; for (var i = 1; i < pts.length; i++) L += Math.hypot(pts[i].x - pts[i-1].x, pts[i].y - pts[i-1].y); return L; }
+function resample(pts, n) {
+  if (pts.length < 2) return pts.slice();
+  var total = polyLen(pts), step = total / (n - 1), out = [pts[0]], d = 0, i = 1, prev = pts[0];
+  while (out.length < n && i < pts.length) {
+    var seg = Math.hypot(pts[i].x - prev.x, pts[i].y - prev.y);
+    if (d + seg >= step) {
+      var t = (step - d) / seg;
+      var np = { x: prev.x + (pts[i].x - prev.x) * t, y: prev.y + (pts[i].y - prev.y) * t };
+      out.push(np); prev = np; d = 0;
+    } else { d += seg; prev = pts[i]; i++; }
+  }
+  while (out.length < n) out.push(pts[pts.length - 1]);
+  return out;
+}
+async function loadRef() {
+  var raw = await KanjiStrokes.fetchSVG(KANJI);
+  if (!raw) { document.getElementById("stage").textContent = "Could not load stroke data."; return; }
+  var doc = new DOMParser().parseFromString(raw, "image/svg+xml");
+  var paths = Array.from(doc.querySelectorAll("path"));
+  var ns = "http://www.w3.org/2000/svg";
+  var tmp = document.createElementNS(ns, "svg"); tmp.setAttribute("viewBox", "0 0 109 109");
+  tmp.style.cssText = "position:absolute;left:-9999px;width:109px;height:109px"; document.body.appendChild(tmp);
+  refStrokes = paths.map(function (p) {
+    var np = document.createElementNS(ns, "path"); np.setAttribute("d", p.getAttribute("d")); tmp.appendChild(np);
+    var len = np.getTotalLength(), pts = [];
+    for (var i = 0; i < SAMPLES; i++) { var pt = np.getPointAtLength(len * i / (SAMPLES - 1)); pts.push({ x: pt.x, y: pt.y }); }
+    // draw faint guide too
+    var gp = document.createElementNS(ns, "path"); gp.setAttribute("d", p.getAttribute("d")); ref.appendChild(gp);
+    return pts;
+  });
+  document.body.removeChild(tmp);
+  window.__refCount = refStrokes.length;
+  setStage("trace");
+}
+
+// ---- drawing ----
+function redraw() {
+  ctx.clearRect(0, 0, SIZE, SIZE);
+  userStrokes.forEach(function (s, i) { drawStroke(s, (stage === "result") ? s._color : "#ffe14d"); });
+  if (cur) drawStroke(cur, "#ffe14d");
+}
+function drawStroke(s, color) {
+  if (s.length < 1) return;
+  ctx.lineWidth = 8; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.strokeStyle = color || "#ffe14d";
+  ctx.beginPath();
+  var p0 = toCanvas(s[0]); ctx.moveTo(p0.x, p0.y);
+  for (var i = 1; i < s.length; i++) { var p = toCanvas(s[i]); ctx.lineTo(p.x, p.y); }
+  if (s.length === 1) { ctx.lineTo(p0.x + 0.1, p0.y + 0.1); }
+  ctx.stroke();
+}
+function pointerPos(e) { var r = pad.getBoundingClientRect(); return toRef(e.clientX - r.left, e.clientY - r.top); }
+pad.addEventListener("pointerdown", function (e) {
+  if (stage !== "trace" && stage !== "write") return;
+  drawing = true; cur = [pointerPos(e)]; cur._t0 = now(); pad.setPointerCapture(e.pointerId); redraw();
+});
+pad.addEventListener("pointermove", function (e) { if (!drawing) return; cur.push(pointerPos(e)); redraw(); });
+function endStroke() { if (!drawing) return; drawing = false; if (cur && cur.length) { cur._t1 = now(); userStrokes.push(cur); } cur = null; updateAction(); redraw(); }
+pad.addEventListener("pointerup", endStroke);
+pad.addEventListener("pointercancel", endStroke);
+pad.addEventListener("pointerleave", function (e) { if (drawing) endStroke(); });
+
+// ---- stage handling ----
+function setStage(s) {
+  stage = s; userStrokes = []; cur = null; graded = false;
+  var st = document.getElementById("stage"), snums = document.getElementById("snums");
+  document.getElementById("grade").innerHTML = "";
+  snums.innerHTML = "";
+  if (s === "trace") {
+    ref.classList.remove("hidden");
+    st.innerHTML = "Pass 1 · Trace<span class='sub'>follow the faint guide and the numbers, stroke by stroke</span>";
+    refStrokes.forEach(function (str, i) { var p = toCanvas(str[0]); var n = document.createElement("span");
+      n.textContent = (i + 1); n.style.left = p.x + "px"; n.style.top = p.y + "px"; snums.appendChild(n); });
+  } else if (s === "write") {
+    ref.classList.add("hidden");
+    st.innerHTML = "Pass 2 · From memory<span class='sub'>the guide is gone — write " + KANJI + " and get graded</span>";
+  }
+  updateAction(); redraw();
+}
+function updateAction() {
+  var a = document.getElementById("action");
+  if (stage === "trace") { a.textContent = "Write from memory →"; a.disabled = userStrokes.length === 0; }
+  else if (stage === "write") { a.textContent = "✓ Grade me"; a.disabled = userStrokes.length === 0; }
+  else if (stage === "result") { a.textContent = "↻ Try again"; a.disabled = false; }
+}
+document.getElementById("undo").addEventListener("click", function () { if (stage === "result") return; userStrokes.pop(); updateAction(); redraw(); });
+document.getElementById("clear").addEventListener("click", function () { if (stage === "result") return; userStrokes = []; updateAction(); redraw(); });
+document.getElementById("action").addEventListener("click", function () {
+  if (stage === "trace") setStage("write");
+  else if (stage === "write") grade();
+  else if (stage === "result") setStage("trace");
+});
+
+// ---- grading ----
+function centroid(s) { var x = 0, y = 0; s.forEach(function (p) { x += p.x; y += p.y; }); return { x: x / s.length, y: y / s.length }; }
+function avgDist(a, b) { var d = 0; for (var i = 0; i < a.length; i++) d += Math.hypot(a[i].x - b[i].x, a[i].y - b[i].y); return d / a.length; }
+function clamp01(v) { return Math.max(0, Math.min(1, v)); }
+// Bounding box + size-normalized stroke centroids → lets us judge the *relative* layout
+// (the spacing/negative-space between strokes) independent of overall size or position.
+function bbox(strokes) {
+  var mnx = 1e9, mny = 1e9, mxx = -1e9, mxy = -1e9;
+  strokes.forEach(function (s) { s.forEach(function (p) {
+    if (p.x < mnx) mnx = p.x; if (p.y < mny) mny = p.y; if (p.x > mxx) mxx = p.x; if (p.y > mxy) mxy = p.y; }); });
+  return { cx: (mnx + mxx) / 2, cy: (mny + mxy) / 2, s: Math.max(1, mxx - mnx, mxy - mny) };
+}
+function normCentroids(strokes) {
+  var bb = bbox(strokes);
+  return strokes.map(function (st) { var c = centroid(st); return { x: (c.x - bb.cx) / bb.s, y: (c.y - bb.cy) / bb.s }; });
+}
+// Solve a 4x4 linear system by Gaussian elimination (for the cubic least-squares fit).
+function solve4(M, b) {
+  var n = 4;
+  for (var col = 0; col < n; col++) {
+    var piv = col;
+    for (var r = col + 1; r < n; r++) if (Math.abs(M[r][col]) > Math.abs(M[piv][col])) piv = r;
+    if (Math.abs(M[piv][col]) < 1e-9) return null;
+    var tm = M[col]; M[col] = M[piv]; M[piv] = tm; var tb = b[col]; b[col] = b[piv]; b[piv] = tb;
+    for (var r2 = 0; r2 < n; r2++) {
+      if (r2 === col) continue;
+      var f = M[r2][col] / M[col][col];
+      for (var c = col; c < n; c++) M[r2][c] -= f * M[col][c];
+      b[r2] -= f * b[col];
+    }
+  }
+  var x = []; for (var i = 0; i < n; i++) x[i] = b[i] / M[i][i]; return x;
+}
+// Fluidity: fit a smooth cubic (in x(t) and y(t)) to the stroke, then measure how far the points stray
+// from it. A clean line, arc, or S-curve fits perfectly (residual ~0 → 1); only genuine wobble leaves a
+// residual, which scales with the wobble's size — so a subtle wave is barely penalized, a scribble fails.
+// Returns the RAW mean deviation of the stroke's points from a best-fit cubic (0 = perfectly clean).
+// The smoothness *score* is derived from this as clamp01(1 - dev/3.0).
+function strokeDev(raw) {
+  if (!raw || raw.length < 6) return 0;
+  var pts = resample(raw, 24), N = pts.length, t = [];
+  for (var i = 0; i < N; i++) t.push(i / (N - 1));
+  var M = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]], bx = [0,0,0,0], by = [0,0,0,0];
+  for (var i2 = 0; i2 < N; i2++) {
+    var tt = t[i2], pb = [1, tt, tt * tt, tt * tt * tt];
+    for (var a = 0; a < 4; a++) { for (var c = 0; c < 4; c++) M[a][c] += pb[a] * pb[c]; bx[a] += pb[a] * pts[i2].x; by[a] += pb[a] * pts[i2].y; }
+  }
+  var cx = solve4(M.map(function (r) { return r.slice(); }), bx.slice());
+  var cy = solve4(M.map(function (r) { return r.slice(); }), by.slice());
+  if (!cx || !cy) return 0;
+  var dev = 0;
+  for (var i3 = 0; i3 < N; i3++) {
+    var u = t[i3];
+    var fx = cx[0] + cx[1]*u + cx[2]*u*u + cx[3]*u*u*u;
+    var fy = cy[0] + cy[1]*u + cy[2]*u*u + cy[3]*u*u*u;
+    dev += Math.hypot(pts[i3].x - fx, pts[i3].y - fy);
+  }
+  return dev / N;
+}
+function pathLen(s) { var L = 0; for (var i = 1; i < s.length; i++) L += Math.hypot(s[i].x - s[i - 1].x, s[i].y - s[i - 1].y); return L; }
+
+function grade() {
+  stage = "result"; ref.classList.remove("hidden"); document.getElementById("snums").innerHTML = "";
+  var n = Math.min(userStrokes.length, refStrokes.length);
+  // Size-normalized layouts → judge the *spacing* between strokes, not a pixel-match to the reference.
+  var uNorm = normCentroids(userStrokes.slice(0, n)), rNorm = normCentroids(refStrokes.slice(0, n));
+  var dirS = [], fluS = [], speedS = [], straightS = [], orderOK = 0, spaceErr = 0, dbg = [];
+  for (var i = 0; i < n; i++) {
+    var u = resample(userStrokes[i], SAMPLES), r = refStrokes[i];
+    // direction: did they draw start→end the right way? (endpoint vectors, same hemisphere)
+    var uv = { x: u[u.length - 1].x - u[0].x, y: u[u.length - 1].y - u[0].y };
+    var rv = { x: r[r.length - 1].x - r[0].x, y: r[r.length - 1].y - r[0].y };
+    var dot = (uv.x * rv.x + uv.y * rv.y) / ((Math.hypot(uv.x, uv.y) || 1) * (Math.hypot(rv.x, rv.y) || 1));
+    var dirOK = dot > 0 ? 1 : 0; dirS.push(dirOK);
+    // smoothness: raw wobble (cubic-fit mean deviation) → score
+    var wob = strokeDev(userStrokes[i]), smoothScore = clamp01(1 - wob / CFG.smoothDevFull); fluS.push(smoothScore);
+    // speed: time spent ON this stroke (pointer-down → pointer-up only — gaps BETWEEN strokes never count).
+    // A confident brush stroke is quick regardless of size, so we grade raw seconds. ≤0.9s = full, ≥3.0s = 0.
+    var durS = null, speedScore = 1;
+    if (userStrokes[i]._t1 != null && userStrokes[i]._t0 != null) { durS = (userStrokes[i]._t1 - userStrokes[i]._t0) / 1000; speedScore = clamp01((CFG.speedZero - durS) / (CFG.speedZero - CFG.speedFull)); }
+    speedS.push(speedScore);
+    // straightness: don't meander more than the reference stroke's own shape needs (curvature-aware).
+    var uChord = Math.hypot(u[u.length - 1].x - u[0].x, u[u.length - 1].y - u[0].y);
+    var rChord = Math.hypot(r[r.length - 1].x - r[0].x, r[r.length - 1].y - r[0].y);
+    var uR = uChord >= 5 ? pathLen(u) / uChord : 1, rR = rChord >= 5 ? pathLen(r) / rChord : 1;
+    var straightScore = (uChord < 5 || rChord < 5) ? 1 : clamp01(1 - Math.max(0, uR - rR) / CFG.straightTol);
+    straightS.push(straightScore);
+    // order: is this stroke's normalized position nearest to reference slot i?
+    var best = 0, bd = 1e9;
+    rNorm.forEach(function (rc, j) { var d = Math.hypot(uNorm[i].x - rc.x, uNorm[i].y - rc.y); if (d < bd) { bd = d; best = j; } });
+    if (best === i) orderOK++;
+    // spacing/balance: how far this stroke sits from where it should, in normalized layout space
+    var posErr = Math.hypot(uNorm[i].x - rNorm[i].x, uNorm[i].y - rNorm[i].y); spaceErr += posErr;
+    userStrokes[i]._color = !dirOK ? "#ff6b6b" : (smoothScore > 0.6 ? "#39ff14" : "#ffd24a"); // wrong dir = red, shaky = amber
+    dbg.push({ dir: dirOK, time: durS, wob: wob, smooth: smoothScore, uR: uR, rR: rR, straight: straightScore, posErr: posErr, order: (best === i) ? 1 : 0 });
+  }
+  for (var k = n; k < userStrokes.length; k++) userStrokes[k]._color = "#ff6b6b"; // extra strokes
+  var avg = function (arr) { return arr.length ? arr.reduce(function (x, y) { return x + y; }, 0) / arr.length : 1; };
+  var correctDir = dirS.reduce(function (x, y) { return x + y; }, 0);
+  var direction = userStrokes.length ? correctDir / userStrokes.length : 0;
+  var order = userStrokes.length ? orderOK / userStrokes.length : 0;
+  var spacing = n > 1 ? clamp01(1 - (spaceErr / n) / CFG.spacingTol) : 1;
+  var smooth = avg(fluS), speed = avg(speedS), straight = avg(straightS);
+  // FLUIDITY = how brush-like the strokes are. Each sub-quality is its OWN multiplier, so they're an AND,
+  // not a trade-off: a FAST scribble still fails on smoothness; a SLOW clean stroke still fails on speed.
+  var smoothFactor   = clamp01(1 - CFG.smoothCoef * Math.pow(1 - smooth, CFG.smoothExp));  // wobble/scribble craters this
+  var straightFactor = clamp01(CFG.straightFloor + (1 - CFG.straightFloor) * straight);    // meandering docked
+  var speedFactor    = clamp01(CFG.speedFloor + (1 - CFG.speedFloor) * speed);             // slow/hesitant docked hard
+  var fluidityFactor = smoothFactor * speedFactor * straightFactor;
+  var dirFactor = Math.pow(direction, CFG.dirExp);                     // harsh: one backwards stroke sinks it
+  var countFactor = Math.max(0.15, 1 - CFG.countPenalty * Math.abs(userStrokes.length - refStrokes.length));
+  var base = CFG.orderWeight * order + CFG.spacingWeight * spacing;    // order + spacing = quality of the rest
+  var overall = clamp01(base * dirFactor * countFactor * fluidityFactor);
+  showGrade(overall, { order: order, spacing: spacing, speed: speed, smooth: smooth, straight: straight,
+    dirCorrect: correctDir, dirTotal: userStrokes.length, count: userStrokes.length + "/" + refStrokes.length });
+  var agg = { order: order, spacing: spacing, spaceErrAvg: n > 1 ? spaceErr / n : 0, speed: speed, smooth: smooth,
+    straight: straight, smoothFactor: smoothFactor, speedFactor: speedFactor, straightFactor: straightFactor,
+    fluidityFactor: fluidityFactor, direction: direction, dirFactor: dirFactor, countFactor: countFactor, base: base, overall: overall };
+  window.__debug = { strokes: dbg, agg: agg };
+  graded = true;
+  if (DEBUG) renderDebug(dbg, agg);
+  updateAction(); redraw();
+}
+// ?debug / ?tune readout — raw measured values so calibration is exact ("0.7s scored 60%, want 90%").
+function renderDebug(strokes, a) {
+  var r3 = function (v) { return (v == null) ? "n/a" : Math.round(v * 1000) / 1000; };
+  var pc = function (v) { return Math.round(v * 100) + "%"; };
+  var rows = strokes.map(function (d, i) {
+    return "#" + (i + 1) +
+      "  time=" + (d.time == null ? "n/a" : (Math.round(d.time * 100) / 100) + "s→" + pc(Math.max(0, Math.min(1, (CFG.speedZero - d.time) / (CFG.speedZero - CFG.speedFull))))) +
+      "  wobble=" + r3(d.wob) + "→smooth " + pc(d.smooth) +
+      "  straight uR/rR=" + r3(d.uR) + "/" + r3(d.rR) + "→" + pc(d.straight) +
+      "  posErr=" + r3(d.posErr) +
+      "  dir " + (d.dir ? "✓" : "✗") + " order " + (d.order ? "✓" : "✗");
+  }).join("\n");
+  var agg =
+    "speed " + pc(a.speed) + " → ×" + r3(a.speedFactor) +
+    "   smooth " + pc(a.smooth) + " → ×" + r3(a.smoothFactor) +
+    "   straight " + pc(a.straight) + " → ×" + r3(a.straightFactor) + "\n" +
+    "fluidityFactor = " + r3(a.fluidityFactor) +
+    "   direction " + pc(a.direction) + " → ×" + r3(a.dirFactor) +
+    "   count → ×" + r3(a.countFactor) + "\n" +
+    "order " + pc(a.order) + "   spacing " + pc(a.spacing) + " (raw devAvg " + r3(a.spaceErrAvg) + ")   base " + r3(a.base) + "\n" +
+    "OVERALL " + pc(a.overall);
+  var pre = document.createElement("pre"); pre.className = "dbg";
+  pre.textContent = "── DEBUG · raw values ──\n" +
+    "thresholds: speed ≤" + CFG.speedFull + "s→full ≥" + CFG.speedZero + "s→0 (floor " + CFG.speedFloor + ")  ·  smooth=1−wobble/" + CFG.smoothDevFull + "  ·  straight tol " + CFG.straightTol + "  ·  spacing tol " + CFG.spacingTol + "\n\n" +
+    rows + "\n\n" + agg;
+  document.getElementById("grade").appendChild(pre);
+}
+function pct(v) { return Math.round(v * 100) + "%"; }
+function cls(v) { return v >= 0.80 ? "ok" : v >= 0.60 ? "mid" : "bad"; }      // per-criterion colour
+function gcolor(v) { return v >= 0.80 ? "ok" : v >= 0.70 ? "mid" : "bad"; }   // letter: C amber, D/F red
+function showGrade(overall, c) {
+  // Academic scale: A 90+ · B 80+ · C 70+ · D 60+ · F under 60 (fail).
+  var letter = overall >= 0.9 ? "A" : overall >= 0.8 ? "B" : overall >= 0.7 ? "C" : overall >= 0.6 ? "D" : "F";
+  var stars = overall >= 0.9 ? "★★★" : overall >= 0.7 ? "★★☆" : overall >= 0.6 ? "★☆☆" : "☆☆☆";
+  var pass = overall >= CFG.passMark;
+  var verdict = pass
+    ? '<div class="verdict pass">✓ ' + letter + ' — a C or better. You\'d collect this kanji and continue.</div>'
+    : '<div class="verdict fail">✗ ' + letter + ' — below a C. Practice and try again to continue.</div>';
+  document.getElementById("grade").innerHTML =
+    '<div class="gtop">' + stars + '</div>' +
+    '<div class="glabel ' + gcolor(overall) + '">' + letter + '</div>' +
+    '<div class="gpct">' + pct(overall) + ' overall</div>' +
+    verdict +
+    '<div class="crit">' +
+      '<span>➡️ Direction</span><span class="v ' + ((c.dirCorrect === c.dirTotal && c.dirTotal) ? "ok" : "bad") + '">' +
+        c.dirCorrect + '/' + c.dirTotal + ((c.dirCorrect === c.dirTotal && c.dirTotal) ? ' ✓' : ' ✗') + '</span>' +
+      '<span>✏️ Stroke order</span><span class="v ' + cls(c.order) + '">' + pct(c.order) + '</span>' +
+      '<span>🖌️ Strokes drawn</span><span class="v">' + c.count + '</span>' +
+      '<span>⚖️ Spacing / balance</span><span class="v ' + cls(c.spacing) + '">' + pct(c.spacing) + '</span>' +
+      '<span class="crit-h">Fluidity (brush-like)</span><span></span>' +
+      '<span>⚡ Speed</span><span class="v ' + cls(c.speed) + '">' + pct(c.speed) + '</span>' +
+      '<span>〰️ Smoothness</span><span class="v ' + cls(c.smooth) + '">' + pct(c.smooth) + '</span>' +
+      '<span>📏 Straightness</span><span class="v ' + cls(c.straight) + '">' + pct(c.straight) + '</span>' +
+    '</div>';
+}
+
+// test hook: simulate a (near-)perfect attempt from the reference strokes
+window.__simulate = function (mode) {
+  if (!refStrokes.length) return null;
+  userStrokes = refStrokes.map(function (s) { return s.map(function (p) { return { x: p.x, y: p.y }; }); });
+  if (mode === "reversed") userStrokes = userStrokes.map(function (s) { return s.slice().reverse(); });
+  if (mode === "rev1") userStrokes[0] = userStrokes[0].slice().reverse();   // only first stroke backwards
+  if (mode === "noisy") userStrokes = userStrokes.map(function (s) { return s.map(function (p) { return { x: p.x + Math.sin(p.x) * 6, y: p.y + Math.cos(p.y) * 6 }; }); });
+  if (mode === "dropone") userStrokes.pop();
+  if (mode === "bunch" && userStrokes.length > 1) {            // shove stroke 1 next to stroke 2 → uneven spacing
+    var c0 = centroid(userStrokes[0]), c1 = centroid(userStrokes[1]), dx = (c1.x - c0.x) * 0.7;
+    userStrokes[0] = userStrokes[0].map(function (p) { return { x: p.x + dx, y: p.y }; });
+  }
+  stage = "write"; grade();
+  return { overall: document.querySelector("#grade .gpct").textContent,
+    crit: [].slice.call(document.querySelectorAll("#grade .crit .v")).map(function (e) { return e.textContent; }) };
+};
+
+// ---- live scoring tuner (?tune) ----
+var KNOBS = [
+  { g: "Speed (per stroke)", k: "speedFull", label: "Full credit if ≤ (sec)", min: 0.2, max: 3, step: 0.1 },
+  { g: "Speed (per stroke)", k: "speedZero", label: "Zero credit if ≥ (sec)", min: 1, max: 6, step: 0.1 },
+  { g: "Speed (per stroke)", k: "speedFloor", label: "Min speed factor (floor)", min: 0.2, max: 1, step: 0.05 },
+  { g: "Smoothness", k: "smoothDevFull", label: "Wobble→0% at deviation", min: 1, max: 8, step: 0.25 },
+  { g: "Smoothness", k: "smoothCoef", label: "Penalty strength (0–1)", min: 0.2, max: 1, step: 0.05 },
+  { g: "Smoothness", k: "smoothExp", label: "Penalty curve (exponent)", min: 1, max: 4, step: 0.1 },
+  { g: "Straightness", k: "straightTol", label: "Meander tolerance", min: 0.15, max: 1.5, step: 0.05 },
+  { g: "Straightness", k: "straightFloor", label: "Min straight factor (floor)", min: 0.3, max: 1, step: 0.05 },
+  { g: "Spacing & layout", k: "spacingTol", label: "Spacing tolerance", min: 0.1, max: 0.8, step: 0.02 },
+  { g: "Spacing & layout", k: "orderWeight", label: "Order weight", min: 0, max: 1, step: 0.05 },
+  { g: "Spacing & layout", k: "spacingWeight", label: "Spacing weight", min: 0, max: 1, step: 0.05 },
+  { g: "Direction & count", k: "dirExp", label: "Direction harshness (exp)", min: 1, max: 5, step: 0.1 },
+  { g: "Direction & count", k: "countPenalty", label: "Penalty / wrong stroke count", min: 0.1, max: 0.6, step: 0.05 },
+  { g: "Pass gate", k: "passMark", label: "Min overall to pass", min: 0.4, max: 0.9, step: 0.05 }
+];
+function buildTuner() {
+  if (document.querySelector(".tuner")) return;
+  var wrap = document.createElement("div"); wrap.className = "tuner";
+  var groups = {}; KNOBS.forEach(function (kn) { (groups[kn.g] = groups[kn.g] || []).push(kn); });
+  var html = '<div class="tuner-h">⚙ Scoring tuner <span>live</span></div>' +
+    '<p class="tuner-note">Drag/edit a value, then re-grade (or change after grading) to see it update instantly. Saved to this browser. “Copy config” gives me the exact numbers to make it the default for everyone.</p>';
+  Object.keys(groups).forEach(function (g) {
+    html += '<div class="tg">' + g + '</div>';
+    groups[g].forEach(function (kn) {
+      html += '<label class="trow"><span>' + kn.label + '</span><input type="number" data-k="' + kn.k + '" min="' + kn.min + '" max="' + kn.max + '" step="' + kn.step + '" value="' + CFG[kn.k] + '"></label>';
+    });
+  });
+  html += '<div class="tbtns"><button id="tReset" type="button">↺ Reset defaults</button><button id="tCopy" type="button">⧉ Copy config</button></div><textarea id="tJson" readonly></textarea>';
+  wrap.innerHTML = html;
+  var main = document.querySelector("main"); main.insertBefore(wrap, main.children[1] || null);
+  function updJson() { document.getElementById("tJson").value = JSON.stringify(CFG); }
+  function syncInputs() { wrap.querySelectorAll("input[data-k]").forEach(function (i) { i.value = CFG[i.dataset.k]; }); }
+  wrap.addEventListener("input", function (e) {
+    var inp = e.target.closest("input[data-k]"); if (!inp) return;
+    var v = parseFloat(inp.value); if (isNaN(v)) return;
+    CFG[inp.dataset.k] = v; saveCfg(); updJson(); regrade();
+  });
+  document.getElementById("tReset").addEventListener("click", function () { for (var k in DEFAULTS) CFG[k] = DEFAULTS[k]; saveCfg(); syncInputs(); updJson(); regrade(); });
+  document.getElementById("tCopy").addEventListener("click", function () { var t = document.getElementById("tJson"); t.select(); try { navigator.clipboard.writeText(t.value); } catch (e) {} this.textContent = "✓ Copied"; var b = this; setTimeout(function () { b.textContent = "⧉ Copy config"; }, 1500); });
+  updJson();
+}
+
+window.addEventListener("resize", sizePad);
+(async function () { sizePad(); await loadRef(); if (TUNE) buildTuner(); })();
+</script>
+</body>
+</html>

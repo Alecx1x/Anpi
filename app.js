@@ -674,6 +674,7 @@ function showReport() {
     least: byTimeAsc.slice(0, 10).map(plain),
   };
   const n = saveResult(record);
+  try { missionFlashcards((pct || 0) / 100); } catch (e) {}   // daily mission: score on a flashcard set (up to 50 XP)
   $("savedNote").textContent = n
     ? `✓ Saved as session #${n}. Closing will reset the deck to start over.`
     : `⚠ Couldn't save (storage unavailable). Closing will reset the deck.`;
@@ -2444,6 +2445,7 @@ function endGame() {
     try { KanaSync.onHighScore(game.deckKey, game.mode.key, newHigh.toString(), Math.max(0, game.bestCombo)); } catch (e) {}
   }
   markGame(game.score.toString(), Math.max(0, game.bestCombo)); // stats / streak / achievements
+  try { missionGame(game.score); } catch (e) {}   // daily mission: play Kana Invader (up to 50 XP)
   const missed = Object.values(game.escaped).sort((a, b) => b.count - a.count).slice(0, 5);
 
   // Feed this session into the saved-results history so it shows in Past Results.
@@ -2679,10 +2681,41 @@ function renderStats() {
     '<div class="stat-tiles">' + tiles.map(t =>
       '<div class="stat-tile"><div class="v">' + selEsc(t[1]) + '</div><div class="k">' + t[0] + '</div></div>').join("") + '</div>' +
     '<div id="badgeWall"></div>' +
+    '<div id="skillBadges"></div>' +
     '<div class="ach-title">🏆 LEADERBOARD PODIUMS</div><div id="statsPodiums" class="badges-list"><div class="lb-note">…</div></div>';
   // Badge wall (lib/badges.js) — replaces the legacy ACHIEVEMENTS grid; falls back to nothing if absent.
   if (window.Badges && window.Badges.renderInto) window.Badges.renderInto($("badgeWall"));
+  renderSkillBadges();   // secondary badges: every Guided Learning "skill" (lesson), organized by tier
   renderStatsPodiums();
+}
+
+// Guided Learning skills shown as a SECONDARY badge collection (distinct from the primary badge wall):
+// each lesson is a skill-badge, earned when completed, grouped into collapsible tier sections.
+function renderSkillBadges() {
+  const host = $("skillBadges"); if (!host) return;
+  try { loadLearnState(); } catch (e) {}
+  const done = (learnState && learnState.done) || {};
+  const core = curUnits(), extras = extraUnits(), all = core.concat(extras);
+  const earned = all.filter(u => done[u.id]).length;
+  const groups = [];
+  core.forEach(u => {
+    if (!groups.length || groups[groups.length - 1].stage !== u.stage) groups.push({ stage: u.stage, items: [] });
+    groups[groups.length - 1].items.push(u);
+  });
+  if (extras.length) groups.push({ stage: "✨ Side-quests", items: extras });
+  let html = '<div class="ach-title">🎓 GUIDED PATH EXCLUSIVE BADGES <span class="sb-meta">secondary · ' + earned + ' / ' + all.length + ' earned</span></div>';
+  groups.forEach(g => {
+    const gd = g.items.filter(u => done[u.id]).length;
+    html += '<details class="sb-stage"' + (gd > 0 ? ' open' : '') + '>' +
+      '<summary><span class="sb-name">' + selEsc(g.stage) + '</span><span class="sb-count">' + gd + '/' + g.items.length + '</span></summary>' +
+      '<div class="sb-grid">' + g.items.map(u =>
+        '<span class="sb-badge ' + (done[u.id] ? 'earned' : 'locked') + '" data-unit="' + u.id + '" title="' + selEsc(u.summary || u.title) + '">' +
+        (done[u.id] ? '✓ ' : '') + selEsc(u.title) + '</span>').join("") +
+      '</div></details>';
+  });
+  host.innerHTML = html;
+  host.querySelectorAll(".sb-badge[data-unit]").forEach(b =>
+    b.addEventListener("click", () => { showLearnView(); openLesson(b.dataset.unit); }));
 }
 function renderStatsPodiums() {
   const el = $("statsPodiums"); if (!el) return;
@@ -2952,17 +2985,76 @@ document.addEventListener("keydown", e => {
 //  this renderer.
 // =====================================================================
 const LEARN_KEY = "anpiLearn";
-let learnState = { level: null, done: {} };
+let learnState = { level: null, done: {}, xp: 0, awarded: {}, owned: {}, daily: {} };
 let currentLessonId = null;
 function loadLearnState() {
-  try { const s = JSON.parse(localStorage.getItem(LEARN_KEY) || "{}"); learnState = { level: s.level || null, done: s.done || {} }; }
-  catch (e) { learnState = { level: null, done: {} }; }
+  try {
+    const s = JSON.parse(localStorage.getItem(LEARN_KEY) || "{}");
+    learnState = { level: s.level || null, done: s.done || {}, xp: s.xp || 0, awarded: s.awarded || {}, owned: s.owned || {}, daily: s.daily || {} };
+  } catch (e) { learnState = { level: null, done: {}, xp: 0, awarded: {}, owned: {}, daily: {} }; }
 }
-function saveLearnState() { try { localStorage.setItem(LEARN_KEY, JSON.stringify(learnState)); } catch (e) {} }
+function saveLearnState() {
+  try { localStorage.setItem(LEARN_KEY, JSON.stringify(learnState)); } catch (e) {}
+  // Mirror to the account when signed in, so the guided path follows the user.
+  try { if (window.KanaSync && KanaSync.onLearnChange) KanaSync.onLearnChange(); } catch (e) {}
+}
 
-const curUnits = () => (window.CURRICULUM && CURRICULUM.units) || [];
+// ---------- XP economy (earn from lessons + daily missions → spend on cosmetics) ----------
+const XP_PER_LESSON = 20;
+const DAILY = { flashMax: 50, gameMax: 50, kanjiEach: 15, kanjiCount: 3 };
+function awardXP(n) { if (!(n > 0)) return; learnState.xp = (learnState.xp || 0) + n; saveLearnState(); }
+function todayKey() { const d = new Date(); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
+function getDaily() {
+  if (!learnState.daily || learnState.daily.date !== todayKey()) learnState.daily = { date: todayKey(), flash: 0, game: 0, kanji: 0 };
+  return learnState.daily;
+}
+// Each daily mission "tops up" to its cap with your best result of the day (delta-awarded once).
+function missionFlashcards(acc01) {
+  const d = getDaily(), earn = Math.round(Math.min(DAILY.flashMax, Math.max(0, acc01) * DAILY.flashMax));
+  if (earn > d.flash) { awardXP(earn - d.flash); d.flash = earn; saveLearnState(); }
+}
+function missionGame(score) {
+  const d = getDaily(), earn = Math.min(DAILY.gameMax, Math.max(10, Math.round((score || 0) / 25)));
+  if (earn > d.game) { awardXP(earn - d.game); d.game = earn; saveLearnState(); }
+}
+// Kanji Road is a standalone page; it bumps localStorage "anpiKRDaily" on each section collected — reconcile here.
+function reconcileKanjiRoad() {
+  try {
+    const k = JSON.parse(localStorage.getItem("anpiKRDaily") || "{}");
+    if (k.date !== todayKey()) return;
+    const d = getDaily(), target = Math.min(DAILY.kanjiCount, k.count || 0);
+    if (target > d.kanji) { awardXP((target - d.kanji) * DAILY.kanjiEach); d.kanji = target; saveLearnState(); }
+  } catch (e) {}
+}
+// After cloud sign-in merges the learn state, reload it and refresh the path view
+// if it's on screen (so completed lessons / level appear without a manual reload).
+window.addEventListener("anpi-learn-synced", function () {
+  loadLearnState();
+  try {
+    const lv = $("learnView"), lp = $("learnPath");
+    if (lv && !lv.hidden && lp && !lp.hidden) renderLearnPath();
+  } catch (e) {}
+});
+
+// Lessons that aren't required for the JLPT exam — survival/conversational Japanese, culture &
+// enrichment, production skills the test has no section for (writing/speaking), classical Japanese,
+// and handwriting. Kept in the curriculum but split into a separate "Misc / Extras" group and
+// excluded from the core lesson count, path and journey map. (Edit this set to re-sort lessons.)
+const EXTRA_UNITS = new Set([
+  // handwriting (no handwriting on the JLPT)
+  "stroke-order",
+  // Survival Japanese (conversational situations)
+  "restaurant", "shopping", "directions", "doctor", "admin", "phone-emergency",
+  // Culture & enrichment
+  "annual-events", "music-pop", "eating-out", "dialects", "aizuchi", "ceremonies",
+  // Production skills (the JLPT has no writing/speaking section) + classical Japanese
+  "formal-writing", "debate", "classical-grammar"
+]);
+const allUnits = () => (window.CURRICULUM && CURRICULUM.units) || [];
+const curUnits = () => allUnits().filter(u => !EXTRA_UNITS.has(u.id));   // core JLPT path
+const extraUnits = () => allUnits().filter(u => EXTRA_UNITS.has(u.id));  // Misc / Extras
 const curLevels = () => (window.CURRICULUM && CURRICULUM.levels) || [];
-const unitById = id => curUnits().find(u => u.id === id);
+const unitById = id => allUnits().find(u => u.id === id);                // resolve core AND extra
 function startIndexForLevel(levelId) {
   const lv = curLevels().find(l => l.id === levelId);
   if (!lv || !lv.start) return 0;
@@ -2981,7 +3073,16 @@ function showLearnView() {
   if (game.active) backToStudy();
   setMainView("learn");
   loadLearnState();
-  if (learnState.level && learnState.level !== "explore") renderLearnPath();
+  // Never dead-end on the placement wall. If no level is set (a true first visit,
+  // or progress stranded by a domain/device move where localStorage didn't carry
+  // over), drop straight onto the journey map at a sensible default. The placement
+  // test stays one tap away via "Change level", so nobody is locked to the default.
+  if (!learnState.level) {
+    learnState.level = "n5";
+    saveLearnState();
+    placementNote = "Started you on the N5 trail — tap “Change level” to retake the placement test or pick another level.";
+  }
+  if (learnState.level !== "explore") renderLearnPath();
   else renderLearnPlacement();
 }
 function showLearnScreen(which) {
@@ -3034,7 +3135,9 @@ function chooseLevel(id) {
 }
 
 // ====================== Journey map (the path as a trip up Japan) ======================
-let learnMapMode = (function () { try { return localStorage.getItem("anpiLearnView") !== "list"; } catch (e) { return true; } })();
+// Guided Learning now shows a SKILL TREE (the Leaflet map is being moved to Kanji Road).
+// true = skill tree, false = plain list. (localStorage key kept; values "tree"/"list".)
+let learnTreeMode = (function () { try { return localStorage.getItem("anpiLearnView") !== "list"; } catch (e) { return true; } })();
 const journeyById = {};
 function buildJourneyIndex() { const j = (window.CURRICULUM && CURRICULUM.journey) || []; j.forEach(x => { journeyById[x.id] = x; }); }
 const REGION_TINT = {
@@ -3087,49 +3190,74 @@ function jmapAttachPanZoom(svg, wrap) {
 }
 // Approximate [lng, lat] pin for each lesson, spread across the whole country.
 const JOURNEY_XY = {
-  scripts: [123.78, 24.06], "hiragana-basic": [124.16, 24.34], "hiragana-dakuten": [125.28, 24.80],
-  "hiragana-yoon": [127.30, 26.20], "kana-extras": [127.68, 26.21], katakana: [127.88, 26.69],
-  pronunciation: [129.50, 28.38], "kanji-readings": [130.50, 30.36], "names-titles": [130.65, 31.25],
-  rendaku: [130.66, 31.59], "how-to-study": [130.87, 31.92], "pitch-accent": [131.42, 31.91],
-  "n5-kanji": [131.47, 31.74], "n5-numbers": [130.71, 32.80], "n5-vocab": [131.10, 32.88],
-  "n5-particles": [129.87, 32.75], "n5-grammar": [129.72, 33.18], "n5-phrases": [130.30, 33.32],
-  "verb-groups": [130.40, 33.59], adjectives: [130.52, 33.51], kosoado: [130.88, 33.88],
-  counters: [131.50, 33.28], "time-dates": [131.36, 33.26], "big-numbers": [131.80, 33.12],
-  comparisons: [133.53, 33.56], "family-terms": [133.02, 32.72], adverbs: [132.77, 33.84],
-  restaurant: [132.55, 33.51], shopping: [134.55, 34.07], directions: [134.61, 34.23],
-  weather: [134.05, 34.34], food: [133.82, 34.18], "hobbies-routine": [133.93, 34.66],
-  "n4-kanji": [133.77, 34.59], "n4-vocab": [132.46, 34.39], "n4-teform": [132.32, 34.30],
-  "n4-grammar": [133.20, 34.41], "giving-receiving": [132.22, 34.17], transitivity: [131.40, 34.41],
-  "potential-volitional": [134.23, 35.54], quoting: [133.05, 35.47], "time-clauses": [132.69, 35.40],
-  "permission-obligation": [134.69, 34.84], doctor: [135.20, 34.69], admin: [135.50, 34.69],
-  "phone-emergency": [135.84, 34.69], technology: [135.77, 35.01], "work-school": [135.68, 35.01],
-  emotions: [135.81, 34.88], travel: [135.58, 34.21], "common-mistakes": [135.89, 33.67],
-  "numbers-life": [136.72, 34.46], "n3-kanji": [136.91, 35.18], "n3-vocab": [136.94, 35.39],
-  "n3-grammar": [136.91, 36.26], "keigo-levels": [137.25, 36.15], "passive-causative": [136.66, 36.56],
-  nominalization: [137.10, 37.30], onomatopoeia: [137.62, 36.58], conjunctions: [136.36, 36.05],
-  "reading-strategy": [137.97, 36.24], dialects: [138.19, 36.66], nature: [137.64, 36.25],
-  "particle-combos": [138.73, 35.36], relationships: [138.52, 35.01], health: [139.03, 35.23],
-  "n2-kanji": [139.64, 35.44], "n2-vocab": [139.70, 35.69], "n2-grammar": [139.80, 35.71],
-  "written-style": [139.60, 36.75], "sentence-particles": [138.60, 36.62], "near-synonyms": [140.45, 36.38],
-  "formal-writing": [139.93, 37.49], "n1-kanji": [140.87, 38.27], "n1-vocab": [141.07, 38.37],
-  "casual-speech": [140.43, 38.31], loanwords: [140.56, 39.59], aizuchi: [141.11, 38.99],
-  proverbs: [140.46, 40.60], "academic-vocab": [140.73, 41.77], "reading-genres": [141.35, 43.06],
-  "advanced-kanji": [141.00, 43.19], "classical-grammar": [142.38, 43.34], "n1-grammar": [141.93, 45.42],
-  "home-objects": [129.97, 33.45], conditionals: [130.94, 33.96], leisure: [135.87, 35.00],
-  certainty: [139.02, 37.90], news: [140.12, 35.61],
-  "greetings-intro": [132.56, 33.22], colors: [131.77, 34.46], "change-becoming": [135.19, 34.23],
-  "cause-reason": [138.63, 36.35], idioms: [139.84, 38.91],
-  "annual-events": [131.31, 32.71], clarifying: [134.18, 34.74], "apolog-thanks": [135.37, 34.46],
-  opinions: [138.57, 35.66], "science-tech": [140.10, 36.08],
-  "music-pop": [135.36, 34.81], "eating-out": [137.39, 34.77], hypotheticals: [136.99, 36.85],
-  business: [137.73, 34.71], ceremonies: [143.20, 42.92],
-  transportation: [137.16, 35.08], "how-to": [136.92, 35.50], quantity: [139.49, 35.92],
-  "service-keigo": [141.49, 40.51], rhetoric: [144.38, 42.98],
-  "aspect-aux": [136.85, 35.40], "season-nature": [136.91, 35.28],
-  debate: [141.15, 39.70], "kotowaza-vol2": [142.36, 43.77],
-  "wa-ga": [136.27, 35.38], "explanatory-no": [136.76, 35.42],
-  "wake-grammar": [140.10, 39.72],
-  "te-iru": [137.13, 35.33], tokoro: [139.47, 35.80],
+  "scripts": [122.95, 24.45], "hiragana-basic": [123.78, 24.37], "hiragana-dakuten": [124.58, 24.51],
+  "hiragana-yoon": [125.34, 24.85], "kana-extras": [126.01, 25.35], "katakana": [126.68, 25.85],
+  "pronunciation": [127.42, 26.17], "long-sounds": [128.11, 26.59], "reading-quirks": [128.63, 27.23],
+  "stroke-order": [129.13, 27.9], "kanji-readings": [129.6, 28.59], "names-titles": [129.97, 29.34],
+  "rendaku": [130.35, 30.08], "how-to-study": [130.39, 30.87], "pitch-accent": [130.56, 31.6],
+  "n5-kanji": [130.85, 31.38], "n5-numbers": [131.04, 31.69], "n5-vocab": [131.35, 31.88],
+  "n5-particles": [131.52, 32.19], "n5-grammar": [131.64, 32.53], "n5-phrases": [131.37, 32.7],
+  "verb-groups": [131.01, 32.75], "adjectives": [130.73, 32.81], "kosoado": [131.07, 32.94],
+  "question-words": [131.39, 33.12], "existence": [131.5, 33.28], "wants-invites": [131.13, 33.31],
+  "counters": [130.79, 33.4], "time-dates": [130.46, 33.56], "big-numbers": [130.24, 33.33],
+  "comparisons": [130.04, 33.02], "te-form": [129.9, 32.78], "because-kara": [130.13, 33.06],
+  "final-particles": [130.37, 33.34], "family-terms": [130.62, 33.61], "adverbs": [130.87, 33.87],
+  "frequency": [131.23, 33.79], "requests": [131.58, 33.69], "body-health": [131.93, 33.59],
+  "restaurant": [132.29, 33.5], "shopping": [132.54, 33.26], "directions": [132.66, 33.52],
+  "permission-n5": [132.79, 33.86], "time-duration": [133.02, 34], "weather": [133.16, 33.66],
+  "mo-demo": [133.45, 33.56], "mou-mada": [133.82, 33.54], "likes-abilities": [134.17, 33.55],
+  "food": [134.38, 33.84], "hobbies-routine": [134.58, 34.15], "home-objects": [134.33, 34.28],
+  "greetings-intro": [133.98, 34.33], "colors": [133.86, 34.47], "annual-events": [133.77, 34.59],
+  "n4-kanji": [133.36, 34.49], "n4-vocab": [133.08, 34.4], "n4-teform": [132.8, 34.33],
+  "n4-grammar": [132.54, 34.28], "appearance-sou": [132.34, 34.28], "conjecture": [132.09, 34.17],
+  "verb-suffixes": [131.8, 34.18], "giving-receiving": [131.5, 34.18], "transitivity": [131.23, 34.08],
+  "potential-volitional": [130.96, 33.96], "quoting": [131.15, 34.16], "time-clauses": [131.36, 34.37],
+  "permission-obligation": [131.63, 34.49], "when-cases": [131.91, 34.58], "casual-must": [132.19, 34.67],
+  "doctor": [132.41, 34.86], "admin": [132.63, 35.07], "phone-emergency": [132.84, 35.27],
+  "technology": [133.06, 35.47], "work-school": [133.35, 35.43], "emotions": [133.64, 35.45],
+  "travel": [133.94, 35.48], "common-mistakes": [134.23, 35.5], "numbers-life": [134.4, 35.26],
+  "conditionals": [134.57, 35.01], "leisure": [134.76, 34.8], "garu-feelings": [135.01, 34.65],
+  "as-pretend": [135.31, 34.69], "should-suppose": [135.44, 34.61], "only-shika-dake": [135.27, 34.37],
+  "change-becoming": [135.27, 34.15], "clarifying": [135.5, 33.97], "apolog-thanks": [135.74, 33.8],
+  "music-pop": [135.95, 33.76], "eating-out": [136.13, 34], "transportation": [136.31, 34.23],
+  "how-to": [136.49, 34.47], "aspect-aux": [136.48, 34.73], "even-if": [136.19, 34.71],
+  "plans-intentions": [135.79, 34.91], "season-nature": [135.95, 35.07],
+  "wa-ga": [136.17, 35.27], "explanatory-no": [136.43, 35.37], "te-iru": [136.7, 35.33],
+  "tari": [136.94, 35.15], "experience-koto": [137.17, 34.96], "connectors-n4": [137.39, 34.77],
+  "n3-kanji": [137.73, 34.71], "n3-vocab": [137.96, 34.89], "n3-grammar": [138.22, 35],
+  "youni-grammar": [138.5, 35.07], "as-change": [138.79, 35.13], "extent-n3": [138.83, 35.26],
+  "keigo-levels": [138.66, 35.49], "compound-verbs": [138.49, 35.72], "toka-yara": [138.27, 35.91],
+  "regret-grammar": [138.07, 35.96], "passive-causative": [137.93, 35.71], "te-kuru-iku": [137.83, 35.57],
+  "te-aru": [137.89, 35.86], "try-about-to": [137.95, 36.14], "nominalization": [137.78, 36.21],
+  "onomatopoeia": [137.49, 36.17], "conjunctions": [137.21, 36.15], "reading-strategy": [136.93, 36.25],
+  "until-by": [137.05, 36.47], "rules-instructions": [137.2, 36.7], "casual-tte": [136.92, 36.63],
+  "dialects": [136.65, 36.54], "nature": [136.47, 36.31], "particle-combos": [136.29, 36.08],
+  "relationships": [136.41, 36.28], "health": [136.58, 36.52], "certainty": [136.74, 36.76],
+  "news": [136.9, 37], "cause-reason": [137.06, 37.24], "opinions": [137.29, 37.19],
+  "hypotheticals": [137.54, 37.04], "business": [137.79, 36.89], "quantity": [138.04, 36.75],
+  "tokoro": [138.24, 36.55], "n2-kanji": [139.07, 36.39], "n2-vocab": [138.82, 36.51],
+  "n2-grammar": [138.63, 36.62], "mono-grammar": [138.91, 36.66], "uchi-mama": [139.19, 36.7],
+  "ish-grammar": [139.46, 36.73], "considering": [139.72, 36.67], "written-style": [139.84, 36.49],
+  "sentence-particles": [139.69, 36.25], "near-synonyms": [139.55, 36.01], "bakari-grammar": [139.63, 35.84],
+  "kagiri-grammar": [139.67, 35.57], "n2-emphatic-neg": [139.78, 35.49], "formal-writing": [140.04, 35.58],
+  "idioms": [140.11, 35.8], "koto-grammar": [140.1, 36.08], "shidai-ue": [140.33, 36.24],
+  "without-doing": [140.53, 36.43], "result-end": [140.61, 36.65], "sudden-timing": [140.43, 36.87],
+  "assertion-n2": [140.25, 37.09], "science-tech": [140.08, 37.31], "partial-negation": [139.97, 37.48],
+  "emphatic-conditional": [140.24, 37.43], "for-toward": [140.5, 37.33], "service-keigo": [140.73, 37.17],
+  "koto-reasoning": [140.85, 37.12], "amari-result": [140.71, 37.36], "formal-occasion": [140.56, 37.6],
+  "nishiro": [140.53, 37.83], "debate": [140.7, 38.05], "wake-grammar": [140.87, 38.27],
+  "n1-kanji": [140.74, 38.24], "n1-vocab": [140.31, 38.45], "casual-speech": [139.97, 38.83],
+  "loanwords": [140.13, 39.23], "aizuchi": [140.41, 39.64], "proverbs": [140.73, 39.41],
+  "n1-negative-outcome": [141.07, 39.04], "n1-judgment": [141.13, 39.43], "n1-status": [141.24, 39.92],
+  "n1-pairs": [141.44, 40.38], "n1-covered": [141.15, 40.64], "n1-concessive2": [140.7, 40.79],
+  "academic-vocab": [140.51, 40.8], "compound-particles1": [140.62, 41.29], "n1-emotive": [140.73, 41.78],
+  "regardless-grammar": [140.93, 42.24], "n1-concession": [140.98, 42.73], "reading-genres": [141.25, 43.03],
+  "as-if": [141.73, 43.16], "extreme-n1": [142.22, 43.3], "forced-noway": [142.36, 43.68],
+  "advanced-kanji": [142.65, 43.48], "classical-grammar": [143, 43.12], "tokoro-wo": [143.42, 42.93],
+  "nishite": [143.92, 42.96], "unique-naradeha": [144.38, 43.03], "innate-foremost": [144.32, 43.53],
+  "ceremonies": [144.26, 44.02], "rhetoric": [143.77, 44.11], "kotowaza-vol2": [143.27, 44.21],
+  "compound-particles2": [142.78, 44.3], "n1-immediacy": [142.38, 44.52], "n1-circumstance": [142.16, 44.97],
+  "n1-grammar": [141.93, 45.42],
 };
 
 // smooth "bendy" curve through points (Catmull-Rom → cubic Bézier)
@@ -3209,6 +3337,44 @@ function geoSpline(pts, seg) {
   out.push(pts[pts.length - 1]);
   return out;
 }
+// Japan coastline as Leaflet [lat,lng] rings, recovered by inverting the SVG
+// projection baked into JAPAN_MAP (px=(lng-minLng)*kx*S, py=(maxLat-lat)*S).
+// Used to mask out every non-Japan landmass: a world rectangle filled with sea,
+// with each island punched out as an even-odd hole so only Japan shows through.
+let glMaskRings = null;
+function glJapanMaskRings() {
+  if (glMaskRings) return glMaskRings;
+  glMaskRings = [];
+  try {
+    const M = window.JAPAN_MAP; if (!M || !M.paths || !M.proj) return glMaskRings;
+    const { minLng, maxLat, kx, S } = M.proj;
+    M.paths.forEach(pstr => {
+      String(pstr).split("M").forEach(sub => {
+        sub = sub.trim(); if (!sub) return;
+        const nums = sub.match(/-?\d+(?:\.\d+)?/g); if (!nums || nums.length < 6) return;
+        const ring = [];
+        for (let i = 0; i + 1 < nums.length; i += 2) {
+          const x = +nums[i], y = +nums[i + 1];
+          ring.push([maxLat - y / S, minLng + x / (kx * S)]); // [lat,lng]
+        }
+        if (ring.length >= 3) glMaskRings.push(ring);
+      });
+    });
+  } catch (e) { glMaskRings = []; }
+  return glMaskRings;
+}
+let glMask = null;
+function glAddJapanMask(map) {
+  if (glMask) { try { map.removeLayer(glMask); } catch (e) {} glMask = null; }
+  const rings = glJapanMaskRings(); if (!rings.length) return;
+  // Regional outer shell (well beyond the pan/zoom limits) — smaller than the whole
+  // world so the sea-fill paints less area, but still always covers the view.
+  const shell = [[8, 103], [8, 167], [56, 167], [56, 103]];
+  glMask = L.polygon([shell].concat(rings), {
+    stroke: false, fillColor: "#0a1530", fillOpacity: 1, fillRule: "evenodd",
+    interactive: false, className: "jgl-mask"
+  }).addTo(map);
+}
 // gather ordered [lng,lat] stops + dot descriptors for the current units/progress
 function glBuildData(units, recId, startI) {
   buildJourneyIndex();
@@ -3280,13 +3446,29 @@ function renderLearnMapGL(units, recId, startI) {
   wrap.innerHTML = '<div class="jgl" id="jglMap"></div><div class="jmap-sea" id="jglSea"></div>'
     + '<div class="jgl-attr">Imagery © Esri</div>'
     + '<div class="jmap-zoom"><button class="jmap-zbtn" data-z="in" aria-label="Zoom in">+</button><button class="jmap-zbtn" data-z="out" aria-label="Zoom out">−</button></div>';
-  glMap = L.map("jglMap", { zoomControl: false, attributionControl: false, minZoom: 4, maxZoom: 18, zoomSnap: 0.25 });
+  glMap = L.map("jglMap", {
+    zoomControl: false, attributionControl: false, minZoom: 4, maxZoom: 18, zoomSnap: 0.25,
+    // Paint vectors (the Japan sea-mask especially) in a buffer larger than the
+    // viewport so dragging/zooming never slides past the mask and flashes foreign land.
+    renderer: L.svg({ padding: 2 }),
+    // Soft wall around the Japan region so you can't fling out to the whole world
+    // (where even a big buffer couldn't keep the mask ahead of the view).
+    maxBounds: [[18, 113], [50, 157]], maxBoundsViscosity: 0.85
+  });
   wrap.querySelectorAll(".jmap-zbtn").forEach(b => b.addEventListener("click", () => { if (b.dataset.z === "in") glMap.zoomIn(); else glMap.zoomOut(); }));
   L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
     { maxZoom: 18 }).addTo(glMap);
   L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
     { maxZoom: 18, opacity: 0.9 }).addTo(glMap);
-  glMap.fitBounds(glBounds(data.ordered), { padding: [28, 28] });
+  glAddJapanMask(glMap); // hide every landmass that isn't Japan (sea-fill with island holes)
+  window.glMap = glMap;  // expose for debugging / tests
+  const fitB = glBounds(data.ordered);
+  glMap.fitBounds(fitB, { padding: [28, 28] });
+  // Cap zoom-OUT so the farthest pull-back is just barely all the lesson dots in view
+  // (no more goofy world-scale zoom). minZoom = the zoom that fits the dot bounds.
+  if (data.ordered.length >= 2) {
+    try { glMap.setMinZoom(glMap.getBoundsZoom(fitB, false, L.point(30, 30))); } catch (e) {}
+  }
   glDrawOverlay(glMap, data);
   // keep tiles matched to the container (handles hidden→visible + layout changes)
   if (window.ResizeObserver) {
@@ -3310,12 +3492,12 @@ function renderLearnMap(units, recId, startI) {
   renderLearnMapSVG(units, recId, startI);
 }
 function applyLearnView() {
-  const map = $("learnMap"), list = $("learnUnits"), tog = $("learnViewToggle");
-  if (!map || !list) return;
-  map.hidden = !learnMapMode;
-  list.hidden = learnMapMode;
-  if (tog) tog.textContent = learnMapMode ? "☰ List" : "🗾 Map";
-  if (learnMapMode && glMap) requestAnimationFrame(() => { try { glMap.invalidateSize(); } catch (e) {} });
+  const tree = $("learnTree"), list = $("learnUnits"), tog = $("learnViewToggle"), map = $("learnMap");
+  if (map) map.hidden = true;   // map retired from Guided Learning (moving to Kanji Road)
+  if (!tree || !list) return;
+  tree.hidden = !learnTreeMode;
+  list.hidden = learnTreeMode;
+  if (tog) tog.textContent = learnTreeMode ? "☰ List" : "🌳 Tree";
 }
 
 function renderLearnPath() {
@@ -3341,6 +3523,18 @@ function renderLearnPath() {
       <span class="lu-text"><span class="lu-title">${selEsc(u.title)}${isNext ? ' <span class="lu-badge">next</span>' : ''}</span>
       <span class="lu-sum">${selEsc(u.summary)}</span></span></button>`;
   });
+  // Misc / Extras — lessons not required for the JLPT, listed below the core path.
+  const extras = extraUnits();
+  if (extras.length) {
+    html += `<div class="learn-stage-h misc">✨ Misc / Extras <span class="misc-tag">not on the JLPT</span></div>`;
+    extras.forEach(u => {
+      const done = !!learnState.done[u.id];
+      html += `<button class="learn-unit ${done ? "done" : "todo"}" data-unit="${u.id}">
+        <span class="lu-icon">${done ? "✓" : "○"}</span>
+        <span class="lu-text"><span class="lu-title">${selEsc(u.title)}</span>
+        <span class="lu-sum">${selEsc(u.summary)}</span></span></button>`;
+    });
+  }
   $("learnUnits").innerHTML = html;
   $("learnUnits").querySelectorAll(".learn-unit").forEach(b => b.addEventListener("click", () => openLesson(b.dataset.unit)));
   // Progress label doubles as a "you are here" when a journey exists
@@ -3349,9 +3543,79 @@ function renderLearnPath() {
   $("learnProgressLabel").textContent = cur
     ? `📍 ${cur.place}, ${cur.pref} · ${doneN} of ${total} stops`
     : `${doneN} of ${total} lessons complete`;
-  showLearnScreen("path");   // make #learnMap visible (sized) BEFORE MapLibre inits its canvas
-  renderLearnMap(units, recId, startI);
+  showLearnScreen("path");
+  renderSkillTree();   // the skill tree replaces the journey map in Guided Learning
   applyLearnView();
+}
+
+// ---------- Guided Learning skill tree (RPG mastery view) ----------
+const ST_RANKS = [
+  { min: 0,    en: "Beginner",   jp: "初心者" },
+  { min: 0.10, en: "Apprentice", jp: "見習い" },
+  { min: 0.25, en: "Student",    jp: "学生" },
+  { min: 0.45, en: "Adept",      jp: "中級者" },
+  { min: 0.70, en: "Expert",     jp: "上級者" },
+  { min: 0.90, en: "Master",     jp: "達人" }
+];
+function renderSkillTree() {
+  const host = $("learnTree"); if (!host) return;
+  const core = curUnits(), extras = extraUnits();
+  const recId = recommendedUnitId();
+  const total = core.length;
+  const doneN = core.filter(u => learnState.done[u.id]).length;
+  const pct = total ? doneN / total : 0;
+  let rank = ST_RANKS[0]; ST_RANKS.forEach(r => { if (pct >= r.min) rank = r; });
+  const level = Math.floor(doneN / 8) + 1;
+  reconcileKanjiRoad();                                   // pick up Kanji Road sections from its standalone page
+  const d = getDaily(), wallet = learnState.xp || 0;
+  const missions = [
+    ["🎴", "Flashcards", "score on a set", d.flash, DAILY.flashMax],
+    ["👾", "Kana Invader", "play a game", d.game, DAILY.gameMax],
+    ["🗾", "Kanji Road", "collect " + DAILY.kanjiCount + " sections", d.kanji * DAILY.kanjiEach, DAILY.kanjiCount * DAILY.kanjiEach]
+  ];
+
+  // group core units by contiguous stage (mirrors renderLearnPath)
+  const groups = [];
+  core.forEach(u => {
+    if (!groups.length || groups[groups.length - 1].stage !== u.stage) groups.push({ stage: u.stage, items: [] });
+    groups[groups.length - 1].items.push(u);
+  });
+  const node = u => {
+    const done = !!learnState.done[u.id];
+    const st = done ? "done" : (u.id === recId ? "next" : "todo");
+    const face = done ? "✓" : (st === "next" ? "➜" : "◆");
+    return `<button class="st-node ${st}" data-unit="${u.id}" title="${selEsc(u.title)}">${face}</button>`;
+  };
+
+  let html = `<div class="st-hud"><span class="st-lv">Lv ${level}</span>` +
+    `<span class="st-rank">${rank.jp} · ${rank.en}</span>` +
+    `<span class="st-xp" title="spendable XP — use it on character cosmetics">✦ ${wallet.toLocaleString()} XP</span>` +
+    `<a class="st-char" href="/character" title="View & customize your 3D character with the XP you earn here">🎭 Character</a></div>`;
+  html += '<div class="st-missions"><div class="stm-h">⚡ Daily missions <span>resets daily</span></div>' +
+    missions.map(m => {
+      const done = m[3] >= m[4];   // accomplished today
+      const p = Math.min(100, Math.round(m[3] / m[4] * 100));
+      return '<div class="stm-row' + (done ? ' done' : '') + '"><span class="stm-ic">' + (done ? '✅' : m[0]) + '</span>' +
+        '<span class="stm-txt"><b>' + m[1] + '</b> — ' + m[2] + '</span>' +
+        '<span class="stm-bar"><i style="width:' + p + '%"></i></span>' +
+        '<span class="stm-xp">' + (done ? '✓ Done' : (m[3] + '/' + m[4])) + '</span></div>';
+    }).join("") + '</div>';
+  html += `<div class="st-tree">`;
+  groups.forEach(g => {
+    const gd = g.items.filter(u => learnState.done[u.id]).length;
+    html += `<section class="st-tier"><div class="st-th">${selEsc(g.stage)}<span class="st-ct">${gd}/${g.items.length}</span></div>` +
+      `<div class="st-nodes">${g.items.map(node).join("")}</div></section>`;
+  });
+  if (extras.length) {
+    const ed = extras.filter(u => learnState.done[u.id]).length;
+    html += `<section class="st-tier st-misc"><div class="st-th">✨ Side-quests<span class="st-ct">${ed}/${extras.length} · not on the JLPT</span></div>` +
+      `<div class="st-nodes">${extras.map(node).join("")}</div></section>`;
+  }
+  html += `</div>`;
+  host.innerHTML = html;
+  host.querySelectorAll(".st-node").forEach(b => b.addEventListener("click", () => openLesson(b.dataset.unit)));
+  const nxt = host.querySelector(".st-node.next");
+  if (nxt) nxt.scrollIntoView({ block: "nearest", behavior: "auto" });
 }
 
 function openLesson(id) {
@@ -3380,7 +3644,12 @@ function runPractice(p) {
 }
 function completeLesson() {
   if (!currentLessonId) return;
-  learnState.done[currentLessonId] = true; saveLearnState();
+  learnState.done[currentLessonId] = true;
+  if (!learnState.awarded) learnState.awarded = {};
+  const firstTime = !learnState.awarded[currentLessonId];
+  if (firstTime) learnState.awarded[currentLessonId] = true;
+  saveLearnState();
+  if (firstTime) awardXP(XP_PER_LESSON);   // XP for finishing a lesson (one-time)
   // Stay on the lesson: just mark the button green and glimmer "Next lesson"
   // so the user chooses when to move on.
   const cb = $("lessonComplete");
@@ -3393,11 +3662,15 @@ function gotoNextLesson() {
   if (next) openLesson(next.id); else renderLearnPath();
 }
 
-$("learnNav").addEventListener("click", () => { showLearnView(); if (window.innerWidth <= 720) $("sidebar").classList.add("collapsed"); });
+$("learnNav").addEventListener("click", () => {
+  // During the onboarding tour, open the path in-app (the tour walks through it).
+  if (tourActive) { showLearnView(); if (window.innerWidth <= 720) $("sidebar").classList.add("collapsed"); return; }
+  location.assign("/guided-learning");   // otherwise go to the Guided Learning landing
+});
 $("learnChangeLevel").addEventListener("click", renderLearnPlacement);
 $("learnViewToggle").addEventListener("click", () => {
-  learnMapMode = !learnMapMode;
-  try { localStorage.setItem("anpiLearnView", learnMapMode ? "map" : "list"); } catch (e) {}
+  learnTreeMode = !learnTreeMode;
+  try { localStorage.setItem("anpiLearnView", learnTreeMode ? "tree" : "list"); } catch (e) {}
   applyLearnView();
 });
 $("learnTestStart").addEventListener("click", startTest);
@@ -3722,6 +3995,23 @@ function maybeNudgeTour() {
 // Home page navigation — the home landing IS the welcome screen now.
 $("sideBrand").addEventListener("click", () => { showHome(); if (window.innerWidth <= 720) closeNav(); });
 $("homeLearn").addEventListener("click", () => showLearnView());
+// Deep links from the shared standalone-page nav (lib/appnav.js mirrors the real sidebar,
+// whose buttons live here in app.js): /?go=learn|study|game|tour and /?deck=<key>.
+setTimeout(function () {
+  try {
+    var qs = location.search;
+    var go = (/[?&]go=([a-z]+)/.exec(qs) || [])[1];
+    var deck = (/[?&]deck=([A-Za-z0-9]+)/.exec(qs) || [])[1];
+    var account = /[?&]account=1/.test(qs);
+    if (go === "learn") showLearnView();
+    else if (go === "study") selectSet("hiragana");
+    else if (go === "game") launchGame();
+    else if (go === "tour") startTour();
+    else if (deck) selectSet(deck);
+    if (account) { var ab = $("accountBtn"); if (ab) ab.click(); else { var ao = $("authOverlay"); if (ao) ao.classList.add("show"); } }
+    if ((go || deck || account) && history.replaceState) history.replaceState(null, "", location.pathname);
+  } catch (e) {}
+}, 60);
 $("homeStudy").addEventListener("click", () => selectSet("hiragana"));
 $("homeGame").addEventListener("click", () => launchGame());
 $("homeLeaderboard").addEventListener("click", () => showLeaderboardView());

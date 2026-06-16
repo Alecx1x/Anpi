@@ -26,13 +26,13 @@ reload state. One row per dispatched agent task; update on dispatch / review / g
 | 🏅 badges | wt/badges | new Flashcards category — study volume (100→10k), 90% accuracy, deck mastery (reads real kanaFlashcardResults) | ✅ deployed |
 | 🔒 security | wt/security | tts.js cache-poison guard (content-type+size); fixed signup redirect anpi→anpi-learning; ASCII-clean SQL + table-grant least-privilege | ✅ deployed (SQL needs user re-run for new revokes) |
 
-## Wave 3 — DISPATCHED 2026-06-12 (worktrees ff'd to main e9cc1e4)
+## Wave 3 — DEPLOYED 2026-06-12 (gather → main b10ea55; deploy ee76a038)
 | Lane | Branch | Task | Status |
 |---|---|---|---|
-| 🎮 game | wt/game | freeze-on-DESTROY fix; shuffled-bag term selection (no back-to-back repeats, equal freq); FIREBALL special → guitar-solo mode (faster fall + Web Audio 8-bit music + all points ×2) ~5s; killstreak popup + ~0.2× bonus; frozen+fireball = 2× base score | dispatched |
-| 📚 lessons | wt/lessons | OPTIONAL spaced-repetition toggle (default OFF, recommend+explain on page); Leitner/SM-2-lite on existing per-card history; OFF = today's behavior unchanged; new keys anpiSRS/anpiSRSsched | dispatched |
-| 🏅 badges | wt/badges | UX polish (reassigned): expand site tour/onboarding + replay; readability/accessibility settings (larger text, high-contrast, reduced-motion) | dispatched |
-| 🔒 security | wt/security | _headers file (CSP careful re: Leaflet/Esri/Supabase + inline scripts; report-only if unsure + low-risk headers); audit supabase-sync writes | dispatched |
+| 🎮 game | wt/game | freeze-on-DESTROY; shuffled-bag terms (no back-to-back repeats, even freq); FIREBALL→guitar-solo (faster fall + Web Audio 8-bit music + points ×2) ~5s; killstreak popup + ~0.2× bonus; frozen+fireball = 2× base score | ✅ deployed |
+| 📚 lessons | wt/lessons | optional SRS toggle (default OFF + on-page explainer); +2 crucial units (〜ている, 〜ところ) → 118 units | ✅ deployed |
+| 🏅 badges | wt/badges | UX polish (reassigned): expanded onboarding tour + replay; readability/accessibility settings (larger text, high-contrast, reduced-motion) | ✅ deployed |
+| 🔒 security | wt/security | _headers: low-risk headers (nosniff, referrer, X-Frame DENY, Permissions-Policy, HSTS) + report-only CSP (origins verified vs real usage; cannot break site); validated cloud writes | ✅ deployed |
 
 Status values: `ready` → `dispatched` → `in-review` → `gathered` → `deployed` (or `blocked`/`abandoned`).
 

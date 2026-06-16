@@ -3,6 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<script>
+/* One-time data migration from the retired anpi.pages.dev origin. The old site's
+   "Move my progress" page bounces here with the saved data in the URL hash (kept
+   in the fragment so it never hits a server). We write it into this origin's
+   localStorage BEFORE the app boots, then clean the URL and flag a welcome toast.
+   Also exposes window.anpiImportData(blob) as a manual paste fallback. */
+(function () {
+  function importBlob(json) {
+    var data = JSON.parse(json), count = 0;
+    Object.keys(data).forEach(function (k) {
+      if (k && k.indexOf("sb-") !== 0) { // skip Supabase auth (sign in fresh instead)
+        try { localStorage.setItem(k, data[k]); count++; } catch (e) {}
+      }
+    });
+    return count;
+  }
+  window.anpiImportData = function (json) {
+    try { var n = importBlob(json); sessionStorage.setItem("anpiMigrated", String(n)); location.reload(); return n; }
+    catch (e) { alert("That didn't look like valid Anpi data."); return 0; }
+  };
+  try {
+    var m = /[#&]anpimigrate=([^&]+)/.exec(location.hash || "");
+    if (m) {
+      var n = importBlob(decodeURIComponent(m[1]));
+      sessionStorage.setItem("anpiMigrated", String(n));
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+  } catch (e) {}
+  window.addEventListener("DOMContentLoaded", function () {
+    var c = sessionStorage.getItem("anpiMigrated");
+    if (c === null) return;
+    sessionStorage.removeItem("anpiMigrated");
+    var d = document.createElement("div");
+    d.textContent = c === "0"
+      ? "No saved data was found to move over."
+      : "✓ Moved " + c + " saved items from your old site — welcome back!";
+    d.style.cssText = "position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:99999;background:#1c2333;color:#ffe14d;border:1px solid #ffe14d55;padding:12px 18px;border-radius:12px;font:600 15px system-ui,sans-serif;box-shadow:0 8px 30px #0008;max-width:90vw;text-align:center";
+    document.body.appendChild(d);
+    setTimeout(function () { d.style.transition = "opacity .6s"; d.style.opacity = "0"; setTimeout(function () { d.remove(); }, 700); }, 6000);
+  });
+})();
+</script>
 <title>Anpi Learning</title>
 <meta name="application-name" content="Anpi Learning">
 <meta name="apple-mobile-web-app-title" content="Anpi Learning">
@@ -43,7 +87,8 @@
   <div class="app">
   <aside class="sidebar" id="sidebar">
     <div class="side-brand" id="sideBrand" title="Home">Anpi Learning</div>
-    <button class="learn-nav" id="learnNav">🎓 Learn — start here</button>
+    <a class="learn-nav nav-kr" href="/kanji-road">🗾 Kanji Road<span class="nav-badge wip">WIP</span></a>
+    <button class="learn-nav" id="learnNav">🎓 Guided Path<span class="nav-badge v01">v0.1</span></button>
     <nav class="tree">
 
       <details class="root">
@@ -51,7 +96,7 @@
         <div class="root-group">
 
           <details class="cat jp-group">
-            <summary>Japanese</summary>
+            <summary>JLPT specific</summary>
             <div class="group">
 
           <details class="cat">
@@ -328,276 +373,9 @@
       </details>
 
       <details class="root">
-        <summary>🎮 Game <span class="badge play">play</span></summary>
+        <summary>🎮 Games <span class="badge play">play</span></summary>
         <div class="root-group">
-
-          <details class="cat jp-group">
-            <summary>Japanese</summary>
-            <div class="group">
-
-          <details class="cat">
-            <summary>📦 N5 — Beginner</summary>
-            <div class="group">
-              <details class="sub">
-                <summary>Kana</summary>
-                <div class="items">
-                  <button class="deck" data-game="hiragana">Hiragana <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="katakana">Katakana <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="advanced">Advanced <span class="badge play">▶</span></button>
-                </div>
-              </details>
-              <button class="deck" data-game="n5">Kanji <span class="badge play">▶</span></button>
-              <details class="sub">
-                <summary>Vocabulary</summary>
-                <div class="items">
-                  <button class="deck" data-game="n5vocab">All N5 Vocabulary <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n5nouns">Nouns <span class="badge play">▶</span></button>
-                  <details class="sub">
-                    <summary>Verbs</summary>
-                    <div class="items">
-                      <button class="deck" data-game="n5godan">Godan verbs (う-verbs) <span class="badge play">▶</span></button>
-                      <button class="deck" data-game="n5ichidan">Ichidan verbs (る-verbs) <span class="badge play">▶</span></button>
-                    </div>
-                  </details>
-                  <button class="deck" data-game="n5adji">い-Adjectives <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n5adjna">な-Adjectives <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n5adverbs">Adverbs <span class="badge play">▶</span></button>
-                </div>
-              </details>
-
-              <details class="sub">
-                <summary>Particles</summary>
-                <div class="items">
-                  <button class="deck" data-game="n5particles">All N5 Particles <span class="badge play">▶</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Numbers &amp; Counters</summary>
-                <div class="items">
-                  <button class="deck" data-game="n5numbers">Basic numbers <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n5datetime">Dates &amp; Time <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n5counters">Common counters <span class="badge play">▶</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Phrases &amp; Expressions</summary>
-                <div class="items">
-                  <button class="deck" data-game="n5greetings">Greetings <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n5intro">Introductions <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n5classroom">Classroom phrases <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n5shopping">Shopping basics <span class="badge play">▶</span></button>
-                </div>
-              </details>
-            </div>
-          </details>
-
-          <details class="cat">
-            <summary>📦 N4 — Elementary</summary>
-            <div class="group">
-              <button class="deck" data-game="n4">Kanji <span class="badge play">▶</span></button>
-              <details class="sub">
-                <summary>Vocabulary</summary>
-                <div class="items">
-                  <button class="deck" data-game="n4vocab">All N4 Vocabulary <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n4nouns">Nouns <span class="badge play">▶</span></button>
-                  <details class="sub">
-                    <summary>Verbs</summary>
-                    <div class="items">
-                      <button class="deck" data-game="n4godan">Godan verbs (う-verbs) <span class="badge play">▶</span></button>
-                      <button class="deck" data-game="n4ichidan">Ichidan verbs (る-verbs) <span class="badge play">▶</span></button>
-                    </div>
-                  </details>
-                  <button class="deck" data-game="n4adji">い-Adjectives <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n4adjna">な-Adjectives <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n4adverbs">Adverbs <span class="badge play">▶</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Grammar Patterns <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>All N4 Grammar <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Te-form patterns <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Conditional forms <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Giving &amp; Receiving <span class="badge">soon</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Particles <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>Advanced particle usage <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Compound particles <span class="badge">soon</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Verb Forms <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>Te-form <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Ta-form <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Nai-form <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Potential form <span class="badge">soon</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Phrases &amp; Expressions <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>Daily conversation <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Expressing opinions <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Making requests <span class="badge">soon</span></button>
-                </div>
-              </details>
-            </div>
-          </details>
-
-          <details class="cat">
-            <summary>📦 N3 — Intermediate</summary>
-            <div class="group">
-              <button class="deck" data-game="n3">Kanji <span class="badge play">▶</span></button>
-              <details class="sub">
-                <summary>Vocabulary</summary>
-                <div class="items">
-                  <button class="deck" data-game="n3vocab">All N3 Vocabulary <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n3nouns">Nouns <span class="badge play">▶</span></button>
-                  <details class="sub">
-                    <summary>Verbs</summary>
-                    <div class="items">
-                      <button class="deck" data-game="n3godan">Godan verbs (う-verbs) <span class="badge play">▶</span></button>
-                      <button class="deck" data-game="n3ichidan">Ichidan verbs (る-verbs) <span class="badge play">▶</span></button>
-                    </div>
-                  </details>
-                  <button class="deck" data-game="n3adji">い-Adjectives <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n3adjna">な-Adjectives <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n3adverbs">Adverbs <span class="badge play">▶</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Grammar Patterns <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>All N3 Grammar <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Compound sentences <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Expressing nuance <span class="badge">soon</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Verb Forms <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>Passive form <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Causative form <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Causative passive <span class="badge">soon</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Keigo — Introduction <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>Teineigo (polite) <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Basic honorifics <span class="badge">soon</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Phrases &amp; Expressions <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>Formal conversation <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Expressing feelings <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Connecting ideas <span class="badge">soon</span></button>
-                </div>
-              </details>
-            </div>
-          </details>
-
-          <details class="cat">
-            <summary>📦 N2 — Upper Intermediate</summary>
-            <div class="group">
-              <button class="deck" data-game="n2">Kanji <span class="badge play">▶</span></button>
-              <details class="sub">
-                <summary>Vocabulary</summary>
-                <div class="items">
-                  <button class="deck" data-game="n2vocab">All N2 Vocabulary <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n2nouns">Nouns <span class="badge play">▶</span></button>
-                  <details class="sub">
-                    <summary>Verbs</summary>
-                    <div class="items">
-                      <button class="deck" data-game="n2godan">Godan verbs (う-verbs) <span class="badge play">▶</span></button>
-                      <button class="deck" data-game="n2ichidan">Ichidan verbs (る-verbs) <span class="badge play">▶</span></button>
-                    </div>
-                  </details>
-                  <button class="deck" data-game="n2adji">い-Adjectives <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n2adjna">な-Adjectives <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n2adverbs">Adverbs <span class="badge play">▶</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Grammar Patterns <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>All N2 Grammar <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Complex structures <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Formal expressions <span class="badge">soon</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Keigo <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>Sonkeigo (respectful) <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Kenjougo (humble) <span class="badge">soon</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Phrases &amp; Expressions <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>Business conversation <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Written expression <span class="badge">soon</span></button>
-                </div>
-              </details>
-            </div>
-          </details>
-
-          <details class="cat">
-            <summary>📦 N1 — Advanced</summary>
-            <div class="group">
-              <button class="deck" data-game="n1">Kanji <span class="badge play">▶</span></button>
-              <details class="sub">
-                <summary>Vocabulary</summary>
-                <div class="items">
-                  <button class="deck" data-game="n1vocab">All N1 Vocabulary <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n1nouns">Nouns <span class="badge play">▶</span></button>
-                  <details class="sub">
-                    <summary>Verbs</summary>
-                    <div class="items">
-                      <button class="deck" data-game="n1godan">Godan verbs (う-verbs) <span class="badge play">▶</span></button>
-                      <button class="deck" data-game="n1ichidan">Ichidan verbs (る-verbs) <span class="badge play">▶</span></button>
-                    </div>
-                  </details>
-                  <button class="deck" data-game="n1adji">い-Adjectives <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n1adjna">な-Adjectives <span class="badge play">▶</span></button>
-                  <button class="deck" data-game="n1adverbs">Adverbs <span class="badge play">▶</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Grammar Patterns <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>All N1 Grammar <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Advanced structures <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Literary &amp; written grammar <span class="badge">soon</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Keigo <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>Advanced Keigo <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Nuanced honorifics <span class="badge">soon</span></button>
-                </div>
-              </details>
-              <details class="sub">
-                <summary>Phrases &amp; Expressions <span class="badge">soon</span></summary>
-                <div class="items">
-                  <button class="deck soon" disabled>Formal &amp; literary expression <span class="badge">soon</span></button>
-                  <button class="deck soon" disabled>Nuanced communication <span class="badge">soon</span></button>
-                </div>
-              </details>
-            </div>
-          </details>
-
-            </div>
-          </details>
-
+          <button class="deck game-launch" data-game="">👾 Kana Invader <span class="badge play">▶</span></button>
         </div>
       </details>
 
@@ -804,7 +582,8 @@
         </div>
       </div>
       <div class="learn-placed" id="learnPlaced" hidden></div>
-      <div id="learnMap"></div>
+      <div id="learnMap" hidden></div>
+      <div id="learnTree"></div>
       <div id="learnUnits" hidden></div>
     </div>
 
@@ -1035,5 +814,6 @@
 <script src="app.js"></script>
 <script src="lib/supabase-sync.js"></script>
 <script src="lib/badges.js"></script>
+<script defer src="/lib/profile-widget.js"></script>
 </body>
 </html>
